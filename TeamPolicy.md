@@ -37,4 +37,5 @@
 	- Celebrate accomplishments by congratulating your teammates
 	- We handle disagreements and conflicts constructively and professionally within the team.
 	- Complete tasks assigned to you within agreed time frame
+	- Wait for everyone's approval/code review before merging
 	
