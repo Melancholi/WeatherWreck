@@ -86,4 +86,43 @@ Story
 
 ## Features and Priorities
 
+* Accident Visualization:
+  - Display car accidents on an interactive map. Each accident will have a colored marker (determined by weather type) that will show details about the accident, such as time, weather, severity and so on.
+  - **HIGH PRIORITY**: This is the main feature of the website therefore must be implemented to function
+
+* Searching and Filtering: 
+  - Allow the user to look for accidents based of multiple factors, such as the date, the weather condition,the city, the state and so on:
+    - Weather condition: Filter by weather types such as rain, snow, fog, etc.
+    - Location: Filter by city, state, and so on
+    - *(optional)* Severity: Show how severe the weather the weather was(light snow, heavy snow etc.)
+    - *(optional)* Time of day: Show accidents that happened during specific times (rush hour vs. late night).
+    - *(optional)* Date range: Filter accidents by a specific day, week, or range of dates.
+  - **MEDIUM PRIORITY**: This will add user interactivity and make the website much more interesting, but of course needs the accident visualiser to work first to be useful
+
+* Chart dashboard:
+  - Use Plotly to display accident statistics through charts and graphs:
+      - Percentage of accidents for different weather conditions (rain, snow, clear skies).
+      - *(Optional)* Accident rates across different states.
+      - *(optional)* Rates of most severe accidents by weather type/conditions
+  - MEDIUM-LOW PRIORITY: This will be useful to see trends, but must be put on hold if ever the accident visualizer and searching aren't completely working/implemented
+
+* Responsive UI:
+  - Make the UI scale with the user's screen, making it usable in all devices of different size.
+  - **LOW *PRIORITY**: While good and important to have, these will only truly shine if the application is actually functional
+
+* UI Design:
+  - How well designed is our website. Is it easy to navigate? Is it pleasing to the eye? Is it too plain or too cluttered and hard on the eye?
+  - **LOW PRIORITY**: Once again, this will only truly shine if the app is functional
+
 ## Dependencies
+
+* React leaflet: Essential for displaying the accidents on a map.
+  
+* plotly: Graph library that will allow us to display further details about application such as how much accidents happen for x type of weather, how much accidents happen during X time of day, during X severity of weather.
+
+* We were wondering if we would need something for getting the data 
+  from our database?
+
+* There will definetly more, but we are unsure as of right now what those will
+  be
+
