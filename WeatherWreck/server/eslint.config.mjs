@@ -1,41 +1,29 @@
-import js from '@eslint/js';
 import globals from 'globals';
-import react from 'eslint-plugin-react';
-import reactHooks from 'eslint-plugin-react-hooks';
-import reactRefresh from 'eslint-plugin-react-refresh';
+import js from '@eslint/js';
 
 export default [
-  { ignores: ['dist'] },
+  // files to ignore entirely
   {
-    files: ['**/*.{js,jsx}'],
+    ignores: [
+      '**/node_modules/*', 
+      '**/dist/*', 
+      '**/build/*', 
+      '**/webpack.config.{js,cjs}',
+      'eslint.config.mjs',
+    ],
+  },
+  //use recommended rules as a base for all files and then override
+  js.configs.recommended,
+  //override rules for all files
+  {
     languageOptions: {
-      ecmaVersion: 2020,
-      globals: globals.browser,
-      parserOptions: {
-        ecmaVersion: 'latest',
-        ecmaFeatures: { jsx: true },
-        sourceType: 'module',
+      globals: {
+        ...globals.node
       },
-    },
-    settings: { react: { version: '18.3' } },
-    plugins: {
-      react,
-      'react-hooks': reactHooks,
-      'react-refresh': reactRefresh,
+      sourceType: 'module',
     },
     rules: {
-      ...js.configs.recommended.rules,
-      ...react.configs.recommended.rules,
-      ...react.configs['jsx-runtime'].rules,
-      ...reactHooks.configs.recommended.rules,
-      'react/jsx-no-target-blank': 'off',
-      'react-refresh/only-export-components': [
-        'warn',
-        { allowConstantExport: true },
-      ],
-      // ADDITIONAL RULES
-      'react/prop-types': 'off',
-      ////////// Possible Errors //////////
+    ////////// Possible Errors //////////
       'no-console': ['warn', { 'allow': ['error'] }],
       'one-var': ['warn', 'never'],
       'no-undef': 'warn',
@@ -70,12 +58,12 @@ export default [
       'max-len': ['error', 100],
       'no-inline-comments': 'error',
       'no-tabs': 'error',
-      'quotes': ['error', 'single', { 'allowTemplateLiterals': true }],
+      'quotes': ['error', 'single', {'allowTemplateLiterals': true}],
       'jsx-quotes': ['error', 'prefer-double'],
       'space-infix-ops': 'error',
       'space-unary-ops': 'error',
       'semi': 'error',
       'semi-spacing': 'error'
-    },
+    }
   },
 ];
