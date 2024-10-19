@@ -37,7 +37,8 @@ install:
     # make sure we create a reproducible testing environment (no stale dependencies from previous jobs)
     # The --prefer-offline option makes npm avoid fetching a module from the package repository
     # unless it's missing from the cache
-    - npm ci --cache .npm --prefer-offline
+    - ls -la
+    - cd server && npm ci --cache .npm --prefer-offline
   # Cache modules in between jobs to avoid re-downloading them
   # https://docs.gitlab.com/ee/ci/caching/#cache-nodejs-dependencies
   cache:  
