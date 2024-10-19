@@ -18,14 +18,14 @@ default:
     key: 
       prefix: $CI_COMMIT_REF_NAME
       files:
-        - server/package-lock.json
-        - client/package-lock.json
+        - ./WeatherWreck/server/package-lock.json
+        - ./WeatherWreck/client/package-lock.json
     paths:
-      - server/.npm/
-      - client/.npm
+      - ./WeatherWreck/server/.npm/
+      - ./WeatherWreck/client/.npm
   # run this before every job; will hit the cache first
   before_script:
-   - cd server && npm ci --cache .npm --prefer-offline && cd ../client && npm ci --cache .npm --prefer-offline && cd ..
+   - cd ./WeatherWreck/server && npm ci --cache .npm --prefer-offline && cd ../client && npm ci --cache .npm --prefer-offline && cd ..
    
 install:
   stage: build
