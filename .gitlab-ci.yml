@@ -56,12 +56,14 @@ install:
 lint-server:
   stage: lint 
   script:
+    - ls -la
     - cd ./WeatherWreck/server && ./node_modules/eslint/bin/eslint.js . 
   allow_failure: false
 
 lint-client:
   stage: lint 
   script:
+    - ls -la
     - cd ./WeatherWreck/client && ./node_modules/eslint/bin/eslint.js .
   allow_failure: false
   
