@@ -18,14 +18,14 @@ default:
     key: 
       prefix: $CI_COMMIT_REF_NAME
       files:
-        - WeatherWreck/server/package-lock.json
-        - WeatherWreck/client/package-lock.json
+        - ./WeatherWreck/server/package-lock.json
+        - ./WeatherWreck/client/package-lock.json
     paths:
-      - WeatherWreck/server/.npm/
-      - WeatherWreck/client/.npm
+      - ./WeatherWreck/server/.npm/
+      - ./WeatherWreck/client/.npm
   # run this before every job; will hit the cache first
   before_script:
-   - cd WeatherWreck/server && npm ci --cache .npm --prefer-offline && cd ../client && npm ci --cache .npm --prefer-offline && cd ..
+   - cd ./WeatherWreck/server && npm ci --cache .npm --prefer-offline && cd ../client && npm ci --cache .npm --prefer-offline && cd ..
    
 install:
   stage: build
@@ -51,18 +51,18 @@ install:
     expire_in: 1 days
     when: on_success
     paths:
-      - WeatherWreck/server/node_modules/
+      - ./WeatherWreck/server/node_modules/
 
 lint-server:
   stage: lint 
   script:
-    - cd WeatherWreck/server && ./node_modules/eslint/bin/eslint.js . 
+    - cd ./WeatherWreck/server && ./node_modules/eslint/bin/eslint.js . 
   allow_failure: false
 
 lint-client:
   stage: lint 
   script:
-    - cd WeatherWreck/client && ./node_modules/eslint/bin/eslint.js .
+    - cd ./WeatherWreck/client && ./node_modules/eslint/bin/eslint.js .
   allow_failure: false
   
 server-test:
@@ -71,12 +71,12 @@ server-test:
     dependencies:
         - install
     script: 
-        - cd WeatherWreck/server && npm run test  
+        - cd ./WeatherWreck/server && npm run test  
 
 build-frontend:
   stage: build
   script:
-    - cd WeatherWreck/client && npm run build
+    - cd ./WeatherWreck/client && npm run build
   only:
     refs:
       - main
@@ -86,4 +86,4 @@ build-frontend:
     expire_in: 1 days
     when: on_success
     paths:
-      - WeatherWreck/client/build
+      - ./WeatherWreck/client/build
