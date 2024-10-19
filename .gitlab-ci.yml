@@ -51,18 +51,20 @@ install:
     expire_in: 1 days
     when: on_success
     paths:
-      - ./WeatherWreck/server/node_modules/
+      - server/node_modules/
 
 lint-server:
   stage: lint 
   script:
-    - cd ./WeatherWreck/server && ./node_modules/eslint/bin/eslint.js . 
+    - ls -la
+    - cd server && ./node_modules/eslint/bin/eslint.js . 
   allow_failure: false
 
 lint-client:
   stage: lint 
   script:
-    - cd ./WeatherWreck/client && ./node_modules/eslint/bin/eslint.js .
+    - ls -la
+    - cd client && ./node_modules/eslint/bin/eslint.js .
   allow_failure: false
   
 server-test:
@@ -71,12 +73,12 @@ server-test:
     dependencies:
         - install
     script: 
-        - cd ./WeatherWreck/server && npm run test  
+        - cd server && npm run test  
 
 build-frontend:
   stage: build
   script:
-    - cd ./WeatherWreck/client && npm run build
+    - cd client && npm run build
   only:
     refs:
       - main
@@ -86,4 +88,4 @@ build-frontend:
     expire_in: 1 days
     when: on_success
     paths:
-      - ./WeatherWreck/client/build
+      - client/build
