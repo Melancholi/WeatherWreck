@@ -5,9 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-	"start": "cd server && node bin/www",
-	"build": "cd client && npm install && npm run build && cd ../server && npm install"
+    "start": "cd server && node bin/www",
+    "build": "cd client && npm install && npm run build && cd ../server && npm install"
   },
   "author": "Maara Vanessa Purici, Iana Feniuc and Youry Nelson",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "weatherwreck": "file:"
+  }
 }
