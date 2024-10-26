@@ -66,8 +66,14 @@ class DB{
   async readAll(){
     return await instance.collection.find().toArray();
   }
-  async readByLocation(location){
+  async readByState(location){
     return await instance.collection.find({'location' : { $eq: location}}).toArray();
+  }
+  async readByCity(location){
+    return await instance.collection.find({'location' : { $eq: location}}).toArray();
+  }
+  async readByTime(time){
+    return await instance.collection.find({'time' : { $eq: time}}).toArray();
   }
   /**
    * inserts an object into the database
