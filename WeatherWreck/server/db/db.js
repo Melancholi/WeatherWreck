@@ -34,4 +34,7 @@ class DB{
     console.log(`Connection Established to MongoDB:${dbName}`);
     instance.collection = await instance.db.collection(collName);
   }
-}
+  async close(){
+    await instance.client.close();
+    instance = null;
+  }
