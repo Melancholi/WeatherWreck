@@ -38,3 +38,16 @@ class DB{
     await instance.client.close();
     instance = null;
   }
+
+  // Data Manipulation
+  async readAll(){
+    return await instance.collection.find().toArray();
+  }
+  async create(event) {
+    return await instance.collection.insertOne(event);
+  }
+  async createMany(event) {
+    return await instance.collection.insertMany(event);
+  }
+}
+
