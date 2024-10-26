@@ -43,6 +43,9 @@ class DB{
   async readAll(){
     return await instance.collection.find().toArray();
   }
+  async readByLocation(location){
+    return await instance.collection.find({'location' : { $eq: location}}).toArray();
+  }
   async create(event) {
     return await instance.collection.insertOne(event);
   }
