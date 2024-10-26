@@ -23,4 +23,15 @@ class DB{
     }
     return instance;
   }
+  async connect(dbName, collName){
+    if (instance.db){
+      return;
+    }
+    await instance.client.connect();
+    instance.db = await instance.client.db(dbName);
+    //check for connection
+    await instance.client.db(dbName).command({ping:1});
+    console.log(`Connection Established to MongoDB:${dbName}`);
+    instance.collection = await instance.db.collection(collName);
+  }
 }
