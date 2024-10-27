@@ -1,6 +1,5 @@
 import * as fs from 'fs';
 import csv from 'csv-parser';
-import { execFileSync } from 'child_process';
 
 // The paths for the input files
 const trimmedAccidentsPath = './server/db/initialDB/Trimmed_Accidents.csv';
@@ -15,11 +14,13 @@ const matchingWeathersJsonPath = './server/db/finalDB/Matching_Weathers.json';
 const matchingWeathersCsvPath = './server/db/finalDB/Matching_Weathers_CSV.csv';
 
 /**
- * Helper function that is used to check if an event already exists in a JSON file based on a specific id
+ * Helper function that is used to check if an event already exists in 
+ * a JSON file based on a specific id
  * 
  * @param {string} filePath - The path of the JSON file to check 
  * @param {string} id - The id of the evnt to search for 
- * @returns {boolean} - Returns true if the event id is found, otherwise false
+ * @returns {boolean} - Returns true if the event id is found, 
+ * otherwise false
  * 
  * @author Maara Vanessa Purici
  */
@@ -30,7 +31,7 @@ function eventExistsInJson(filePath, id) {
   } 
   try {
     const existingData = JSON.parse(fs.readFileSync(filePath));
-    for (let event of existingData) {
+    for (const event of existingData) {
       if (event.ID === id || event.EventId === id) {
         // Exits early if a match is found
         return true;
@@ -55,13 +56,13 @@ function eventExistsInJson(filePath, id) {
 async function readWeatherData(weatherFile) {
   const weatherData = [];
   await new Promise((resolve, reject) => {
-    fs.createReadStream(weatherFile)
-      .pipe(csv())
-      .on('data', (weather) => {
+    fs.createReadStream(weatherFile).
+      pipe(csv()).
+      on('data', (weather) => {
         weatherData.push(weather);
-      })
-      .on('end', resolve)
-      .on('error', reject);
+      }).
+      on('end', resolve).
+      on('error', reject);
   });
   return weatherData;
 }
@@ -96,11 +97,23 @@ function initializeCsvStreams() {
   const weatherCsvStream = fs.createWriteStream(matchingWeathersCsvPath, { flags: 'a' });
 
   // Writing headers if the files are empty
-  if (!fs.existsSync(matchingAccidentsCsvPath) || fs.readFileSync(matchingAccidentsCsvPath, 'utf-8').trim() === '') {
-    accidentCsvStream.write('ID,State,City,Severity,Start_Time,End_Time,Start_Lat,Start_Lng,Description,Street,End_lat,End_Lng,Distance(mi),Temperature(F)\n');
+  if (
+    !fs.existsSync(matchingAccidentsCsvPath) || 
+    fs.readFileSync(matchingAccidentsCsvPath, 'utf-8').trim() === ''
+  ) {
+    accidentCsvStream.write(
+      'ID,State,City,Severity,Start_Time,End_Time,Start_Lat,Start_Lng,' +
+      'Description,Street,End_lat,End_Lng,Distance(mi),Temperature(F)\n'
+    );
   }
-  if (!fs.existsSync(matchingWeathersCsvPath) || fs.readFileSync(matchingWeathersCsvPath, 'utf-8').trim() === '') {
-    weatherCsvStream.write('EventId,State,City,StartTime(UTC),EndTime(UTC),Severity,Type,LocationLat,LocationLng,Precipitation(in)\n');
+  if (
+    !fs.existsSync(matchingWeathersCsvPath) || 
+    fs.readFileSync(matchingWeathersCsvPath, 'utf-8').trim() === ''
+  ) {
+    weatherCsvStream.write(
+      'EventId,State,City,StartTime(UTC),EndTime(UTC),Severity,Type,' +
+      'LocationLat,LocationLng,Precipitation(in)\n'
+    );
   }
 
   return { accidentCsvStream, weatherCsvStream };
@@ -124,8 +137,8 @@ function isDataMatching(accident, weather) {
     accident.Start_Lng === weather.LocationLng &&
     accident.Start_Time === weather['StartTime(UTC)']
   ) {
-      return true;
-    }
+    return true;
+  }
   return false;
 }
 
@@ -181,15 +194,15 @@ async function matchAccidentsWithWeather(accidentFile, weatherFile) {
   // Processing accidents and match with weather data
   await new Promise((resolve, reject) => {
     // Creating a readable stream that read data from the specified CSV file
-    fs.createReadStream(accidentFile)
-      .pipe(csv())
-      .on('data', (accident) => {
+    fs.createReadStream(accidentFile).
+      pipe(csv()).
+      on('data', (accident) => {
         // This code runs each time data is available to read
         weatherData.forEach((weather) => {
           addMatchingData(accident, weather, accidentCsvStream, weatherCsvStream);
         });
-      })
-      .on('end', () => {
+      }).
+      on('end', () => {
         // This code runs when all the data has been read
         fixJsonFile(matchingAccidentsJsonPath);
         fixJsonFile(matchingWeathersJsonPath);
@@ -197,8 +210,8 @@ async function matchAccidentsWithWeather(accidentFile, weatherFile) {
         weatherCsvStream.end();
         console.log('Matching accidents and weather data saved.');
         resolve();
-      })
-      .on('error', reject);
+      }).
+      on('error', reject);
   });
 }
 
@@ -229,7 +242,7 @@ async function processCSVFiles() {
   try {
     // Perform the comparison and match relevant data
     await matchAccidentsWithWeather(trimmedAccidentsPath, trimmedWeatherPath);
-	
+
   } catch (error) {
     console.error('Error processing CSV files:', error);
   }

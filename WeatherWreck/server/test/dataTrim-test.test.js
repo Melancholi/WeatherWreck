@@ -33,13 +33,13 @@ describe('trimAccidentData', function() {
       await trimAccidentData(mockAccidents, trimmedMockAccidents);
       const trimmedData = [];
       await new Promise((resolve, reject) => {
-          const stream = fsp.createReadStream(trimmedMockAccidents)
-          .pipe(csv())
-          .on('data', (weather) => {
+        const stream = fsp.createReadStream(trimmedMockAccidents).
+          pipe(csv()).
+          on('data', (weather) => {
             trimmedData.push(weather);
-          })
-          .on('end', resolve)
-          .on('error', reject);
+          }).
+          on('end', resolve).
+          on('error', reject);
         
         // Properly handle cleanup of the stream
         stream.on('close', () => {
@@ -97,13 +97,13 @@ describe('trimWeatherData', function() {
       await trimWeatherData(mockWeather, trimmedMockWeather);
       const trimmedData = [];
       await new Promise((resolve, reject) => {
-        const stream = fsp.createReadStream(trimmedMockWeather)
-          .pipe(csv())
-          .on('data', (weather) => {
+        const stream = fsp.createReadStream(trimmedMockWeather).
+          pipe(csv()).
+          on('data', (weather) => {
             trimmedData.push(weather);
-          })
-          .on('end', resolve)
-          .on('error', reject);
+          }).
+          on('end', resolve).
+          on('error', reject);
         
         // Properly handle cleanup of the stream
         stream.on('close', () => {
