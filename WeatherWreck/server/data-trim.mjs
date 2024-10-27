@@ -130,7 +130,6 @@ async function trimWeatherData(inputFile, outputFile) {
   });
 }
 
-// Execute the steps
 /**
  * This function is used to execute the trimming of both accidents and weather datasets CSV files
  * 
