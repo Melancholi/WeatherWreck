@@ -2,13 +2,15 @@ import * as fs from 'fs';
 import csv from 'csv-parser';
 
 // The path to the initial dataset for the accident events
-// If you run this, it will give you an error since I am not commiting the initial dataset beacuse is very big
+// If you run this, it will give you an error since I am not commiting 
+// the initial dataset beacuse is very big
 const accidentsCsvPath = './db/initialDB/US_Accidents_March23.csv';
 // The path to the trimmed accident events dataset
 const trimmedAccidentsPath = './db/initialDB/Trimmed_Accidents.csv';
 
 // The path to the initial dataset for the weather events
-// If you run this, it will give you an error since I am not commiting the initial dataset beacuse is very big
+// If you run this, it will give you an error since I am not commiting the 
+// initial dataset beacuse is very big
 const weatherCsvPath = './db/initialDB/WeatherEvents_Jan2016-Dec2022.csv';
 // The path to the trimmed weather events dataset
 const trimmedWeatherPath = './db/initialDB/Trimmed_Weather.csv';
@@ -31,7 +33,7 @@ const trimmedWeatherPath = './db/initialDB/Trimmed_Weather.csv';
 export async function trimAccidentData(inputFile, outputFile) {
   // The columns we want to keep
   const columnsToKeep = [
-	  'ID',
+    'ID',
     'State', 
     'City', 
     'Severity', 
@@ -54,25 +56,25 @@ export async function trimAccidentData(inputFile, outputFile) {
     writeStream.write(columnsToKeep.join(',') + '\n'); 
 
     // Creating a readable stream that read data from the specified CSV file
-    fs.createReadStream(inputFile)
-      .pipe(csv())
-      .on('data', (accident) => {
+    fs.createReadStream(inputFile).
+      pipe(csv()).
+      on('data', (accident) => {
         // This code runs each time data is available to read
         const startTime = new Date(accident['Start_Time']);
         const startYear = startTime.getFullYear();
         // Filtering the data for year 2022
-        if (startYear == 2022) {
+        if (startYear === 2022) {
           const trimmedRow = columnsToKeep.map((col) => accident[col] || '').join(',');
           writeStream.write(trimmedRow + '\n');
         }
-      })
-      .on('end', () => {
+      }).
+      on('end', () => {
         // This code runs when all the data has been read
         writeStream.end();
         console.log(`Trimmed accident data saved to ${outputFile}`);
         resolve();
-      })
-      .on('error', (error) => reject(error));
+      }).
+      on('error', (error) => reject(error));
   });
 }
 
@@ -89,7 +91,7 @@ export async function trimAccidentData(inputFile, outputFile) {
 export async function trimWeatherData(inputFile, outputFile) {
   // The columns we want to keep
   const columnsToKeep = [
-	  'EventId',
+    'EventId',
     'State', 
     'City', 
     'StartTime(UTC)', 
@@ -108,25 +110,25 @@ export async function trimWeatherData(inputFile, outputFile) {
     writeStream.write(columnsToKeep.join(',') + '\n');
 
     // Creating a readable stream that read data from the specified CSV file
-    fs.createReadStream(inputFile)
-      .pipe(csv())
-      .on('data', (weather) => {
+    fs.createReadStream(inputFile).
+      pipe(csv()).
+      on('data', (weather) => {
         // This code runs each time data is available to read
         const startTime = new Date(weather['StartTime(UTC)']);
         const startYear = startTime.getFullYear();
         // Filtering the data for year 2022
-        if (startYear == 2022) {
+        if (startYear === 2022) {
           const trimmedRow = columnsToKeep.map((col) => weather[col] || '').join(',');
           writeStream.write(trimmedRow + '\n');
         }
-      })
-      .on('end', () => {
+      }).
+      on('end', () => {
         // This code runs when all the data has been read
         writeStream.end();
         console.log(`Trimmed weather data saved to ${outputFile}`);
         resolve();
-      })
-      .on('error', (error) => reject(error));
+      }).
+      on('error', (error) => reject(error));
   });
 }
 
@@ -141,7 +143,6 @@ async function trimCSVFiles() {
     // Triming both accidents and weather data
     await trimAccidentData(accidentsCsvPath, trimmedAccidentsPath);
     await trimWeatherData(weatherCsvPath, trimmedWeatherPath);
-	
   } catch (error) {
     console.error('Error processing CSV files:', error);
   }
