@@ -57,6 +57,9 @@ class DB{
    * @param {string} collName the name of the collection to access
    */
   async open(collName){
+    if (!instance.db){
+      throw new Error(`Database not connected, unable to connect to ${collName}`);
+    }
     instance.collections[collName] = await instance.db.collection(collName);
     console.log(`Collection ${collName} Established to MongoDB:${dbName}`);
   }
