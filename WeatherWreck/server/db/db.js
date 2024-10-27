@@ -69,31 +69,48 @@ class DB{
   }
 
   // Data Manipulation
-  async readAll(){
-    return await instance.collection.find().toArray();
+  /**
+   * Returns all the data related to a collection
+   * @param {string} collName The name of the collection to read
+   */
+  async readAll(collName){
+    return await instance.collections[collName].find().toArray();
   }
-  async readByState(location){
-    return await instance.collection.find({'location' : { $eq: location}}).toArray();
+  /**
+   * Returns all the data related to a collection
+   * @param {string} collName The name of the collection to read
+   * @param {string} location 
+   */
+  async readByState(collName, location){
+    return await instance.collections[collName].find({'location' : { $eq: location}}).toArray();
   }
-  async readByCity(location){
-    return await instance.collection.find({'location' : { $eq: location}}).toArray();
+  /**
+   * Returns all the data related to a collection
+   * @param {string} collName The name of the collection to read
+   */
+  async readByCity(collName, location){
+    return await instance.collections[collName].find({'location' : { $eq: location}}).toArray();
   }
-  async readByTime(time){
-    return await instance.collection.find({'time' : { $eq: time}}).toArray();
+  /**
+   * Returns all the data related to a collection
+   * @param {string} collName The name of the collection to read
+   */
+  async readByTime(collName, time){
+    return await instance.collections[collName].find({'time' : { $eq: time}}).toArray();
   }
   /**
    * inserts an object into the database
    * @param {JSON} event the data to be added
    */
-  async create(event) {
-    return await instance.collection.insertOne(event);
+  async create(collName, event) {
+    return await instance.collections[collName].insertOne(event);
   }
   /**
    * inserts multiple objects into the database
    * @param {ArrayJSON} events the data to be added
    */
-  async createMany(events) {
-    return await instance.collection.insertMany(events);
+  async createMany(collName, events) {
+    return await instance.collections[collName].insertMany(events);
   }
 }
 
