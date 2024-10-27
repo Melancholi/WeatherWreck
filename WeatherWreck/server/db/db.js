@@ -86,16 +86,10 @@ class DB{
     return await instance.collections[collName].find().toArray();
   }
   /**
-   * Returns all the data related to a collection
+   * General method to read documents based on a query
+   * @param {Object} query - The MongoDB query object specifying search conditions
    * @param {string} collName The name of the collection to read
-   * @param {string} location 
-   */
-  async readByState(collName, location){
-    return await instance.collections[collName].find({'location' : { $eq: location}}).toArray();
-  }
-  /**
-   * Returns all the data related to a collection
-   * @param {string} collName The name of the collection to read
+   * @returns {Array} The matching documents
    */
   async readByCondition(collName, query) {
     if (!instance.collections[collName]) {
@@ -106,6 +100,8 @@ class DB{
   /**
    * inserts an object into the database
    * @param {JSON} event the data to be added
+   *  @param {string} collName The name of the collection to read
+   * @returns {Array} The matching documents
    */
   async create(collName, event) {
     if (!instance.collections[collName]) {
@@ -116,6 +112,8 @@ class DB{
   /**
    * inserts multiple objects into the database
    * @param {ArrayJSON} events the data to be added
+   *  @param {string} collName The name of the collection to read
+   * @returns {Array} The matching documents
    */
   async createMany(collName, events) {
     if (!instance.collections[collName]) {
