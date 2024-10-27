@@ -1,14 +1,14 @@
 import * as chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import fs from 'fs/promises';
+import fsp from 'fs';
 import { 
-  eventExistsInJson, 
-  readWeatherData, 
-  initializeJsonFiles, 
-  initializeCsvStreams, 
+  eventExists, 
+  readWeatherData,
+  initializeAccidentsStream, 
+  initializeWeatherStream, 
   isDataMatching, 
-  addMatchingData, 
-  fixJsonFile } from '../data-init.mjs';
+  addMatchingData} from '../data-init.mjs';
   
 chai.use(chaiAsPromised);
 const expect = chai.expect;
@@ -18,10 +18,7 @@ const trimmedMockAccidents = './db/mockData/trimmed_mock_accident_data.csv';
 const trimmedMockWeather = './db/mockData/trimmed_mock_weather_data.csv';
 
 // The path to the output files for testing
-const matchedMockAccidentsJson = './db/mockData/result/matched_mock_accident_data.json';
 const matchedMockAccidentsCsv = './db/mockData/result/matched_mock_accident_data.csv';
-
-const matchedMockWeatherJson = './db/mockData/result/matched_mock_weather_data.json';
 const matchedMockWeatherCsv = './db/mockData/result/matched_mock_weather_data.csv';
 
 describe('Data Initialization and Matching Tests', function() {
@@ -29,9 +26,7 @@ describe('Data Initialization and Matching Tests', function() {
     // Cleaing up the previous output before tests
     // Learned about this from here https://nodejs.org/api/fs.html#fspromisesrmpath-options
     try {
-      await fs.rm(matchedMockAccidentsJson, { force: true });
       await fs.rm(matchedMockAccidentsCsv, { force: true });
-      await fs.rm(matchedMockWeatherJson, { force: true });
       await fs.rm(matchedMockWeatherCsv, { force: true });
     } catch (error) {
       console.error('Error during cleanup:', error);
@@ -39,20 +34,16 @@ describe('Data Initialization and Matching Tests', function() {
   });
 
   describe('Event exists in JSON', function() {
-    it('Should return false if the file does not exist', function() {
-      const result = eventExistsInJson('./nonexistent.json', '123');
-      return expect(result).to.be.false;
-    });
-
-    it('Should return false if the event ID does not exist in the file in JSON files', async function() {
-      const { accidentJsonFile, weatherJsonFile } = initializeJsonFiles(matchedMockAccidentsJson, matchedMockWeatherJson);
+    it('Should return false if the event ID does not exist in the file in CSV files', async function() {
+      const accidentCsvStream = initializeAccidentsStream(matchedMockAccidentsCsv);
+      const weatherCsvStream  = initializeWeatherStream(matchedMockWeatherCsv);
       const accident = {
         ID: 'A-01',
         State: 'CA',
         City: 'Los Angeles',
         Severity: 2,
-        Start_Time: '2023-10-01T10:00:00Z',
-        End_Time: '2023-10-01T11:00:00Z',
+        Start_Time: '2022-10-01T10:00:00Z',
+        End_Time: '2022-10-01T11:00:00Z',
         Start_Lat: '34.0522',
         Start_Lng: '-118.2437',
         Description: 'Accident description',
@@ -62,13 +53,117 @@ describe('Data Initialization and Matching Tests', function() {
         'Distance(mi)': '1.0',
         'Temperature(F)': '75'
       };
-      fs.writeFile(accidentJsonFile, JSON.stringify(accident, null, 2));
-      const result = eventExistsInJson(accidentJsonFile, 'A-01');
-      return expect(result).to.be.false;
+      const data = [];
+      await new Promise((resolve, reject) => {
+        const stream = fsp.createReadStream(accidentCsvStream).
+          pipe(csv()).
+          on('data', data.push(accident)).
+          on('end', resolve).
+          on('error', reject);
+        
+        // Properly handle cleanup of the stream
+        stream.on('close', () => {
+          console.log('Stream closed.');
+        });
+      });
+      let foundEntry = false;
+      for (const row of data) {
+        if (row.ID === 'A-01') {
+          foundEntry = true;
+        }
+      }
+      return expect(foundEntry).to.be.true;
     });
 
-    it('Should return true if the event ID does exist in the file in JSON files', async function() {
-      const { accidentJsonFile, weatherJsonFile } = initializeJsonFiles(matchedMockAccidentsJson, matchedMockWeatherJson);
+    it('Should return true if the event ID does exist in the file in CSV files', async function() {
+      const accidentCsvStream = initializeAccidentsStream(matchedMockAccidentsCsv);
+      const weatherCsvStream  = initializeWeatherStream(matchedMockWeatherCsv);
+      const weather = {
+        EventId: 'W-01',
+        State: 'CA',
+        City: 'Los Angeles',
+        'StartTime(UTC)': '2022-10-01T10:00:00Z',
+        'EndTime(UTC)': '2022-10-01T11:00:00Z',
+        Severity: 1,
+        Type: 'Rain',
+        LocationLat: '34.0522',
+        LocationLng: '-118.2437',
+        'Precipitation(in)': '0.5'
+      };
+      const data = [];
+      await new Promise((resolve, reject) => {
+        const stream = fsp.createReadStream(weatherCsvStream).
+          pipe(csv()).
+          on('data', data.push(weather)).
+          on('end', resolve).
+          on('error', reject);
+        
+        // Properly handle cleanup of the stream
+        stream.on('close', () => {
+          console.log('Stream closed.');
+        });
+      });
+      let foundEntry = false;
+      for (const row of data) {
+        if (row.ID === 'W-01') {
+          foundEntry = true;
+        }
+      }
+      return expect(foundEntry).to.be.true;
+    });
+  });
+
+  describe('Checking if data is matching', function() {
+    it('Should return true for matching data', function () {
+      const accident = {
+        ID: 'A-01',
+        State: 'CA',
+        City: 'Los Angeles',
+        Severity: 2,
+        Start_Time: '2022-10-01T10:00:00Z',
+        End_Time: '2022-10-01T11:00:00Z',
+        Start_Lat: '34.0522',
+        Start_Lng: '-118.2437',
+        Description: 'Accident description',
+        Street: 'Main St',
+        End_lat: '34.0522',
+        End_Lng: '-118.2437',
+        'Distance(mi)': '1.0',
+        'Temperature(F)': '75'
+      };
+      const weather = {
+        EventId: 'W-01',
+        State: 'CA',
+        City: 'Los Angeles',
+        'StartTime(UTC)': '2022-10-01T10:00:00Z',
+        'EndTime(UTC)': '2022-10-01T11:00:00Z',
+        Severity: 1,
+        Type: 'Rain',
+        LocationLat: '34.0522',
+        LocationLng: '-118.2437',
+        'Precipitation(in)': '0.5'
+      };
+      const result = isDataMatching(accident, weather);
+      return expect(result).to.be.true;
+    });
+
+    it('Should return false for non-matching data', function () {
+      const accident = {
+        ID: 'A-01',
+        State: 'CA',
+        City: 'Los Angeles',
+        Severity: 2,
+        Start_Time: '2022-10-01T10:00:00Z',
+        End_Time: '2022-10-01T11:00:00Z',
+        Start_Lat: '40.0522',
+        Start_Lng: '-90.2437',
+        Description: 'Accident description',
+        Street: 'Main St',
+        End_lat: '34.0522',
+        End_Lng: '-118.2437',
+        'Distance(mi)': '1.0',
+        'Temperature(F)': '75'
+      };
       const weather = {
         EventId: 'W-01',
         State: 'CA',
@@ -80,47 +175,6 @@ describe('Data Initialization and Matching Tests', function() {
         LocationLat: '34.0522',
         LocationLng: '-118.2437',
         'Precipitation(in)': '0.5'
-      };
-      fs.writeFile(weatherJsonFile, JSON.stringify(weather, null, 2));
-      const result = eventExistsInJson(weatherJsonFile, 'W-01');
-      return expect(result).to.be.true;
-    });
-  });
-
-  describe('Checking if data is matching', function() {
-    it('Should return true for matching data', function () {
-      const accident = {
-        State: 'CA',
-        City: 'Los Angeles',
-        Start_Lat: '34.0522',
-        Start_Lng: '-118.2437',
-        Start_Time: '2023-10-01T10:00:00Z'
-      };
-      const weather = {
-        State: 'CA',
-        City: 'Los Angeles',
-        LocationLat: '34.0522',
-        LocationLng: '-118.2437',
-        'StartTime(UTC)': '2023-10-01T10:00:00Z'
-      };
-      const result = isDataMatching(accident, weather);
-      return expect(result).to.be.true;
-    });
-
-    it('Should return false for non-matching data', function () {
-      const accident = {
-        State: 'CA',
-        City: 'Los Angeles',
-        Start_Lat: '34.0522',
-        Start_Lng: '-118.2437',
-        Start_Time: '2023-10-01T10:00:00Z'
-      };
-      const weather = {
-        State: 'NY',
-        City: 'New York',
-        LocationLat: '40.7128',
-        LocationLng: '-74.0060',
-        'StartTime(UTC)': '2023-10-01T10:00:00Z'
       };
       const result = isDataMatching(accident, weather);
       return expect(result).to.be.false;
@@ -159,19 +213,15 @@ describe('Data Initialization and Matching Tests', function() {
         'Precipitation(in)': '0.5'
       };
 
-      const { accidentJsonFile, weatherJsonFile } = initializeJsonFiles(matchedMockAccidentsJson, matchedMockWeatherJson);
-      const { accidentCsvStream, weatherCsvStream } = initializeCsvStreams(matchedMockAccidentsCsv, matchedMockWeatherCsv);
+      const accidentCsvStream = initializeAccidentsStream(matchedMockAccidentsCsv);
+      const weatherCsvStream  = initializeWeatherStream(matchedMockWeatherCsv);
 
-      addMatchingData(accident, weather, accidentCsvStream, weatherCsvStream, accidentJsonFile, weatherJsonFile);
+      addMatchingData(accident, weather, accidentCsvStream, weatherCsvStream);
 
-      // Read back the results to verify the addition
-      const savedAccidentsJson = await fs.readFile(accidentJsonFile, 'utf-8');
-      const savedWeatherJson = await fs.readFile(weatherJsonFile, 'utf-8');
-      const savedAccidentsCsv = await fs.readFile(accidentCsvStream, 'utf-8');
-      const savedWeatherCsv = await fs.readFile(weatherCsvStream, 'utf-8');
+      // Read back the results to verify the addition'utf-8');
+      const savedAccidentsCsv = await fs.readFile(accidentCsvStream);
+      const savedWeatherCsv = await fs.readFile(weatherCsvStream);
 
-      expect(JSON.parse(savedAccidentsJson)).to.include(accident);
-      expect(JSON.parse(savedWeatherJson)).to.include(weather);
       expect(savedAccidentsCsv).to.include('A-01');
       expect(savedWeatherCsv).to.include('W-01');
     });

@@ -36,7 +36,7 @@ export async function eventExists(filePath, id) {
         resolve(found);
       }).
       on('error', () => {
-        console.error(`Error parsing JSON from ${filePath}:`, error);
+        console.error(`Error:`, error);
         reject(error);
       });
   });
@@ -74,34 +74,48 @@ export async function readWeatherData(weatherFile) {
  * 
  * @author Maara Vanessa Purici
  */
-export function initializeCsvStreams(accidentCsv, weatherCsv) {
+export function initializeAccidentsStream(accidentCsv) {
   // Setting up streams for CSV Output
   // flags: 'a' used so that new data is added instead of overiding
   // learned about flags from here -> https://nodejs.org/api/fs.html#file-system-flags
   const accidentCsvStream = fs.createWriteStream(accidentCsv, { flags: 'a' });
+  const accidentColumns = [
+    'ID', 'State', 'City', 'Severity', 'Start_Time', 
+    'End_Time', 'Start_Lat', 'Start_Lng', 'Description', 
+    'Street', 'End_lat', 'End_Lng', 'Distance(mi)', 
+    'Temperature(F)'
+  ];
+  
+  // Writing headers if the files are empty
+  if (
+    !fs.existsSync(accidentCsv) || 
+    fs.readFile(accidentCsv, 'utf-8').trim() === ''
+  ) {
+    accidentCsvStream.write(accidentColumns.join(',') + '\n');
+  }
+
+  return accidentCsvStream;
+}
+export function initializeWeatherStream(weatherCsv) {
+  // Setting up streams for CSV Output
+  // flags: 'a' used so that new data is added instead of overiding
+  // learned about flags from here -> https://nodejs.org/api/fs.html#file-system-flags
   const weatherCsvStream = fs.createWriteStream(weatherCsv, { flags: 'a' });
+  const weatherColumns = [
+    'EventId', 'State', 'City', 'StartTime(UTC)', 
+    'EndTime(UTC)', 'Severity', 'Type', 
+    'LocationLat', 'LocationLng', 'Precipitation(in)'
+  ];
 
   // Writing headers if the files are empty
   if (
-    !fs.existsSync(matchingAccidentsCsvPath) || 
-    fs.readFile(matchingAccidentsCsvPath, 'utf-8').trim() === ''
+    !fs.existsSync(weatherCsv) || 
+    fs.readFile(weatherCsv, 'utf-8').trim() === ''
   ) {
-    accidentCsvStream.write(
-      'ID,State,City,Severity,Start_Time,End_Time,Start_Lat,Start_Lng,' +
-      'Description,Street,End_lat,End_Lng,Distance(mi),Temperature(F)\n'
-    );
-  }
-  if (
-    !fs.existsSync(matchingWeathersCsvPath) || 
-    fs.readFile(matchingWeathersCsvPath, 'utf-8').trim() === ''
-  ) {
-    weatherCsvStream.write(
-      'EventId,State,City,StartTime(UTC),EndTime(UTC),Severity,Type,' +
-      'LocationLat,LocationLng,Precipitation(in)\n'
-    );
+    weatherCsvStream.write(weatherColumns.join(',') + '\n');
   }
 
-  return { accidentCsvStream, weatherCsvStream };
+  return weatherCsvStream;
 }
 
 /**
@@ -170,7 +184,9 @@ export function addMatchingData(accident, weather, accidentCsvStream, weatherCsv
 export async function matchAccidentsWithWeather(accidentFile, weatherFile, matchedAccidentCsv, matchedWeatherCsv) {
   const weatherData = await readWeatherData(weatherFile);
 
-  const { accidentCsvStream, weatherCsvStream } = initializeCsvStreams(matchedAccidentCsv, matchedWeatherCsv);
+  const accidentCsvStream = initializeAccidentsStream(matchedAccidentCsv);
+  const weatherCsvStream  = initializeWeatherStream(matchedWeatherCsv);
+
   // Processing accidents and match with weather data
   await new Promise((resolve, reject) => {
     // Creating a readable stream that read data from the specified CSV file
