@@ -61,7 +61,7 @@ class DB{
       throw new Error(`Database not connected, unable to connect to ${collName}`);
     }
     instance.collections[collName] = await instance.db.collection(collName);
-    console.log(`Collection ${collName} Established to MongoDB:${dbName}`);
+    console.log(`Collection ${collName} Established to MongoDB:${instance.db.databaseName}`);
   }
   /**
    * Closes the connection, setting the instance to null
@@ -121,30 +121,6 @@ class DB{
     }
     return await instance.collections[collName].insertMany(events);
   }
-  //TO REMOVE IF TEAM AGREES ON CURRENT IDEA
-  // /**
-  //  * Returns all the data related to a collection
-  //  * @param {string} collName The name of the collection to read
-  //  * @param {string} location 
-  //  */
-  // async readByState(collName, location){
-  //   return await instance.collections[collName].find({'location' : { $eq: location}}).toArray();
-  // }
-  // /**
-  //  * Returns all the data related to a collection
-  //  * @param {string} collName The name of the collection to read
-  //  */
-  // async readByCity(collName, location){
-  //   return await instance.collections[collName].find({'location' : { $eq: location}}).toArray();
-  // }
-  // /**
-  //  * Returns all the data related to a collection
-  //  * @param {string} collName The name of the collection to read
-  //  */
-  // async readByTime(collName, time){
-  //   return await instance.collections[collName].find({'time' : { $eq: time}}).toArray();
-  // }
-  
 }
 
 export const db = new DB();
