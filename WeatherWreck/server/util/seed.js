@@ -17,3 +17,9 @@ async function getFilePaths(folderPath) {
     return [];
   }
 };
+
+const csvFiles = await getFilePaths(folderPath);
+const data = collections.map((coll, index) =>  ({
+  'name': coll,
+  'filePath': csvFiles[index]
+}));
