@@ -31,19 +31,18 @@ class DB{
       }
       );
       this.db = null;
-      this.collection = null;
+      this.collections = {};
     }
     return instance;
   }
 
   /**
    * Establishes the connection with the database, creating/connecting to a
-   * database and creating/accessing a collection, if the db or collection
-   * does not already exists, it will create one for us to use
+   * database if the db does not already exists.
    * @param {string} dbName the name of the cluster to access
-   * @param {string} collName the name of the collection to access
    */
-  async connect(dbName, collName){
+  async connect(dbName){
+    //rework this to check for the same collection and one db connection
     if (instance.db){
       return;
     }
@@ -51,8 +50,15 @@ class DB{
     instance.db = await instance.client.db(dbName);
     //check for connection
     await instance.client.db(dbName).command({ping:1});
-    console.log(`Connection Established to MongoDB:${dbName}`);
-    instance.collection = await instance.db.collection(collName);
+    console.log(`Connection Established to MongoDB:${dbName}`); 
+  }
+  /**
+   * Creates a db collection in the previously created db
+   * @param {string} collName the name of the collection to access
+   */
+  async open(collName){
+    instance.collections[collName] = await instance.db.collection(collName);
+    console.log(`Collection ${collName} Established to MongoDB:${dbName}`);
   }
   /**
    * Closes the connection, setting the instance to null
