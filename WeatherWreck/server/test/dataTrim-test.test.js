@@ -27,7 +27,7 @@ describe('trimAccidentData', function() {
     }
   });
 
-  it('Should trim the accident data correctly', async function() {
+  it('Should trim the accidents data correctly', async function() {
     try {
       console.log('Starting to trim the accidents data');
       await trimAccidentData(mockAccidents, trimmedMockAccidents);
@@ -35,8 +35,8 @@ describe('trimAccidentData', function() {
       await new Promise((resolve, reject) => {
         const stream = fsp.createReadStream(trimmedMockAccidents).
           pipe(csv()).
-          on('data', (weather) => {
-            trimmedData.push(weather);
+          on('data', (accident) => {
+            trimmedData.push(accident);
           }).
           on('end', resolve).
           on('error', reject);
@@ -63,7 +63,7 @@ describe('trimAccidentData', function() {
         if (row.ID === 'A-512230') {
           found2022Entry = true;
         }
-        if (row.Start_Time.includes('2021')) {
+        if (row['Start_Time'].includes('2021')) {
           found2021Entry = true;
         }
       }
@@ -72,9 +72,9 @@ describe('trimAccidentData', function() {
       // Ensuring no 2021 data was added
       expect(found2021Entry).to.be.false;
 
-      console.log('Finished trimming the accident data');
+      console.log('Finished trimming the accidents data');
     } catch (error) {
-      console.error('Error trimming the accident data: ', error);
+      console.error('Error trimming the accidents data: ', error);
       throw error;
     }
   });
