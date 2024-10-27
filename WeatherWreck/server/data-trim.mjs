@@ -3,15 +3,15 @@ import csv from 'csv-parser';
 
 // The path to the initial dataset for the accident events
 // If you run this, it will give you an error since I am not commiting the initial dataset beacuse is very big
-const accidentsCsvPath = './server/db/initialDB/US_Accidents_March23.csv';
+const accidentsCsvPath = './db/initialDB/US_Accidents_March23.csv';
 // The path to the trimmed accident events dataset
-const trimmedAccidentsPath = './server/db/initialDB/Trimmed_Accidents.csv';
+const trimmedAccidentsPath = './db/initialDB/Trimmed_Accidents.csv';
 
 // The path to the initial dataset for the weather events
 // If you run this, it will give you an error since I am not commiting the initial dataset beacuse is very big
-const weatherCsvPath = './server/db/initialDB/WeatherEvents_Jan2016-Dec2022.csv';
+const weatherCsvPath = './db/initialDB/WeatherEvents_Jan2016-Dec2022.csv';
 // The path to the trimmed weather events dataset
-const trimmedWeatherPath = './server/db/initialDB/Trimmed_Weather.csv';
+const trimmedWeatherPath = './db/initialDB/Trimmed_Weather.csv';
 
 // Learned how to read from csv files from the following links:
 // https://www.npmjs.com/package/csv-parse
@@ -28,7 +28,7 @@ const trimmedWeatherPath = './server/db/initialDB/Trimmed_Weather.csv';
  * 
  * @author Maara Vanessa Purici
  */
-async function trimAccidentData(inputFile, outputFile) {
+export async function trimAccidentData(inputFile, outputFile) {
   // The columns we want to keep
   const columnsToKeep = [
 	  'ID',
@@ -86,7 +86,7 @@ async function trimAccidentData(inputFile, outputFile) {
  * 
  * @author Maara Vanessa Purici
  */
-async function trimWeatherData(inputFile, outputFile) {
+export async function trimWeatherData(inputFile, outputFile) {
   // The columns we want to keep
   const columnsToKeep = [
 	  'EventId',
