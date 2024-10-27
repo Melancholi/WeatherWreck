@@ -38,15 +38,6 @@ describe('Data Initialization and Matching Tests', function() {
     }
   });
 
-  before(async function() {
-    try {
-      initializeJsonFiles(matchedMockAccidentsJson, matchedMockWeatherJson);
-      initializeCsvStreams(matchedMockAccidentsCsv, matchedMockWeatherCsv);
-    } catch (error) {
-      console.error('Error initializing the files with matching data', error);
-    }
-  });
-
   describe('Event exists in JSON', function() {
     it('Should return false if the file does not exist', function() {
       const result = eventExistsInJson('./nonexistent.json', '123');
@@ -54,14 +45,44 @@ describe('Data Initialization and Matching Tests', function() {
     });
 
     it('Should return false if the event ID does not exist in the file in JSON files', async function() {
-      await fs.writeFile(matchedMockAccidentsJson, JSON.stringify([{ ID: 'A-1' }]));
-      const result = eventExistsInJson(matchedMockAccidentsJson, 'A-01');
+      const { accidentJsonFile, weatherJsonFile } = initializeJsonFiles(matchedMockAccidentsJson, matchedMockWeatherJson);
+      const accident = {
+        ID: 'A-01',
+        State: 'CA',
+        City: 'Los Angeles',
+        Severity: 2,
+        Start_Time: '2023-10-01T10:00:00Z',
+        End_Time: '2023-10-01T11:00:00Z',
+        Start_Lat: '34.0522',
+        Start_Lng: '-118.2437',
+        Description: 'Accident description',
+        Street: 'Main St',
+        End_lat: '34.0522',
+        End_Lng: '-118.2437',
+        'Distance(mi)': '1.0',
+        'Temperature(F)': '75'
+      };
+      fs.writeFile(accidentJsonFile, JSON.stringify(accident, null, 2));
+      const result = eventExistsInJson(accidentJsonFile, 'A-01');
       return expect(result).to.be.false;
     });
 
     it('Should return true if the event ID does exist in the file in JSON files', async function() {
-      await fs.writeFile(matchedMockWeatherJson, JSON.stringify([{ EventId: 'W-01' }]));
-      const result = eventExistsInJson(matchedMockWeatherJson, 'W-01');
+      const { accidentJsonFile, weatherJsonFile } = initializeJsonFiles(matchedMockAccidentsJson, matchedMockWeatherJson);
+      const weather = {
+        EventId: 'W-01',
+        State: 'CA',
+        City: 'Los Angeles',
+        'StartTime(UTC)': '2023-10-01T10:00:00Z',
+        'EndTime(UTC)': '2023-10-01T11:00:00Z',
+        Severity: 1,
+        Type: 'Rain',
+        LocationLat: '34.0522',
+        LocationLng: '-118.2437',
+        'Precipitation(in)': '0.5'
+      };
+      fs.writeFile(weatherJsonFile, JSON.stringify(weather, null, 2));
+      const result = eventExistsInJson(weatherJsonFile, 'W-01');
       return expect(result).to.be.true;
     });
   });
