@@ -68,6 +68,8 @@ class DB{
    */
   async close(){
     await instance.client.close();
+    instance.db = null;
+    instance.collections = {};
     instance = null;
   }
 
