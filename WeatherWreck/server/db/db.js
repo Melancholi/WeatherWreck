@@ -71,6 +71,7 @@ class DB{
     instance.db = null;
     instance.collections = {};
     instance = null;
+    console.log('Connection closed');
   }
 
   // Data Manipulation
