@@ -36,7 +36,6 @@ const data = collections.map((coll, index) =>  ({
       await new Promise((resolve, reject) => {
         parse(fileContent, { 
           columns: true,
-          
         }).
           on('data', (row) => dataToInsert.push(row)).
           on('end', resolve).
