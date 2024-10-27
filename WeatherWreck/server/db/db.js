@@ -80,6 +80,9 @@ class DB{
    * @param {string} collName The name of the collection to read
    */
   async readAll(collName){
+    if (!instance.collections[collName]) {
+      throw new Error(`Collection ${collName} not opened. Call open() first.`);
+    }
     return await instance.collections[collName].find().toArray();
   }
   /**
@@ -109,6 +112,9 @@ class DB{
    * @param {JSON} event the data to be added
    */
   async create(collName, event) {
+    if (!instance.collections[collName]) {
+      throw new Error(`Collection ${collName} not opened.`);
+    }
     return await instance.collections[collName].insertOne(event);
   }
   /**
@@ -116,6 +122,9 @@ class DB{
    * @param {ArrayJSON} events the data to be added
    */
   async createMany(collName, events) {
+    if (!instance.collections[collName]) {
+      throw new Error(`Collection ${collName} not opened.`);
+    }
     return await instance.collections[collName].insertMany(events);
   }
 }
