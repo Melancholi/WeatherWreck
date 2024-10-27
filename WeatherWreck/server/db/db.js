@@ -97,15 +97,11 @@ class DB{
    * Returns all the data related to a collection
    * @param {string} collName The name of the collection to read
    */
-  async readByCity(collName, location){
-    return await instance.collections[collName].find({'location' : { $eq: location}}).toArray();
-  }
-  /**
-   * Returns all the data related to a collection
-   * @param {string} collName The name of the collection to read
-   */
-  async readByTime(collName, time){
-    return await instance.collections[collName].find({'time' : { $eq: time}}).toArray();
+  async readByCondition(collName, query) {
+    if (!instance.collections[collName]) {
+      throw new Error(`Collection ${collName} not opened.`);
+    }
+    return await instance.collections[collName].find(query).toArray();
   }
   /**
    * inserts an object into the database
@@ -127,6 +123,30 @@ class DB{
     }
     return await instance.collections[collName].insertMany(events);
   }
+  //TO REMOVE IF TEAM AGREES ON CURRENT IDEA
+  // /**
+  //  * Returns all the data related to a collection
+  //  * @param {string} collName The name of the collection to read
+  //  * @param {string} location 
+  //  */
+  // async readByState(collName, location){
+  //   return await instance.collections[collName].find({'location' : { $eq: location}}).toArray();
+  // }
+  // /**
+  //  * Returns all the data related to a collection
+  //  * @param {string} collName The name of the collection to read
+  //  */
+  // async readByCity(collName, location){
+  //   return await instance.collections[collName].find({'location' : { $eq: location}}).toArray();
+  // }
+  // /**
+  //  * Returns all the data related to a collection
+  //  * @param {string} collName The name of the collection to read
+  //  */
+  // async readByTime(collName, time){
+  //   return await instance.collections[collName].find({'time' : { $eq: time}}).toArray();
+  // }
+  
 }
 
 export const db = new DB();
