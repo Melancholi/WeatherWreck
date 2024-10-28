@@ -15,7 +15,7 @@ const matchingWeathersCsvPath = './db/initialDB/result/Matching_Weathers_CSV.csv
  * This function is used to read the record from a specific file
  * 
  * @param {string} csvFile - The path to the weather CSV file 
- * @returns {Promise} - A promise that resolves to an array of data objects
+ * @returns {Object} - An object of the data read from the file
  * 
  * @author Maara Vanessa Purici
  */
