@@ -253,17 +253,21 @@ export function isDataMatching(accident, weather) {
   const accidentStartTime = new Date(accident['Start_Time']);
   const weatherStartTime = new Date(weather['StartTime(UTC)']);
 
-  const accidentDate = accidentStartTime.getFullYear() + '-' + 
-                       accidentStartTime.getMonth() + '-' + 
-                       accidentStartTime.getDate();
-  const weatherDate = weatherStartTime.getFullYear() + '-' +
-                      weatherStartTime.getMonth() + '-' + 
-                      weatherStartTime.getDate();
+  const accidentYear = accidentStartTime.getFullYear();
+  const weatherYear = weatherStartTime.getFullYear();
+  
+  const accidentMonth = accidentStartTime.getMonth();
+  const weatherMonth = weatherStartTime.getMonth();
+  
+  const accidentDay = accidentStartTime.getDate();
+  const weatherDay = weatherStartTime.getDate();
 
   if (
     accident.State === weather.State &&
     accident.City === weather.City &&
-    accidentDate === weatherDate
+    accidentYear === weatherYear &&
+    accidentMonth === weatherMonth &&
+    accidentDay === weatherDay
   ) {
     return true;
   }
