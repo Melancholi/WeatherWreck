@@ -4,12 +4,12 @@ import csv from 'csv-parser';
 import parse from 'csv-parser';
 
 // The paths for the input files
-const trimmedAccidentsPath = './db/initialDB/Trimmed_Accidents.csv';
-const trimmedWeatherPath = './db/initialDB/Trimmed_Weather.csv';
+// const trimmedAccidentsPath = './db/initialDB/Trimmed_Accidents.csv';
+// const trimmedWeatherPath = './db/initialDB/Trimmed_Weather.csv';
 
 // The paths for the files that will contain the accident and the weather events that match
-const matchingAccidentsCsvPath = './db/initialDB/result/Matching_Accidents_CSV.csv';
-const matchingWeathersCsvPath = './db/initialDB/result/Matching_Weathers_CSV.csv';
+// const matchingAccidentsCsvPath = './db/initialDB/result/Matching_Accidents_CSV.csv';
+// const matchingWeathersCsvPath = './db/initialDB/result/Matching_Weathers_CSV.csv';
 
 /**
  * This function is used to read the record from a specific file
@@ -313,14 +313,19 @@ export async function matchAccidentsWithWeather(accidentFile, weatherFile, match
 /**
  * This function is used to execute the steps
  */
-async function processCSVFiles() {
+async function processCSVFiles(
+  accidentsCsv, 
+  weatherCsv,
+  matchingAccidents,
+  matchingWeather
+) {
   try {
     // Perform the comparison and match relevant data
     await matchAccidentsWithWeather(
-      trimmedAccidentsPath, 
-      trimmedWeatherPath, 
-      matchingAccidentsCsvPath, 
-      matchingWeathersCsvPath
+      accidentsCsv, 
+      weatherCsv,
+      matchingAccidents,
+      matchingWeather
     );
 
   } catch (error) {
@@ -329,4 +334,9 @@ async function processCSVFiles() {
 }
 
 // Starting the process
-processCSVFiles();
+processCSVFiles(
+  './db/initialDB/Trimmed_Accidents.csv',
+  './db/initialDB/Trimmed_Weather.csv', 
+  './db/initialDB/result/Matching_Accidents_CSV.csv',
+  './db/initialDB/result/Matching_Weathers_CSV.csv'
+);
