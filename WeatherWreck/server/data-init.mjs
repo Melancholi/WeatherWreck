@@ -142,12 +142,10 @@ function extractAsCsvForAccidentsHeader() {
   // To do this, I used an example form here
   // https://heynode.com/blog/2020-02/reading-and-writing-csv-files-nodejs/
   const accidentColumns = [
-    'ID', 'State', 'City', 'Severity', 'Start_Time', 
-    'End_Time', 'Start_Lat', 'Start_Lng', 'Description', 
-    'Street', 'End_lat', 'End_Lng', 'Distance(mi)', 
-    'Temperature(F)'
-  ];
-  return accidentColumns.join("\n");
+    "ID, State, City, Severity, Start_Time, End_Time, Start_Lat, Start_Lng,",
+    " Description, Street, End_lat, End_Lng, Distance(mi), Temperature(F)"
+  ].join("");
+  return accidentColumns + "\n";
 }
 
 /**
@@ -227,12 +225,11 @@ export function writeToWeatherCsvHeader(weatherCsv) {
 function extractAsCsvForWeatherHeader() {
   // To do this, I used an example form here
   // https://heynode.com/blog/2020-02/reading-and-writing-csv-files-nodejs/
+  
   const weatherColumns = [
-    'EventId', 'State', 'City', 'StartTime(UTC)', 
-    'EndTime(UTC)', 'Severity', 'Type', 
-    'LocationLat', 'LocationLng', 'Precipitation(in)'
-  ];
-  return weatherColumns.join("\n");
+    "EventId, State, City, StartTime(UTC), EndTime(UTC), Severity,", " Type, LocationLat, LocationLng, Precipitation(in)"
+  ].join("");
+  return weatherColumns + "\n";
 }
 
 /**
@@ -286,7 +283,7 @@ export function addMatchingData(accident, weather, accidentCsv, weatherCsv) {
 
 /**
  * Async function used to match accident event with weather events based on 
- * the State, City, Location Latitude and Logitude and Time 
+ * the State, City and Time 
  * The mathcing records is writen to the CSV files
  * 
  * @param {string} accidentFile - The path to the accidents CSV file to read from
@@ -306,7 +303,6 @@ export async function matchAccidentsWithWeather(accidentFile, weatherFile, match
     accidentData.forEach((accident) => {
       weatherData.forEach((weather) => {
         addMatchingData(accident, weather, matchedAccidentCsv, matchedWeatherCsv);
-        console.log('Matching accidents and weather data saved.');
       });
     });
   } catch (error) {
