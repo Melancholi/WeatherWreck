@@ -1,12 +1,12 @@
 export function getWeatherEvents(req,res){
   //Logic
 }
-export function getWeathereventsByState(req,res){
+export function getWeatherEventsByState(req,res){
   //Logic
 }
 export function getWeatherEventsByDate(req,res){
   //Logic
 }
-export function getWeathereventsByType(req,res){
+export function getWeatherEventsByType(req,res){
   //Logic
 }

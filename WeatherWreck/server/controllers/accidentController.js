@@ -1,4 +1,4 @@
-export function getAllAccidents(req, res){
+export function getAccidents(req, res){
   //Logic
 }
 export function getAccidentsByState(req, res){
