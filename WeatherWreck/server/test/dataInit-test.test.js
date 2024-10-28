@@ -35,7 +35,7 @@ describe('Data Initialization and Matching Tests', function() {
         'LocationLng': '-108.2437', 'Precipitation(in)': '0.5'
       };
 
-      let dataMatch = isDataMatching(accident, weather); 
+      const dataMatch = isDataMatching(accident, weather); 
       return expect(dataMatch).to.be.true;
     });
 
@@ -57,7 +57,7 @@ describe('Data Initialization and Matching Tests', function() {
         'LocationLng': '-108.2437', 'Precipitation(in)': '0.5'
       };
 
-      let dataMatch = isDataMatching(accident, weather); 
+      const dataMatch = isDataMatching(accident, weather); 
       return expect(dataMatch).to.be.false;
     });
   });

@@ -18,13 +18,13 @@ export default [
   {
     languageOptions: {
       globals: {
-        ...globals.node
+        ...globals.node,
+        ...globals.mocha
       },
       sourceType: 'module',
     },
     rules: {
     ////////// Possible Errors //////////
-      'no-console': ['warn', { 'allow': ['error'] }],
       'one-var': ['warn', 'never'],
       'no-undef': 'warn',
       'prefer-const': 'warn',

@@ -1,6 +1,4 @@
 import * as fs from 'fs';
-import * as fsp from 'fs/promises';
-import csv from 'csv-parser';
 import parse from 'csv-parser';
 
 // The paths for the input files
@@ -34,7 +32,7 @@ export async function readCsvData(csvFile) {
   await new Promise((resolve, reject) => {
     fs.createReadStream(csvFile).
       pipe(parse({
-        delimiter: ",",
+        delimiter: ',',
         columns: true,
         ltrim: true,
       })).
@@ -82,7 +80,7 @@ export function writeToAccidentsCsv(accidentCsv, accident) {
   // To do this, I used an example form here
   // https://heynode.com/blog/2020-02/reading-and-writing-csv-files-nodejs/
   const csvData = extractAsCsvForAccidents(accident);
-  fs.writeFile(accidentCsv, csvData+'\n', err => {
+  fs.writeFile(accidentCsv, csvData + '\n', err => {
     if (err) {
       console.log('Error writing to csv file', err);
     } else {
@@ -103,12 +101,12 @@ function extractAsCsvForAccidents(accident) {
   // To do this, I used an example form here
   // https://heynode.com/blog/2020-02/reading-and-writing-csv-files-nodejs/
   const rows = accident.map(acc =>
-     `${acc.ID}, ${acc.State}, ${acc.City}, ${acc.Severity}, ${acc.Start_Time}, 
-      ${acc.End_Time}, ${acc.Start_Lat}, ${acc.Start_Lng}, ${acc.Description},
-      ${acc.Street}, ${acc.End_lat}, ${acc.End_Lng}, ${acc['Distance(mi)']},
-      ${acc.Weather_Condition}`
+    `${acc.ID}, ${acc.State}, ${acc.City}, ${acc.Severity}, ${acc.Start_Time}, 
+    ${acc.End_Time}, ${acc.Start_Lat}, ${acc.Start_Lng}, ${acc.Description},
+    ${acc.Street}, ${acc.End_lat}, ${acc.End_Lng}, ${acc['Distance(mi)']},
+    ${acc.Weather_Condition}`
   );
-  return rows.join("\n");
+  return rows.join('\n');
 }
 
 /**
@@ -152,8 +150,8 @@ function extractAsCsvForAccidentsHeader() {
   const accidentColumns = [
     'ID,State,City,Severity,Start_Time,End_Time,Start_Lat,Start_Lng,',
     'Description,Street,End_lat,End_Lng,Distance(mi),Weather_Condition'
-  ].join("");
-  return accidentColumns + "\n";
+  ].join('');
+  return accidentColumns + '\n';
 }
 
 /**
@@ -168,7 +166,7 @@ export function writeToWeatherCsv(weatherCsv, weather) {
   // To do this, I used an example form here
   // https://heynode.com/blog/2020-02/reading-and-writing-csv-files-nodejs/
   const csvData = extractAsCsvForWeather(weather);
-  fs.writeFile(weatherCsv, csvData+'\n', err => {
+  fs.writeFile(weatherCsv, csvData + '\n', err => {
     if (err) {
       console.log('Error writing to csv file', err);
     } else {
@@ -189,11 +187,11 @@ function extractAsCsvForWeather(weather) {
   // To do this, I used an example form here
   // https://heynode.com/blog/2020-02/reading-and-writing-csv-files-nodejs/
   const rows = weather.map(wea =>
-     `${wea.EventId}, ${wea.State}, ${wea.City}, ${wea['StartTime(UTC)']},  
-      ${wea['EndTime(UTC)']}, ${wea.Severity}, ${wea.Type},
-      ${wea.LocationLat}, ${wea.LocationLng}, ${wea['Precipitation(in)']}`
+    `${wea.EventId}, ${wea.State}, ${wea.City}, ${wea['StartTime(UTC)']},  
+    ${wea['EndTime(UTC)']}, ${wea.Severity}, ${wea.Type},
+    ${wea.LocationLat}, ${wea.LocationLng}, ${wea['Precipitation(in)']}`
   );
-  return rows.join("\n");
+  return rows.join('\n');
 }
 
 /**
@@ -219,7 +217,7 @@ export function writeToWeatherCsvHeader(weatherCsv) {
         console.log(`Header saved to ${weatherCsv}`);
       }
     });
-}
+  }
 }
 
 /**
@@ -237,8 +235,8 @@ function extractAsCsvForWeatherHeader() {
   const weatherColumns = [
     'EventId,State,City,StartTime(UTC),EndTime(UTC),Severity,', 
     'Type,LocationLat,LocationLng,Precipitation(in)'
-  ].join("");
-  return weatherColumns + "\n";
+  ].join('');
+  return weatherColumns + '\n';
 }
 
 /**
@@ -254,10 +252,13 @@ function extractAsCsvForWeatherHeader() {
 export function isDataMatching(accident, weather) {
   const accidentStartTime = new Date(accident['Start_Time']);
   const weatherStartTime = new Date(weather['StartTime(UTC)']);
-  const weatherEndTime = new Date(weather['StartTime(UTC)']);
 
-  const accidentDate = accidentStartTime.getFullYear() + "-"+accidentStartTime.getMonth() + "-" + accidentStartTime.getDate();
-  const weatherDate = weatherStartTime.getFullYear() + "-"+weatherStartTime.getMonth() + "-" + weatherStartTime.getDate();
+  const accidentDate = accidentStartTime.getFullYear() + '-' + 
+                       accidentStartTime.getMonth() + '-' + 
+                       accidentStartTime.getDate();
+  const weatherDate = weatherStartTime.getFullYear() + '-' +
+                      weatherStartTime.getMonth() + '-' + 
+                      weatherStartTime.getDate();
 
   if (
     accident.State === weather.State &&
@@ -289,7 +290,7 @@ export function addMatchingData(accident, weather, accidentCsv, weatherCsv) {
       console.log('Matching accident data saved.');
     }
     
-    if (!eventExists(weatherCsvStream, weather.EventId)) {
+    if (!eventExists(weatherCsv, weather.EventId)) {
       // Writing matched weather event to CSV
       writeToWeatherCsv(weatherCsv, weather);
       console.log('Matching weather data saved.');
