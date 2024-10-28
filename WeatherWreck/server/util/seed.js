@@ -18,6 +18,41 @@ async function getFilePaths(folderPath) {
   }
 };
 
+/**
+ * Formats the data before sending to the data base for ease of use
+ * formats depending on the type
+ */
+function formatFile(row, type){
+  let formatData;
+  if(type.includes('CarAccidents')){
+    const startPoint = [row.Start_Lng, row.Start_Lat];
+    const endPoint = [row.End_Lng, row.End_lat];
+    row['Date'] = row.Start_Time.split(' ')[0];
+    row['Start_Time'] = row.Start_Time.split(' ')[1];
+    row['End_Time'] = row.End_Time.split(' ')[1];
+    //remove now useless rows
+    delete row['Start_Lat']
+    delete row['Start_Lng']
+    delete row['End_lat']
+    delete row['End_Lng']
+    formatData = {  
+      ...row,
+      'Start_Point': startPoint,
+      'End_Point': endPoint,
+    };
+  }else{
+        //remove now useless rows
+    delete row["LocationLng"];
+    delete row["LocationLat"];
+    row['Date'] = row["StartTime(UTC)"].split(' ')[0];
+    row['StartTime(UTC)'] = row["StartTime(UTC)"].split(' ')[1];
+    row["EndTime(UTC)"] = row["EndTime(UTC)"].split(' ')[1];
+    formatData = {
+      ...row
+    }
+  }
+  return formatData;
+}
 const csvFiles = await getFilePaths(folderPath);
 const data = collections.map((coll, index) =>  ({
   'name': coll,
