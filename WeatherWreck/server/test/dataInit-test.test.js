@@ -79,6 +79,33 @@ describe('Data Initialization and Matching Tests', function() {
     });
   });
 
+  describe('Adding matching events', function() {
+    it('It should pass if matches added to the accidents CSV file', async function() {
+      await matchAccidentsWithWeather(trimmedMockAccidents, trimmedMockWeather, matchedMockAccidentsCsv, matchedMockWeatherCsv);
+      const weatherData = await readCsvData(matchedMockWeatherCsv);
+      const accidentData = await readCsvData(matchedMockAccidentsCsv)
+
+      const accident = {
+        ID: 'A-512236', State: 'WA', City: 'Seattle',
+        Severity: 3, Start_Time: '2022-11-20T10:30:00Z',
+        End_Time: '2022-11-20T11:15:00Z', Start_Lat: '47.6062',
+        Start_Lng: '-122.3321', Description: 'Collision on I-5 Northbound near Madison St.',
+        Street: 'I-5 N', End_lat: '', End_Lng: '', 'Distance(mi)': '0.0',
+        'Temperature(F)': '55.0'
+      };
+      const weather = {
+          EventId: 'W-2238', State: 'WA', City: 'Seattle',
+          'StartTime(UTC)': '2022-11-20T10:30:00Z',
+          'EndTime(UTC)': '2022-11-20T11:15:00Z',
+          Severity: 1, Type: 'Snow', LocationLat: '47.6062',
+          LocationLng: '-122.3321', 'Precipitation(in)': '0.0'
+      };
+
+      expect(accidentData).to.include(accident);
+      expect(weatherData).to.include(weather);
+    });
+  });
+
   // describe('Event exists in JSON', function() {
   //   it('Should return false if the event ID does not exist in the file in CSV files', async function() {
   //     const accidentCsvStream = initializeAccidentsStream(matchedMockAccidentsCsv);
