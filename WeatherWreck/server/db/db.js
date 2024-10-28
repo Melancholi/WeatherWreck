@@ -90,6 +90,10 @@ class DB{
    * @param {Object} query - The MongoDB query object specifying search conditions
    * @param {string} collName The name of the collection to read
    * @returns {Array} The matching documents
+   * @example
+   * const read = await db.readByCondition('CarAccidents' ,{State: 'IL',City: 'Bartlett' })
+   * 'You can also index the data'
+   * read[0] -> {id:1323, desc: 'example single data', state: 'IL', city:'Bartlett'}
    */
   async readByCondition(collName, query) {
     if (!instance.collections[collName]) {
