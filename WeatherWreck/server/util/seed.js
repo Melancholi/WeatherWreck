@@ -31,25 +31,25 @@ function formatFile(row, type){
     row['Start_Time'] = row.Start_Time.split(' ')[1];
     row['End_Time'] = row.End_Time.split(' ')[1];
     //remove now useless rows
-    delete row['Start_Lat']
-    delete row['Start_Lng']
-    delete row['End_lat']
-    delete row['End_Lng']
+    delete row['Start_Lat'];
+    delete row['Start_Lng'];
+    delete row['End_lat'];
+    delete row['End_Lng'];
     formatData = {  
       ...row,
       'Start_Point': startPoint,
       'End_Point': endPoint,
     };
   }else{
-        //remove now useless rows
-    delete row["LocationLng"];
-    delete row["LocationLat"];
-    row['Date'] = row["StartTime(UTC)"].split(' ')[0];
-    row['StartTime(UTC)'] = row["StartTime(UTC)"].split(' ')[1];
-    row["EndTime(UTC)"] = row["EndTime(UTC)"].split(' ')[1];
+    //remove now useless rows
+    delete row['LocationLng'];
+    delete row['LocationLat'];
+    row['Date'] = row['StartTime(UTC)'].split(' ')[0];
+    row['StartTime(UTC)'] = row['StartTime(UTC)'].split(' ')[1];
+    row['EndTime(UTC)'] = row['EndTime(UTC)'].split(' ')[1];
     formatData = {
-      ...row
-    }
+      ...row,
+    };
   }
   return formatData;
 }
@@ -76,8 +76,8 @@ const data = collections.map((coll, index) =>  ({
         }).
           on('data', (row) => {
             //format the data before sending
-            const formatData = formatFile(row , collection['name']);
-            dataToInsert.push(formatData)
+            const formatData = formatFile(row, collection['name']);
+            dataToInsert.push(formatData);
           }).
           on('end', resolve).
           on('error', reject); 
