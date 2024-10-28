@@ -98,7 +98,7 @@ function extractAsCsvForAccidents(accident) {
      `${acc.ID}, ${acc.State}, ${acc.City}, ${acc.Severity}, ${acc.Start_Time}, 
       ${acc.End_Time}, ${acc.Start_Lat}, ${acc.Start_Lng}, ${acc.Description},
       ${acc.Street}, ${acc.End_lat}, ${acc.End_Lng}, ${acc['Distance(mi)']},
-      ${acc['Temperature(F)']}`
+      ${acc.Weather_Condition}`
   );
   return rows.join("\n");
 }
@@ -143,7 +143,7 @@ function extractAsCsvForAccidentsHeader() {
   // https://heynode.com/blog/2020-02/reading-and-writing-csv-files-nodejs/
   const accidentColumns = [
     "ID, State, City, Severity, Start_Time, End_Time, Start_Lat, Start_Lng,",
-    " Description, Street, End_lat, End_Lng, Distance(mi), Temperature(F)"
+    " Description, Street, End_lat, End_Lng, Distance(mi), Weather_Condition"
   ].join("");
   return accidentColumns + "\n";
 }

@@ -52,7 +52,7 @@ describe('trimAccidentData', function() {
       expect(headers).to.deep.equal([
         'ID', 'State', 'City', 'Severity', 'Start_Time', 'End_Time', 
         'Start_Lat', 'Start_Lng', 'Description', 'Street', 
-        'End_lat', 'End_Lng', 'Distance(mi)', 'Temperature(F)'
+        'End_lat', 'End_Lng', 'Distance(mi)', 'Weather_Condition'
       ]);
       
       // Checking that at least one 2022 entry exists

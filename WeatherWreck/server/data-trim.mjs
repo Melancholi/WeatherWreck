@@ -46,7 +46,7 @@ export async function trimAccidentData(inputFile, outputFile) {
     'End_lat', 
     'End_Lng', 
     'Distance(mi)', 
-    'Temperature(F)'
+    'Weather_Condition'
   ];
   
   return new Promise((resolve, reject) => {
