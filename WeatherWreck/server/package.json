@@ -2,9 +2,11 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --timeout 10000"
+    "test": "mocha --timeout 10000",
+    "lint": "eslint ."
   },
   "keywords": [],
   "author": "Youry_Morgan_Nelson",
