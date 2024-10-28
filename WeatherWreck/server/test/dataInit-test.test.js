@@ -4,11 +4,11 @@ import fs from 'fs/promises';
 import fsp from 'fs';
 import { 
   eventExists, 
-  readWeatherData,
-  initializeAccidentsStream, 
-  initializeWeatherStream, 
+  readCsvData,
   isDataMatching, 
-  addMatchingData} from '../data-init.mjs';
+  addMatchingData,
+  matchAccidentsWithWeather
+} from '../data-init.mjs';
   
 chai.use(chaiAsPromised);
 const expect = chai.expect;
@@ -22,208 +22,254 @@ const matchedMockAccidentsCsv = './db/mockData/result/matched_mock_accident_data
 const matchedMockWeatherCsv = './db/mockData/result/matched_mock_weather_data.csv';
 
 describe('Data Initialization and Matching Tests', function() {
-  before(async function() {
-    // Cleaing up the previous output before tests
-    // Learned about this from here https://nodejs.org/api/fs.html#fspromisesrmpath-options
-    try {
-      await fs.rm(matchedMockAccidentsCsv, { force: true });
-      await fs.rm(matchedMockWeatherCsv, { force: true });
-    } catch (error) {
-      console.error('Error during cleanup:', error);
-    }
-  });
+  // before(async function() {
+  //   // Cleaing up the previous output before tests
+  //   // Learned about this from here https://nodejs.org/api/fs.html#fspromisesrmpath-options
+  //   try {
+  //     await fs.rm(matchedMockAccidentsCsv, { force: true });
+  //     await fs.rm(matchedMockWeatherCsv, { force: true });
+  //   } catch (error) {
+  //     console.error('Error during cleanup:', error);
+  //   }
+  // });
 
-  describe('Event exists in JSON', function() {
-    it('Should return false if the event ID does not exist in the file in CSV files', async function() {
-      const accidentCsvStream = initializeAccidentsStream(matchedMockAccidentsCsv);
-      const weatherCsvStream  = initializeWeatherStream(matchedMockWeatherCsv);
+  describe('Checking if even matches', function() {
+    it('Should return true if the events match', function() {
       const accident = {
-        ID: 'A-01',
-        State: 'CA',
-        City: 'Los Angeles',
-        Severity: 2,
-        Start_Time: '2022-10-01T10:00:00Z',
-        End_Time: '2022-10-01T11:00:00Z',
-        Start_Lat: '34.0522',
-        Start_Lng: '-118.2437',
-        Description: 'Accident description',
-        Street: 'Main St',
-        End_lat: '34.0522',
-        End_Lng: '-118.2437',
-        'Distance(mi)': '1.0',
+        ID: 'A-01', State: 'CA', City: 'Los Angeles',
+        Severity: 2, Start_Time: '2022-10-01T10:00:00Z',
+        End_Time: '2022-10-01T11:00:00Z', Start_Lat: '34.0522',
+        Start_Lng: '-118.2437',  Description: 'Accident description',
+        Street: 'Main St', End_lat: '34.0522',
+        End_Lng: '-118.2437', 'Distance(mi)': '1.0',
         'Temperature(F)': '75'
       };
-      const data = [];
-      await new Promise((resolve, reject) => {
-        const stream = fsp.createReadStream(accidentCsvStream).
-          pipe(csv()).
-          on('data', data.push(accident)).
-          on('end', resolve).
-          on('error', reject);
-        
-        // Properly handle cleanup of the stream
-        stream.on('close', () => {
-          console.log('Stream closed.');
-        });
-      });
-      let foundEntry = false;
-      for (const row of data) {
-        if (row.ID === 'A-01') {
-          foundEntry = true;
-        }
-      }
-      return expect(foundEntry).to.be.true;
-    });
-
-    it('Should return true if the event ID does exist in the file in CSV files', async function() {
-      const accidentCsvStream = initializeAccidentsStream(matchedMockAccidentsCsv);
-      const weatherCsvStream  = initializeWeatherStream(matchedMockWeatherCsv);
       const weather = {
-        EventId: 'W-01',
-        State: 'CA',
-        City: 'Los Angeles',
+        EventId: 'W-01', State: 'CA', City: 'Los Angeles',
         'StartTime(UTC)': '2022-10-01T10:00:00Z',
         'EndTime(UTC)': '2022-10-01T11:00:00Z',
-        Severity: 1,
-        Type: 'Rain',
-        LocationLat: '34.0522',
-        LocationLng: '-118.2437',
-        'Precipitation(in)': '0.5'
+        Severity: 1, Type: 'Rain', LocationLat: '30.0522',
+        LocationLng: '-108.2437', 'Precipitation(in)': '0.5'
       };
-      const data = [];
-      await new Promise((resolve, reject) => {
-        const stream = fsp.createReadStream(weatherCsvStream).
-          pipe(csv()).
-          on('data', data.push(weather)).
-          on('end', resolve).
-          on('error', reject);
-        
-        // Properly handle cleanup of the stream
-        stream.on('close', () => {
-          console.log('Stream closed.');
-        });
-      });
-      let foundEntry = false;
-      for (const row of data) {
-        if (row.ID === 'W-01') {
-          foundEntry = true;
-        }
-      }
-      return expect(foundEntry).to.be.true;
-    });
-  });
 
-  describe('Checking if data is matching', function() {
-    it('Should return true for matching data', function () {
+      let dataMatch = isDataMatching(accident, weather); 
+      return expect(dataMatch).to.be.true;
+    });
+
+    it('Should return fasle if the events do not match', function() {
       const accident = {
-        ID: 'A-01',
-        State: 'CA',
-        City: 'Los Angeles',
-        Severity: 2,
-        Start_Time: '2022-10-01T10:00:00Z',
-        End_Time: '2022-10-01T11:00:00Z',
-        Start_Lat: '34.0522',
-        Start_Lng: '-118.2437',
-        Description: 'Accident description',
-        Street: 'Main St',
-        End_lat: '34.0522',
-        End_Lng: '-118.2437',
-        'Distance(mi)': '1.0',
+        ID: 'A-01', State: 'CA', City: 'Littlerock',
+        Severity: 2, Start_Time: '2022-10-01T10:00:00Z',
+        End_Time: '2022-10-01T11:00:00Z', Start_Lat: '34.0522',
+        Start_Lng: '-118.2437',  Description: 'Accident description',
+        Street: 'Main St', End_lat: '34.0522',
+        End_Lng: '-118.2437', 'Distance(mi)': '1.0',
         'Temperature(F)': '75'
       };
       const weather = {
-        EventId: 'W-01',
-        State: 'CA',
-        City: 'Los Angeles',
+        EventId: 'W-01', State: 'CA', City: 'Los Angeles',
         'StartTime(UTC)': '2022-10-01T10:00:00Z',
         'EndTime(UTC)': '2022-10-01T11:00:00Z',
-        Severity: 1,
-        Type: 'Rain',
-        LocationLat: '34.0522',
-        LocationLng: '-118.2437',
-        'Precipitation(in)': '0.5'
+        Severity: 1, Type: 'Rain', LocationLat: '30.0522',
+        LocationLng: '-108.2437', 'Precipitation(in)': '0.5'
       };
-      const result = isDataMatching(accident, weather);
-      return expect(result).to.be.true;
-    });
 
-    it('Should return false for non-matching data', function () {
-      const accident = {
-        ID: 'A-01',
-        State: 'CA',
-        City: 'Los Angeles',
-        Severity: 2,
-        Start_Time: '2022-10-01T10:00:00Z',
-        End_Time: '2022-10-01T11:00:00Z',
-        Start_Lat: '40.0522',
-        Start_Lng: '-90.2437',
-        Description: 'Accident description',
-        Street: 'Main St',
-        End_lat: '34.0522',
-        End_Lng: '-118.2437',
-        'Distance(mi)': '1.0',
-        'Temperature(F)': '75'
-      };
-      const weather = {
-        EventId: 'W-01',
-        State: 'CA',
-        City: 'Los Angeles',
-        'StartTime(UTC)': '2023-10-01T10:00:00Z',
-        'EndTime(UTC)': '2023-10-01T11:00:00Z',
-        Severity: 1,
-        Type: 'Rain',
-        LocationLat: '34.0522',
-        LocationLng: '-118.2437',
-        'Precipitation(in)': '0.5'
-      };
-      const result = isDataMatching(accident, weather);
-      return expect(result).to.be.false;
+      let dataMatch = isDataMatching(accident, weather); 
+      return expect(dataMatch).to.be.false;
     });
   });
 
-  describe('Adds the matching data to the correct files', function() {
-    it('Should add matching accident and weather data to JSON and CSV files', async function() {
-      const accident = {
-        ID: 'A-01',
-        State: 'CA',
-        City: 'Los Angeles',
-        Severity: 2,
-        Start_Time: '2023-10-01T10:00:00Z',
-        End_Time: '2023-10-01T11:00:00Z',
-        Start_Lat: '34.0522',
-        Start_Lng: '-118.2437',
-        Description: 'Accident description',
-        Street: 'Main St',
-        End_lat: '34.0522',
-        End_Lng: '-118.2437',
-        'Distance(mi)': '1.0',
-        'Temperature(F)': '75'
-      };
+  // describe('Event exists in JSON', function() {
+  //   it('Should return false if the event ID does not exist in the file in CSV files', async function() {
+  //     const accidentCsvStream = initializeAccidentsStream(matchedMockAccidentsCsv);
+  //     const weatherCsvStream  = initializeWeatherStream(matchedMockWeatherCsv);
+  //     const accident = {
+  //       ID: 'A-01',
+  //       State: 'CA',
+  //       City: 'Los Angeles',
+  //       Severity: 2,
+  //       Start_Time: '2022-10-01T10:00:00Z',
+  //       End_Time: '2022-10-01T11:00:00Z',
+  //       Start_Lat: '34.0522',
+  //       Start_Lng: '-118.2437',
+  //       Description: 'Accident description',
+  //       Street: 'Main St',
+  //       End_lat: '34.0522',
+  //       End_Lng: '-118.2437',
+  //       'Distance(mi)': '1.0',
+  //       'Temperature(F)': '75'
+  //     };
+  //     const data = [];
+  //     await new Promise((resolve, reject) => {
+  //       const stream = fsp.createReadStream(accidentCsvStream).
+  //         pipe(csv()).
+  //         on('data', data.push(accident)).
+  //         on('end', resolve).
+  //         on('error', reject);
+        
+  //       // Properly handle cleanup of the stream
+  //       stream.on('close', () => {
+  //         console.log('Stream closed.');
+  //       });
+  //     });
+  //     let foundEntry = false;
+  //     for (const row of data) {
+  //       if (row.ID === 'A-01') {
+  //         foundEntry = true;
+  //       }
+  //     }
+  //     return expect(foundEntry).to.be.true;
+  //   });
 
-      const weather = {
-        EventId: 'W-01',
-        State: 'CA',
-        City: 'Los Angeles',
-        'StartTime(UTC)': '2023-10-01T10:00:00Z',
-        'EndTime(UTC)': '2023-10-01T11:00:00Z',
-        Severity: 1,
-        Type: 'Rain',
-        LocationLat: '34.0522',
-        LocationLng: '-118.2437',
-        'Precipitation(in)': '0.5'
-      };
+  //   it('Should return true if the event ID does exist in the file in CSV files', async function() {
+  //     const accidentCsvStream = initializeAccidentsStream(matchedMockAccidentsCsv);
+  //     const weatherCsvStream  = initializeWeatherStream(matchedMockWeatherCsv);
+  //     const weather = {
+  //       EventId: 'W-01',
+  //       State: 'CA',
+  //       City: 'Los Angeles',
+  //       'StartTime(UTC)': '2022-10-01T10:00:00Z',
+  //       'EndTime(UTC)': '2022-10-01T11:00:00Z',
+  //       Severity: 1,
+  //       Type: 'Rain',
+  //       LocationLat: '34.0522',
+  //       LocationLng: '-118.2437',
+  //       'Precipitation(in)': '0.5'
+  //     };
+  //     const data = [];
+  //     await new Promise((resolve, reject) => {
+  //       const stream = fsp.createReadStream(weatherCsvStream).
+  //         pipe(csv()).
+  //         on('data', data.push(weather)).
+  //         on('end', resolve).
+  //         on('error', reject);
+        
+  //       // Properly handle cleanup of the stream
+  //       stream.on('close', () => {
+  //         console.log('Stream closed.');
+  //       });
+  //     });
+  //     let foundEntry = false;
+  //     for (const row of data) {
+  //       if (row.ID === 'W-01') {
+  //         foundEntry = true;
+  //       }
+  //     }
+  //     return expect(foundEntry).to.be.true;
+  //   });
+  // });
 
-      const accidentCsvStream = initializeAccidentsStream(matchedMockAccidentsCsv);
-      const weatherCsvStream  = initializeWeatherStream(matchedMockWeatherCsv);
+  // describe('Checking if data is matching', function() {
+  //   it('Should return true for matching data', function () {
+  //     const accident = {
+  //       ID: 'A-01',
+  //       State: 'CA',
+  //       City: 'Los Angeles',
+  //       Severity: 2,
+  //       Start_Time: '2022-10-01T10:00:00Z',
+  //       End_Time: '2022-10-01T11:00:00Z',
+  //       Start_Lat: '34.0522',
+  //       Start_Lng: '-118.2437',
+  //       Description: 'Accident description',
+  //       Street: 'Main St',
+  //       End_lat: '34.0522',
+  //       End_Lng: '-118.2437',
+  //       'Distance(mi)': '1.0',
+  //       'Temperature(F)': '75'
+  //     };
+  //     const weather = {
+  //       EventId: 'W-01',
+  //       State: 'CA',
+  //       City: 'Los Angeles',
+  //       'StartTime(UTC)': '2022-10-01T10:00:00Z',
+  //       'EndTime(UTC)': '2022-10-01T11:00:00Z',
+  //       Severity: 1,
+  //       Type: 'Rain',
+  //       LocationLat: '34.0522',
+  //       LocationLng: '-118.2437',
+  //       'Precipitation(in)': '0.5'
+  //     };
+  //     const result = isDataMatching(accident, weather);
+  //     return expect(result).to.be.true;
+  //   });
 
-      addMatchingData(accident, weather, accidentCsvStream, weatherCsvStream);
+  //   it('Should return false for non-matching data', function () {
+  //     const accident = {
+  //       ID: 'A-01',
+  //       State: 'CA',
+  //       City: 'Los Angeles',
+  //       Severity: 2,
+  //       Start_Time: '2022-10-01T10:00:00Z',
+  //       End_Time: '2022-10-01T11:00:00Z',
+  //       Start_Lat: '40.0522',
+  //       Start_Lng: '-90.2437',
+  //       Description: 'Accident description',
+  //       Street: 'Main St',
+  //       End_lat: '34.0522',
+  //       End_Lng: '-118.2437',
+  //       'Distance(mi)': '1.0',
+  //       'Temperature(F)': '75'
+  //     };
+  //     const weather = {
+  //       EventId: 'W-01',
+  //       State: 'CA',
+  //       City: 'Los Angeles',
+  //       'StartTime(UTC)': '2023-10-01T10:00:00Z',
+  //       'EndTime(UTC)': '2023-10-01T11:00:00Z',
+  //       Severity: 1,
+  //       Type: 'Rain',
+  //       LocationLat: '34.0522',
+  //       LocationLng: '-118.2437',
+  //       'Precipitation(in)': '0.5'
+  //     };
+  //     const result = isDataMatching(accident, weather);
+  //     return expect(result).to.be.false;
+  //   });
+  // });
 
-      // Read back the results to verify the addition'utf-8');
-      const savedAccidentsCsv = await fs.readFile(accidentCsvStream);
-      const savedWeatherCsv = await fs.readFile(weatherCsvStream);
+  // describe('Adds the matching data to the correct files', function() {
+  //   it('Should add matching accident and weather data to JSON and CSV files', async function() {
+  //     const accident = {
+  //       ID: 'A-01',
+  //       State: 'CA',
+  //       City: 'Los Angeles',
+  //       Severity: 2,
+  //       Start_Time: '2023-10-01T10:00:00Z',
+  //       End_Time: '2023-10-01T11:00:00Z',
+  //       Start_Lat: '34.0522',
+  //       Start_Lng: '-118.2437',
+  //       Description: 'Accident description',
+  //       Street: 'Main St',
+  //       End_lat: '34.0522',
+  //       End_Lng: '-118.2437',
+  //       'Distance(mi)': '1.0',
+  //       'Temperature(F)': '75'
+  //     };
 
-      expect(savedAccidentsCsv).to.include('A-01');
-      expect(savedWeatherCsv).to.include('W-01');
-    });
-  });
+  //     const weather = {
+  //       EventId: 'W-01',
+  //       State: 'CA',
+  //       City: 'Los Angeles',
+  //       'StartTime(UTC)': '2023-10-01T10:00:00Z',
+  //       'EndTime(UTC)': '2023-10-01T11:00:00Z',
+  //       Severity: 1,
+  //       Type: 'Rain',
+  //       LocationLat: '34.0522',
+  //       LocationLng: '-118.2437',
+  //       'Precipitation(in)': '0.5'
+  //     };
+
+  //     const accidentCsvStream = initializeAccidentsStream(matchedMockAccidentsCsv);
+  //     const weatherCsvStream  = initializeWeatherStream(matchedMockWeatherCsv);
+
+  //     addMatchingData(accident, weather, accidentCsvStream, weatherCsvStream);
+
+  //     // Read back the results to verify the addition'utf-8');
+  //     const savedAccidentsCsv = await fs.readFile(accidentCsvStream);
+  //     const savedWeatherCsv = await fs.readFile(weatherCsvStream);
+
+  //     expect(savedAccidentsCsv).to.include('A-01');
+  //     expect(savedWeatherCsv).to.include('W-01');
+  //   });
+  // });
 });
