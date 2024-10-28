@@ -142,8 +142,8 @@ function extractAsCsvForAccidentsHeader() {
   // To do this, I used an example form here
   // https://heynode.com/blog/2020-02/reading-and-writing-csv-files-nodejs/
   const accidentColumns = [
-    "ID, State, City, Severity, Start_Time, End_Time, Start_Lat, Start_Lng,",
-    " Description, Street, End_lat, End_Lng, Distance(mi), Weather_Condition"
+    "ID,State,City,Severity,Start_Time,End_Time,Start_Lat,Start_Lng,",
+    "Description,Street,End_lat,End_Lng,Distance(mi),Weather_Condition"
   ].join("");
   return accidentColumns + "\n";
 }
@@ -227,7 +227,8 @@ function extractAsCsvForWeatherHeader() {
   // https://heynode.com/blog/2020-02/reading-and-writing-csv-files-nodejs/
   
   const weatherColumns = [
-    "EventId, State, City, StartTime(UTC), EndTime(UTC), Severity,", " Type, LocationLat, LocationLng, Precipitation(in)"
+    "EventId,State,City,StartTime(UTC),EndTime(UTC),Severity,", 
+    "Type,LocationLat,LocationLng,Precipitation(in)"
   ].join("");
   return weatherColumns + "\n";
 }
