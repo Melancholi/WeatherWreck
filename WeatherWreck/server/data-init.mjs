@@ -150,8 +150,8 @@ function extractAsCsvForAccidentsHeader() {
   // To do this, I used an example form here
   // https://heynode.com/blog/2020-02/reading-and-writing-csv-files-nodejs/
   const accidentColumns = [
-    "ID,State,City,Severity,Start_Time,End_Time,Start_Lat,Start_Lng,",
-    "Description,Street,End_lat,End_Lng,Distance(mi),Weather_Condition"
+    'ID,State,City,Severity,Start_Time,End_Time,Start_Lat,Start_Lng,',
+    'Description,Street,End_lat,End_Lng,Distance(mi),Weather_Condition'
   ].join("");
   return accidentColumns + "\n";
 }
@@ -235,8 +235,8 @@ function extractAsCsvForWeatherHeader() {
   // https://heynode.com/blog/2020-02/reading-and-writing-csv-files-nodejs/
   
   const weatherColumns = [
-    "EventId,State,City,StartTime(UTC),EndTime(UTC),Severity,", 
-    "Type,LocationLat,LocationLng,Precipitation(in)"
+    'EventId,State,City,StartTime(UTC),EndTime(UTC),Severity,', 
+    'Type,LocationLat,LocationLng,Precipitation(in)'
   ].join("");
   return weatherColumns + "\n";
 }
@@ -256,8 +256,8 @@ export function isDataMatching(accident, weather) {
   const weatherStartTime = new Date(weather['StartTime(UTC)']);
   const weatherEndTime = new Date(weather['StartTime(UTC)']);
 
-  const accidentDate = accidentStartTime.getFullYear()+"-"+accidentStartTime.getMonth()+"-"+accidentStartTime.getDate();
-  const weatherDate = weatherStartTime.getFullYear()+"-"+weatherStartTime.getMonth()+"-"+weatherStartTime.getDate();
+  const accidentDate = accidentStartTime.getFullYear() + "-"+accidentStartTime.getMonth() + "-" + accidentStartTime.getDate();
+  const weatherDate = weatherStartTime.getFullYear() + "-"+weatherStartTime.getMonth() + "-" + weatherStartTime.getDate();
 
   if (
     accident.State === weather.State &&
@@ -309,7 +309,12 @@ export function addMatchingData(accident, weather, accidentCsv, weatherCsv) {
  * 
  * @author Maara Vanessa Purici
  */
-export async function matchAccidentsWithWeather(accidentFile, weatherFile, matchedAccidentCsv, matchedWeatherCsv) {
+export async function matchAccidentsWithWeather(
+  accidentFile, 
+  weatherFile, 
+  matchedAccidentCsv, 
+  matchedWeatherCsv
+) {
   const accidentData = await readCsvData(accidentFile);
   const weatherData = await readCsvData(weatherFile);
 
