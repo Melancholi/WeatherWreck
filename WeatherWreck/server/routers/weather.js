@@ -7,3 +7,5 @@ router.get('/', weatherController.getWeatherEvents);
 router.get('/state', weatherController.getWeatherEventsByState);
 router.get('/date', weatherController.getWeatherEventsByDate);
 router.get('/type', weatherController.getWeatherEventsByType);
+
+export default router;

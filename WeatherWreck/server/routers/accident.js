@@ -7,3 +7,5 @@ router.get('/', accidentController.getAccidents);
 router.get('/state', accidentController.getAccidentsByState);
 router.get('/date', accidentController.getAccidentsByDate);
 router.get('/severity', accidentController.getAccidentsBySeverity);
+
+export default router;
