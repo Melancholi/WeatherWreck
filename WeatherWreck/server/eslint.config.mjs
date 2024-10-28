@@ -46,14 +46,6 @@ export default [
       'no-multi-str': 'warn',
       'no-self-compare': 'warn',
       'strict': ['warn', 'global'],
-      "no-consonle": [
-          "warn",
-          {
-            "allow": [
-              "error"
-            ]
-          }
-        ],
       'no-lonely-if': 'warn',
       ////////// Style for Graded Submissions //////////
       'array-bracket-spacing': ['error', 'never'],
