@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as fsp from 'fs/promises';
 import csv from 'csv-parser';
-import { parse } from 'csv-parser';
+import parse from 'csv-parser';
 
 // The paths for the input files
 const trimmedAccidentsPath = './db/initialDB/Trimmed_Accidents.csv';
@@ -237,7 +237,7 @@ function extractAsCsvForWeatherHeader() {
 
 /**
  * This function is used to check if the accdient and weather data match
- * based on State, City, Location Latitude and Logitude and Time
+ * based on State, City and Time
  * 
  * @param {Object} accident - The accident data object 
  * @param {Object} weather - The weather data object 
@@ -249,8 +249,6 @@ export function isDataMatching(accident, weather) {
   if (
     accident.State === weather.State &&
     accident.City === weather.City &&
-    accident.Start_Lat === weather.LocationLat &&
-    accident.Start_Lng === weather.LocationLng &&
     accident.Start_Time === weather['StartTime(UTC)']
   ) {
     return true;
