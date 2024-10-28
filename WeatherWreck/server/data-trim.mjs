@@ -61,6 +61,8 @@ export async function trimAccidentData(inputFile, outputFile) {
       on('data', (accident) => {
         // This code runs each time data is available to read
         const startTime = new Date(accident['Start_Time']);
+        // Learned about getFullYear from
+        // https://stackoverflow.com/questions/6002254/get-the-current-year-in-javascript
         const startYear = startTime.getFullYear();
         // Filtering the data for year 2022
         if (startYear === 2022) {

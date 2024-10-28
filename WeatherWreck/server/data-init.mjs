@@ -10,6 +10,14 @@ import parse from 'csv-parser';
 // The paths for the files that will contain the accident and the weather events that match
 // const matchingAccidentsCsvPath = './db/initialDB/result/Matching_Accidents_CSV.csv';
 // const matchingWeathersCsvPath = './db/initialDB/result/Matching_Weathers_CSV.csv';
+// Path to the mock files
+const mockAccidents = './db/mockData/mock_accident_data.csv';
+const mockWeather = './db/mockData/mock_weather_data.csv';
+
+// The path to the output files for testing
+const trimmedMockAccidents = './db/mockData/trimmed_mock_accident_data.csv';
+const trimmedMockWeather = './db/mockData/trimmed_mock_weather_data.csv';
+
 
 /**
  * This function is used to read the record from a specific file
@@ -244,10 +252,17 @@ function extractAsCsvForWeatherHeader() {
  * @author Maara Vanessa Purici
  */
 export function isDataMatching(accident, weather) {
+  const accidentStartTime = new Date(accident['Start_Time']);
+  const weatherStartTime = new Date(weather['StartTime(UTC)']);
+  const weatherEndTime = new Date(weather['StartTime(UTC)']);
+
+  const accidentDate = accidentStartTime.getFullYear()+"-"+accidentStartTime.getMonth()+"-"+accidentStartTime.getDate();
+  const weatherDate = weatherStartTime.getFullYear()+"-"+weatherStartTime.getMonth()+"-"+weatherStartTime.getDate();
+
   if (
     accident.State === weather.State &&
     accident.City === weather.City &&
-    accident.Start_Time === weather['StartTime(UTC)']
+    accidentDate === weatherDate
   ) {
     return true;
   }
@@ -295,8 +310,8 @@ export function addMatchingData(accident, weather, accidentCsv, weatherCsv) {
  * @author Maara Vanessa Purici
  */
 export async function matchAccidentsWithWeather(accidentFile, weatherFile, matchedAccidentCsv, matchedWeatherCsv) {
+  const accidentData = await readCsvData(accidentFile);
   const weatherData = await readCsvData(weatherFile);
-  const accidentData = await readCsvData(accidentFile)
 
   try{
     writeToAccidentsCsvHeader(matchedAccidentCsv);
@@ -314,19 +329,14 @@ export async function matchAccidentsWithWeather(accidentFile, weatherFile, match
 /**
  * This function is used to execute the steps
  */
-async function processCSVFiles(
-  accidentsCsv, 
-  weatherCsv,
-  matchingAccidents,
-  matchingWeather
-) {
+async function processCSVFiles() {
   try {
     // Perform the comparison and match relevant data
     await matchAccidentsWithWeather(
-      accidentsCsv, 
-      weatherCsv,
-      matchingAccidents,
-      matchingWeather
+      mockAccidents,
+      mockWeather,
+      trimmedMockAccidents,
+      trimmedMockWeather
     );
 
   } catch (error) {
@@ -335,9 +345,20 @@ async function processCSVFiles(
 }
 
 // Starting the process
-processCSVFiles(
+processCSVFiles();
+
+/**
+ * 
+ * 
+      './db/mockData/trimmed_mock_accident_data.csv',
+      './db/mockData/trimmed_mock_weather_data.csv', 
+      './db/mockData/result/matched_mock_accident_data.csv',
+      './db/mockData/result/matched_mock_weather_data.csv'
+ * 
+ * 
+ * 
   './db/initialDB/Trimmed_Accidents.csv',
   './db/initialDB/Trimmed_Weather.csv', 
   './db/initialDB/result/Matching_Accidents_CSV.csv',
   './db/initialDB/result/Matching_Weathers_CSV.csv'
-);
+ */
