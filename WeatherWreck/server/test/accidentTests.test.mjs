@@ -1,12 +1,12 @@
 /* eslint-disable camelcase */
-import * as chai from './chai';
-import request from './supertest';
-import sinon from './sinon';
-import { db } from '../db/db.js';
+import request from 'supertest';
+import {expect} from 'chai';
+import sinon from 'sinon';
+import { db } from '../db/db.mjs';
 import app from '../api.mjs';
 
 
-const expect = chai.expect;
+// const expect = chai.expect;
 const mockListAccidents = [
   {
     ID: 'A-512230',

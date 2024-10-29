@@ -2,7 +2,7 @@
 import * as chai from './chai';
 import request from './supertest';
 import sinon from './sinon';
-import { db } from '../db/db.js';
+import { db } from '../db/db.mjs';
 import app from '../api.mjs';
 
 const expect = chai.expect;

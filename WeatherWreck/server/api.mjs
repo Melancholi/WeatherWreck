@@ -1,6 +1,6 @@
 import express from 'express';
-import accidentRouter from './routers/accidents.js';
-import weatherRouter from './routers/weather.js';
+import accidentRouter from './routers/accident.mjs';
+import weatherRouter from './routers/weather.mjs';
 
 //Create APP
 const app = express();
@@ -10,3 +10,4 @@ app.use(express.static('./../client/dist'));
 app.use('/api/accidents', accidentRouter);
 app.use('/api/weather', weatherRouter);
 
+export default app;

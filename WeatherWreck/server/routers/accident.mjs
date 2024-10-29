@@ -1,5 +1,5 @@
 import express from 'express';
-import * as accidentController from '../controllers/accidentController.js';
+import * as accidentController from '../controllers/accidentController.mjs';
 
 const router = express.Router();
 

@@ -1,19 +1,18 @@
-import {db} from '../db/db.js';
+import {db} from '../db/db.mjs';
 
 export async function getAccidents(req, res){
   try {
     const accidents = await db.readAll('CarAccidents');
-    res.json(accidents);
+    res.status(200).json(accidents);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 }
 export async function getAccidentsByState(req, res){
   try {
-    const state = req.params.state.toLowerCase();
-    const camelCaseState = state[0].toUpperCase() + state.slice(1);
-    const data = await db.readByCondition('CarAccidents', { State: camelCaseState });
-    res.json(data);
+    const state = req.params.state.toUpperCase();
+    const data = await db.readByCondition('CarAccidents', { State: {$eq : state} });
+    res.status(200).json(data);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -21,8 +20,8 @@ export async function getAccidentsByState(req, res){
 export async function getAccidentsByDate(req, res){
   try {
     const date = req.params.date;
-    const data = await db.readByCondition('CarAccidents', { Date: date });
-    res.json(data);
+    const data = await db.readByCondition('CarAccidents', { Date: {$eq : date} });
+    res.status(200).json(data);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -30,9 +29,8 @@ export async function getAccidentsByDate(req, res){
 export async function getAccidentsBySeverity(req, res){
   try {
     const severity = req.params.severity.toLowerCase();
-    const camelCaseSeverity = severity[0].toUpperCase() + severity.slice(1);
-    const data = await db.readByCondition('CarAccidents', { Severity: camelCaseSeverity });
-    res.json(data);
+    const data = await db.readByCondition('CarAccidents', { Severity: { $eq : severity} });
+    res.status(200).json(data);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

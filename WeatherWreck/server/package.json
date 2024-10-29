@@ -2,9 +2,11 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
   "main": "index.js",
+  "type":"module",
   "scripts": {
+    "start": "node bin/wwww.js",
+    "dev": "nodemon bin/www.js",
     "test": "mocha --timeout 10000",
     "lint": "eslint ."
   },
@@ -12,15 +14,17 @@
   "author": "Youry_Morgan_Nelson",
   "license": "ISC",
   "devDependencies": {
-    "chai": "^5.1.1",
-    "mocha": "^10.7.3",
+    "chai": "^5.1.2",
+    "mocha": "^10.8.0",
     "supertest": "^7.0.0"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
     "eslint": "^9.13.0",
     "express": "^4.21.1",
-    "mongodb": "^6.9.0",
+    "mongodb": "^6.10.0",
+    "csv-parse": "^5.5.6",
+    "csv-parser": "^3.0.0",
     "server": "file:"
   }
 }

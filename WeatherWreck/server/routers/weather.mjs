@@ -1,5 +1,5 @@
 import express from 'express';
-import * as weatherController from '../controllers/weatherController.js';
+import * as weatherController from '../controllers/weatherController.mjs';
 
 const router = express.Router();
 

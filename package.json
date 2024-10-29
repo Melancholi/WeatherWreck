@@ -5,5 +5,8 @@
     "mocha": "^10.7.3",
     "sinon": "^19.0.2",
     "supertest": "^7.0.0"
+  },
+  "dependencies": {
+    "csv": "^6.3.10"
   }
 }
