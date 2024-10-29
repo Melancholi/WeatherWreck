@@ -3,7 +3,8 @@ import request from 'supertest';
 import sinon from 'sinon';
 import { db } from '../db/db.mjs';
 import app from '../api.mjs';
-import {expect} from 'chai';
+import * as chai from 'chai';
+const expect = chai.expect;
 
 const mockListAccidents = [
   {
