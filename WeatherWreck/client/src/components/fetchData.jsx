@@ -17,18 +17,18 @@ export default function FetchData(){
       }
     };
     fetchData();
-  },[]);
+  }, []);
 
   if(loading){
-    return <p> Loading ...</p>
+    return <p> Loading ...</p>;
   }else{
     return( 
-    <div>
-      <h2> Accidents Data</h2>
-      <ul> {data.map((item, index)=>(
-        <li key={index}> {JSON.stringify(item)}</li>
-      ))}
-      </ul>
-    </div>);
+      <div>
+        <h2> Accidents Data</h2>
+        <ul> {data.map((item, index)=>(
+          <li key={index}> {JSON.stringify(item)}</li>
+        ))}
+        </ul>
+      </div>);
   } 
 }

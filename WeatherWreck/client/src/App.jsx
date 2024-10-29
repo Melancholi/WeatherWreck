@@ -1,13 +1,11 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
+import FetchData from './components/fetchData.jsx';
 import './App.css';
 
 function App() {
   return (
     <div>
       <h1>Full-Stack App Demo</h1>
-      <FetchDataStub />
+      <FetchData/>
     </div>
   );
 }
