@@ -105,28 +105,22 @@ const mockListAccidents = [
   }
 ];
 
-const stubDB = sinon.stub(db, 'readAll');
-
-describe('Restoring original function', ()=>{
-  afterEach(()=>{
-    sinon.restore();
-  });
-});
-describe('Mokcing the db', ()=>{
-  beforeEach(()=>{
-    stubDB.resolves(mockListAccidents);
-  });
-});
-
 //Retrives all accidents
 describe('GET /accidents', () => {
+  after(()=>{
+    sinon.restore();
+  });
+  before(()=>{
+    const stubDB = sinon.stub(db, 'readAll');
+    stubDB.resolves(mockListAccidents);
+  });
   it('should retrive all accidents', async()=>{
     const response = await request(app).get('/api/accidents');
-    expect(response.body).to.deep.equal([mockListAccidents]);
+    expect(response.body).to.deep.equal(mockListAccidents);
   });
   it('should respond with status code 200', async () => {
     const response = await request(app).get('/api/accidents');
-    expect(response.statusCode).to.equal(200);
+    expect(response.status).to.equal(200);
   });
 });
 
