@@ -14,5 +14,11 @@
     "csv-parse": "^5.5.6",
     "csv-parser": "^3.0.0",
     "weatherwreck": "file:"
+  },
+  "devDependencies": {
+    "chai": "^5.1.2",
+    "chai-as-promised": "^8.0.0",
+    "mocha": "^10.8.0",
+    "supertest": "^7.0.0"
   }
 }
