@@ -7,7 +7,7 @@ export default function FetchData(){
   useEffect(()=>{
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/accidents'); 
+        const response = await fetch('/api/accidents/'); 
         const result = await response.json();
         setData(result);
       } catch (error) {
