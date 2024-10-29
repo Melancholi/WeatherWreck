@@ -92,29 +92,22 @@ const mockWeatherEvents = [
     Precipitation_in: 0.5
   }
 ];
-
-const stubDB = sinon.stub(db, 'readAll');
-
-describe('Restoring original function', ()=>{
-  afterEach(()=>{
-    sinon.restore();
-  });
-});
-describe('Mokcing the db', ()=>{
-  beforeEach(()=>{
-    stubDB.resolves(mockWeatherEvents);
-  });
-});
-
 //Retrieve all weather events
 describe('GET /weather', () => {
+  before(()=>{
+    const stubDB = sinon.stub(db, 'readAll');
+    stubDB.resolves(mockWeatherEvents);
+  });
+  after(()=>{
+    sinon.restore();
+  });
   it('should retrieve all weather events', async () => {
     const res = await request(app).get('/api/weather');
     expect(res.body).to.deep.equal(mockWeatherEvents);
   });
   it('should respond with status code 200', async () => {
     const response = await request(app).get('/api/weather');
-    expect(response.statusCode).to.equal(200);
+    expect(response.status).to.equal(200);
   });
 });
 
