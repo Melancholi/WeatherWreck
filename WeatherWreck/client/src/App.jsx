@@ -7,7 +7,7 @@ function App() {
   return (
     <div>
       <h1>WeatherWreck</h1>
-      <FetchDataStub />
+      <FetchData/>
     </div>
   );
 }
