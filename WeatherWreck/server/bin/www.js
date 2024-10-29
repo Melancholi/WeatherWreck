@@ -8,8 +8,8 @@ const port = process.env.PORT || 3001;
 (async () => {
   try {
     await db.connect('WeatherWreck');
-    await db.open('WeatherForecast');
     await db.open('CarAccidents');
+    await db.open('WeatherForecast');
     app.listen(port, () => {
       console.log(`Server listening on port ${port}!`);
     });
