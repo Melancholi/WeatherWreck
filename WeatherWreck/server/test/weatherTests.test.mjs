@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
-import * as chai from './chai';
-import request from './supertest';
-import sinon from './sinon';
+import * as chai from 'chai';
+import request from 'supertest';
+import sinon from 'sinon';
 import { db } from '../db/db.mjs';
 import app from '../api.mjs';
 
