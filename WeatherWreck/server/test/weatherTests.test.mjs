@@ -109,11 +109,11 @@ describe('Mokcing the db', ()=>{
 //Retrieve all weather events
 describe('GET /weather', () => {
   it('should retrieve all weather events', async () => {
-    const res = await request(app).get('/weather');
+    const res = await request(app).get('/api/weather');
     expect(res.body).to.deep.equal(mockWeatherEvents);
   });
   it('should respond with status code 200', async () => {
-    const response = await request(app).get('/weather');
+    const response = await request(app).get('/api/weather');
     expect(response.statusCode).to.equal(200);
   });
 });
@@ -121,7 +121,7 @@ describe('GET /weather', () => {
 // Error handling for weather events
 describe('Error Handling for Weather Events', () => {
   it.skip('should handle errors when error thrown', async () => {
-    const res = await request(app).get('/weather');
+    const res = await request(app).get('/api/weather');
     expect(res.body.error).to.equal('Error');
   });
 });
@@ -129,11 +129,11 @@ describe('Error Handling for Weather Events', () => {
 // Retrieve weather events by date
 describe('GET /weather/date/:date', () => {
   it.skip('should retrieve weather events by date', async () => {
-    const res = await request(app).get('/weather/date/2024-10-20');
+    const res = await request(app).get('/api/weather/date/2024-10-20');
     expect(res.body).to.deep.equal(mockWeatherEvents);
   });
   it.skip('should respond with status code 200', async () => {
-    const response = await request(app).get('/weather/date/2024-10-20');
+    const response = await request(app).get('/api/weather/date/2024-10-20');
     expect(response.statusCode).to.equal(200);
   });
 });
@@ -141,11 +141,11 @@ describe('GET /weather/date/:date', () => {
 // Retrieve weather events by state
 describe('GET /weather/state/:state', () => {
   it.skip('should retrieve weather events by state', async () => {
-    const res = await request(app).get('/weather/type/storm');
+    const res = await request(app).get('/api/weather/type/storm');
     expect(res.body).to.deep.equal(mockWeatherEvents);
   });
   it.skip('should respond with status code 200', async () => {
-    const response = await request(app).get('/weather/type/storm');
+    const response = await request(app).get('/api/weather/type/storm');
     expect(response.statusCode).to.equal(200);
   });
 });
@@ -153,11 +153,11 @@ describe('GET /weather/state/:state', () => {
 // Retrieve weather events by type
 describe('GET /weather/type/:type', () => {
   it.skip('should retrieve weather events by type', async () => {
-    const res = await request(app).get('/weather/type/storm');
+    const res = await request(app).get('/api/weather/type/storm');
     expect(res.body).to.deep.equal(mockWeatherEvents);
   });
   it.skip('should respond with status code 200', async () => {
-    const response = await request(app).get('/weather/type/storm');
+    const response = await request(app).get('/api/weather/type/storm');
     expect(response.statusCode).to.equal(200);
   });
 });

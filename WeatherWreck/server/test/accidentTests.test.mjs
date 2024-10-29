@@ -133,7 +133,7 @@ describe('GET /accidents', () => {
 describe('Error Handling for Accidents', () => {
   it.skip('should handle errors when error thrown', async () => {
     sinon.stub(db, 'readAll').rejects(new Error('error'));
-    const res = await request(app).get('/accidents');
+    const res = await request(app).get('/api/accidents');
     expect(res.status).to.equal(500);
     expect(res.body.error).to.equal('error');
   });
@@ -142,7 +142,7 @@ describe('Error Handling for Accidents', () => {
 // Retrieve accidents by state
 describe('GET /accidents/state/:state', () => {
   it.skip('should retrieve accidents by state', async () => {
-    const res = await request(app).get('/accidents/state/california');
+    const res = await request(app).get('/api/accidents/state/california');
     expect(res.body).to.deep.equal(mockListAccidents);
   });
   it.skip('should respond with status code 200', async () => {
@@ -154,11 +154,11 @@ describe('GET /accidents/state/:state', () => {
 // Retrieve accidents by date
 describe('GET /accidents/date/:date', () => {
   it.skip('should retrieve accidents by date', async () => {
-    const res = await request(app).get('/accidents/date/2024-10-22');
+    const res = await request(app).get('/api/accidents/date/2024-10-22');
     expect(res.body).to.deep.equal(mockListAccidents);
   });
   it.skip('should respond with status code 200', async () => {
-    const response = await request(app).get('/accidents/date/2024-10-22');
+    const response = await request(app).get('/api/accidents/date/2024-10-22');
     expect(response.statusCode).to.equal(200);
   });
 });
@@ -166,11 +166,11 @@ describe('GET /accidents/date/:date', () => {
 // Retrieve accidents by severity
 describe('GET /accidents/severity/:severity', () => {
   it.skip('should retrieve accidents by severity', async () => {
-    const res = await request(app).get('/accidents/severity/high');
+    const res = await request(app).get('/api/accidents/severity/high');
     expect(res.body).to.deep.equal(mockListAccidents);
   });
   it.skip('should respond with status code 200', async () => {
-    const response = await request(app).get('/accidents/severity/high');
+    const response = await request(app).get('/api/accidents/severity/high');
     expect(response.statusCode).to.equal(200);
   });
 });
