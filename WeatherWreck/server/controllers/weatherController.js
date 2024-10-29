@@ -3,7 +3,7 @@ import {db} from '../db/db.js';
 export async function getWeatherEvents(req,res){
   try {
     const data = await db.readAll('WeatherForcast');
-    res.status(200).json(data);
+    res.json(data);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -13,7 +13,7 @@ export async function getWeatherEventsByState(req,res){
     const state = req.params.state.toLowerCase();
     const camelCaseState = state[0].toUpperCase() + state.slice(1);
     const data = await db.readByCondition('WeatherForcast', { State: camelCaseState });
-    res.status(200).json(data);
+    res.json(data);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
