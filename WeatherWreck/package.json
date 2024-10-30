@@ -11,12 +11,7 @@
   "author": "Maara Vanessa Purici, Iana Feniuc and Youry Nelson",
   "license": "ISC",
   "dependencies": {
-    "csv-parse": "^5.5.6",
     "csv-parser": "^3.0.0",
-    "dotenv": "^16.4.5",
-    "eslint": "^9.13.0",
-    "express": "^4.21.1",
-    "mongodb": "^6.10.0",
     "weatherwreck": "file:"
   },
   "devDependencies": {

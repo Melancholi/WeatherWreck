@@ -40,8 +40,13 @@ async function trimAccidentData(inputFile, outputFile) {
     fs.createReadStream(inputFile)
       .pipe(csv())
       .on('data', (accident) => {
-        const trimmedRow = columnsToKeep.map((col) => accident[col] || '').join(',');
-        writeStream.write(trimmedRow + '\n');
+        const startTime = new Date(accident['Start_Time']);
+        const startYear = startTime.getFullYear();
+        // Filter for year 2022
+        if (startYear == 2022) {
+          const trimmedRow = columnsToKeep.map((col) => accident[col] || '').join(',');
+          writeStream.write(trimmedRow + '\n');
+        }
       })
       .on('end', () => {
         writeStream.end();
@@ -76,8 +81,13 @@ async function trimWeatherData(inputFile, outputFile) {
     fs.createReadStream(inputFile)
       .pipe(csv())
       .on('data', (weather) => {
-        const trimmedRow = columnsToKeep.map((col) => weather[col] || '').join(',');
-        writeStream.write(trimmedRow + '\n');
+        const startTime = new Date(weather['StartTime(UTC)']);
+        const startYear = startTime.getFullYear();
+        // Filter for year 2022
+        if (startYear == 2022) {
+          const trimmedRow = columnsToKeep.map((col) => weather[col] || '').join(',');
+          writeStream.write(trimmedRow + '\n');
+        }
       })
       .on('end', () => {
         writeStream.end();
