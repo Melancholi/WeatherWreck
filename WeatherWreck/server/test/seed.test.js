@@ -8,19 +8,49 @@ import path from 'path';
 const expect = chai.expect;
 chai.use(chaiAsPromised);
 
+/**
+ * Tests for database seeding functionality
+ * 
+ * @author Maara Vanessa Purici
+ */
 describe('Database seed tests', function() {
   const folderPath = path.join('./db', '/mockData');
   let readdirStub;
 
+  /**
+   * Before each test, this function is used to set up the 
+   * stub for fs.readdir
+   * 
+   * @author Maara Vanessa Purici
+   */
   beforeEach(() => {
     readdirStub = sinon.stub(fs, 'readdir');
   });
 
+  /**
+   * After each test, this function is used to restore the stubbed 
+   * methods to their original state
+   * 
+   * @author Maara Vanessa Purici
+   */
   afterEach(() => {
     readdirStub.restore();
   });
 
+  /**
+   * Testing the getFilePath method
+   * Contains tests that check if the file path retrieval is correct
+   * and error handling if it's not 
+   * 
+   * @author Maara Vanessa Purici
+   */
   describe('Testing the getFilePaths method', function() {
+    /**
+     * Tests that the getFilePaths method returns the correct file paths
+     * when the directory contains files
+     * 
+     * @author Maara Vanessa Purici
+     */
     it('Should return file paths correctly', async function() {
       const mockFiles = ['mock_accidents.csv', 'mock_weather.csv'];
       readdirStub.resolves(mockFiles);
@@ -32,6 +62,12 @@ describe('Database seed tests', function() {
       ]);
     });
 
+    /**
+     * Tests that handles the errors and returns an empty array when an error 
+     * occurs in the getFilePath method
+     * 
+     * @author Maara Vanessa Purici
+     */
     it('Should handle errors and return an empty array', async function() {
       readdirStub.rejects(new Error('Directory not found'));
 
@@ -41,7 +77,18 @@ describe('Database seed tests', function() {
 
   });
 
+  /**
+   * Testing the formatFile method
+   * Contains tests to ensure that the data is formated correctly
+   * 
+   * @author Maara Vanessa Purici
+   */
   describe('Testing the formatFile method', function() {
+    /**
+     * Test that makes sure the accident data is formated correclty
+     * 
+     * @author Maara Vanessa Purici
+     */
     it('Should format CarAccidnets data correctly', function() {
       const mockAccidentRow = {
         'ID': 'A-01', 'State': 'TE', 'City': 'Test',
@@ -65,6 +112,11 @@ describe('Database seed tests', function() {
       expect(formattedData).to.not.have.property('End_lat');
     });
     
+    /**
+     * Test that makes sure the weather data is formated correclty
+     * 
+     * @author Maara Vanessa Purici
+     */
     it('Should format WeatherForecast data correctly', function() {
       const mockWeather = {
         'EventId': 'W-01', 'State':'TE', 'City': 'Test',
