@@ -22,9 +22,10 @@ This project is a web application (MERN Stack) that visualizes car accidents and
 ## Structure:
 There are two directories in the root of the project.
 - WeatherWreck contains all the code neede for runing the project
-- The Express server is in server/
-- The React app is in client/
-- The server responsd to API calls and serves the built React app.
+- Inside you will find 2 directories:
+  * The Express server is in server/
+  * The React app is in client/
+  * The server responsd to API calls and serves the built React app.
 
 ## Setup:
 1. Git clone https://gitlab.com/dawson-csy3-24-25/520/section2/teams/TeamL-23-IanaMaaraYoury/520-project-purici-feniuc-nelson.git
