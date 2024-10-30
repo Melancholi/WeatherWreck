@@ -12,5 +12,11 @@
   "license": "ISC",
   "dependencies": {
     "weatherwreck": "file:"
+  },
+  "devDependencies": {
+    "chai": "^5.1.2",
+    "chai-as-promised": "^8.0.0",
+    "mocha": "^10.8.0",
+    "supertest": "^7.0.0"
   }
 }
