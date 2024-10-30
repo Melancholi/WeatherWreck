@@ -1,5 +1,5 @@
 import { getFilePaths, formatFile } from '../util/seed.js';
-import * as fs from 'fs/promises';
+import fs from 'fs/promises';
 import * as chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import sinon from 'sinon';
@@ -10,23 +10,27 @@ chai.use(chaiAsPromised);
 
 describe('Database seed tests', function() {
   const folderPath = path.join('./db', '/mockData');
+  let readdirStub, readFileStub;
+
+  beforeEach(() => {
+    readdirStub = sinon.stub(fs, 'readdir');
+    readFileStub = sinon.stub(fs, 'readFile');
+  });
+
+  afterEach(() => {
+    sinon.restore();
+  });
 
   describe('Testing the getFilePaths method', function() {
-    let readdirStub;
-    before(() => {
-      readdirStub = sinon.stub(fs, 'readdir');
-    });
-
-    after(() => {
-      readdirStub.restore();
-    });
-
     it('Should return file paths correctly', async function() {
       const mockFiles = ['mock_accidents.csv', 'mock_weather.csv'];
       readdirStub.resolves(mockFiles);
 
       const result = await getFilePaths(folderPath);
-      expect(result).to.deep.equal(mockFiles.map(file => path.join(folderPath, file)));
+      expect(result).to.deep.equal([
+        path.join(folderPath, 'mock_accidents.csv'),
+        path.join(folderPath, 'mock_weather.csv')
+      ]);
     });
 
     it('Should handle errors and return an empty array', async function() {
@@ -64,12 +68,12 @@ describe('Database seed tests', function() {
     
     it('Should format WeatherForecast data correctly', function() {
       const mockWeather = {
-        'EventId': 'W-01', 'State':'CO', 'City': 'Saguache',
-        'StartTime': '2022-01-01 12:34:00',
-        'EndTime': '2022-01-01 15:54:00',
+        'EventId': 'W-01', 'State':'QC', 'City': 'Montreal',
+        'StartTime(UTC)': '2022-01-01 12:34:00',
+        'EndTime(UTC)': '2022-01-01 15:54:00',
         'Severity': 'Light', 'Type': 'Snow',
         'LocationLat': 38.0972, 'LocationLng': -106.1689,
-        'Precipitation': 0.0
+        'Precipitation(in)': 0.0
       };
       
       const formattedData = formatFile(mockWeather, 'WeatherForecast')
