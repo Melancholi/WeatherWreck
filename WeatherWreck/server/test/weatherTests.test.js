@@ -113,16 +113,16 @@ describe('GET /weather', () => {
 
 // Error handling for weather events
 describe('Error Handling for Weather Events', () => {
-  before(()=>{
-    const stubDB = sinon.stub(db, 'readAll');
-    stubDB.rejects(new Error('Error'));
-  });
   after(()=>{
     sinon.restore();
   });
+  before(()=>{
+    const stubDB = sinon.stub(db, 'readAll');
+    stubDB.rejects(new Error('error'));
+  });
   it('should handle errors when error thrown', async () => {
     const res = await request(app).get('/api/weather');
-    expect(res.body.error).to.equal('Error');
+    expect(res.body.error).to.equal('error');
   });
 });
 

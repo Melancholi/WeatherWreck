@@ -9,7 +9,7 @@ export default defineConfig({
       // Note that your Express routes must start with `/api` 
       // for the proxy to work
       '/api': {
-        target: 'http://localhost:3000',
+        target: 'http://localhost:3001',
         changeOrigin: true
       },
     },
