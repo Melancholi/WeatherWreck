@@ -8,7 +8,7 @@ const folderPath = path.join('./db', '/mockData');
 const dbName = 'WeatherWreck';
 const collections = ['CarAccidents', 'WeatherForecast'];
 
-async function getFilePaths(folderPath) {
+export async function getFilePaths(folderPath) {
   try{
     const data = await fs.readdir(folderPath);
     return data.map(file => path.join(folderPath, file));
@@ -22,7 +22,7 @@ async function getFilePaths(folderPath) {
  * Formats the data before sending to the data base for ease of use
  * formats depending on the type
  */
-function formatFile(row, type){
+export function formatFile(row, type){
   let formatData;
   if(type.includes('CarAccidents')){
     const startPoint = [row.Start_Lng, row.Start_Lat];
