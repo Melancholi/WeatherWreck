@@ -126,15 +126,14 @@ describe('GET /accidents', () => {
 
 // Error handling for all accidents
 describe('Error Handling for Accidents', () => {
-  skip('should handle errors when error thrown', async () => {
-    after(()=>{
-      sinon.restore();
-    });
-    before(()=>{
-      const stubDB = sinon.stub(db, 'readAll');
-      stubDB.resolves(mockListAccidents);
-    });
-    sinon.stub(db, 'readAll').rejects(new Error('error'));
+  after(()=>{
+    sinon.restore();
+  });
+  before(()=>{
+    const stubDB = sinon.stub(db, 'readAll');
+    stubDB.rejects(new Error('error'));
+  });
+  it('should handle errors when error thrown', async () => {
     const res = await request(app).get('/api/accidents');
     expect(res.status).to.equal(500);
     expect(res.body.error).to.equal('error');
