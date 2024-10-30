@@ -35,7 +35,7 @@ describe('Testing create method', function() {
     stubDBCreate.restore();
   });
 
-  it('Should respond with a 201', async function() {
+  it('Should respond with a 201', async function() {n
     const response = await response(app)
       .post('/new-accident')
       .send(mockAccident)
