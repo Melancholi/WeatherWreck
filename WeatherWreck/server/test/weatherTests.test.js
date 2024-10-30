@@ -97,7 +97,7 @@ const stubDB = sinon.stub(db, 'readAll');
 
 describe('Restoring original function', ()=>{
   afterEach(()=>{
-    sinon.restore();
+    stubDB.restore();
   });
 });
 describe('Mokcing the db', ()=>{
