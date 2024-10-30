@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { MongoClient, ServerApiVersion } from 'mongodb';
 
-const dburl = process.env.ATLAS_URI;
+const dburl = process.env.ATLAS_URI || 'mongodb://localhost:27017/test';
 
 let instance = null;
 
