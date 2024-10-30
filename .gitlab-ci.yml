@@ -1,0 +1,92 @@
+image: node:lts-bullseye-slim
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_TAG
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH == "staging"
+    
+stages:
+  - lint
+  - build
+  - test
+  - deploy
+
+default:
+  cache:  # Cache modules in between jobs for the same branch if package-lock.json file changes
+    key: 
+      prefix: $CI_COMMIT_REF_NAME
+      files:
+        - ./WeatherWreck/server/package-lock.json
+        - ./WeatherWreck/client/package-lock.json
+    paths:
+      - ./WeatherWreck/server/.npm/
+      - ./WeatherWreck/client/.npm
+  # run this before every job; will hit the cache first
+  before_script:
+   - cd ./WeatherWreck/server && npm ci --cache .npm --prefer-offline && cd ../client && npm ci --cache .npm --prefer-offline && cd ..
+   
+install:
+  stage: build
+  script:
+    # Tell npm to cache modules in ./.npm (default is ~/.npm but when running a script
+    # in GitLab CI we need to keep everything is the project root)
+    # npm ci stands for "clean install" and it relies on package-lock.json. 
+    # It is often used in automation to
+    # make sure we create a reproducible testing environment (no stale dependencies from previous jobs)
+    # The --prefer-offline option makes npm avoid fetching a module from the package repository
+    # unless it's missing from the cache
+    - ls -la
+    - cd server && npm ci --cache .npm --prefer-offline
+  # Cache modules in between jobs to avoid re-downloading them
+  # https://docs.gitlab.com/ee/ci/caching/#cache-nodejs-dependencies
+  cache:  
+    # Look up the cache by the commit ref (i.e. only jobs for same commit share cache)
+    key: $CI_COMMIT_REF_SLUG
+    paths:
+      # The path to cache
+      - .npm/
+  # set `node_modules` as an artifact so that the test job can use it
+  artifacts:
+    expire_in: 1 days
+    when: on_success
+    paths:
+      - server/node_modules/
+
+lint-server:
+  stage: lint 
+  script:
+    - ls -la
+    - cd server && ./node_modules/eslint/bin/eslint.js . 
+  allow_failure: false
+
+lint-client:
+  stage: lint 
+  script:
+    - ls -la
+    - cd client && ./node_modules/eslint/bin/eslint.js .
+  allow_failure: false
+  
+server-test:
+    stage: test
+    # Specify that this job only uses artifacts from the install job
+    dependencies:
+        - install
+    script: 
+        - cd server && npm run test  
+
+build-frontend:
+  stage: build
+  script:
+    - cd client && npm run build
+  only:
+    refs:
+      - main
+      - master
+      - staging
+  artifacts:
+    expire_in: 1 days
+    when: on_success
+    paths:
+      - client/build
