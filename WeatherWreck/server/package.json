@@ -4,6 +4,7 @@
   "description": "",
   "type": "module",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node bin/wwww.js",
     "dev": "nodemon bin/www.js",
