@@ -10,15 +10,14 @@ chai.use(chaiAsPromised);
 
 describe('Database seed tests', function() {
   const folderPath = path.join('./db', '/mockData');
-  let readdirStub, readFileStub;
+  let readdirStub;
 
   beforeEach(() => {
     readdirStub = sinon.stub(fs, 'readdir');
-    readFileStub = sinon.stub(fs, 'readFile');
   });
 
   afterEach(() => {
-    sinon.restore();
+    readdirStub.restore();
   });
 
   describe('Testing the getFilePaths method', function() {
@@ -45,17 +44,17 @@ describe('Database seed tests', function() {
   describe('Testing the formatFile method', function() {
     it('Should format CarAccidnets data correctly', function() {
       const mockAccidentRow = {
-        'ID': 'A-01', 'State': 'QC', 'City': 'Montreal',
+        'ID': 'A-01', 'State': 'TE', 'City': 'Test',
         'Start_Time': '2022-10-29 17:27:30',
         'End_Time': '2022-10-29 23:59:00',
         'Start_Lat': 41.946796, 'Start_Lng': -88.208092,
         'End_lat': 41.947796, 'End_Lng': -88.209092
       };
       
-      const formattedData = formatFile(mockAccidentRow, 'CarAccidents')
+      const formattedData = formatFile(mockAccidentRow, 'CarAccidents');
 
       expect(formattedData).to.deep.include({
-        'ID': 'A-01', 'State': 'QC', 'City': 'Montreal',
+        'ID': 'A-01', 'State': 'TE', 'City': 'Test',
         'Date': '2022-10-29',
         'Start_Time': '17:27:30',
         'End_Time': '23:59:00',
@@ -68,7 +67,7 @@ describe('Database seed tests', function() {
     
     it('Should format WeatherForecast data correctly', function() {
       const mockWeather = {
-        'EventId': 'W-01', 'State':'QC', 'City': 'Montreal',
+        'EventId': 'W-01', 'State':'TE', 'City': 'Test',
         'StartTime(UTC)': '2022-01-01 12:34:00',
         'EndTime(UTC)': '2022-01-01 15:54:00',
         'Severity': 'Light', 'Type': 'Snow',
@@ -76,10 +75,10 @@ describe('Database seed tests', function() {
         'Precipitation(in)': 0.0
       };
       
-      const formattedData = formatFile(mockWeather, 'WeatherForecast')
+      const formattedData = formatFile(mockWeather, 'WeatherForecast');
 
       expect(formattedData).to.deep.include({
-        'EventId': 'W-01', 'State':'QC', 'City': 'Montreal',
+        'EventId': 'W-01', 'State':'TE', 'City': 'Test',
         'StartTime(UTC)': '12:34:00', 'EndTime(UTC)': '15:54:00',
         'Severity': 'Light', 'Type': 'Snow',
         'Precipitation(in)': 0.0,
