@@ -4,7 +4,7 @@ import './App.css';
 function App() {
   return (
     <div>
-      <h1>Full-Stack App Demo</h1>
+      <h1> WeatherWreck</h1>
       <FetchData/>
     </div>
   );
