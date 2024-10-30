@@ -1,5 +1,15 @@
 import {db} from '../db/db.mjs';
 
+/**
+ * Retrieves all car accidents from the database and returns them in the response.
+ * If no accidents are found, it responds with a 404 status and an error message.
+ * @async
+ * @function
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @param {Function} next - The next middleware function.
+ * @returns {Promise} - Returns a JSON response with the accidents data or an error message.
+ */
 export async function getAccidents(req, res, next){
   try {
     const accidents = await db.readAll('CarAccidents');
@@ -12,6 +22,18 @@ export async function getAccidents(req, res, next){
     next(res.status(500).json({ error: error.message }));
   }
 }
+
+/**
+ * Retrieves car accidents by a specific U.S. state and returns them in the response.
+ * If no accidents are found for the given state, it responds with a 404 status 
+ * and an error message.
+ * @async
+ * @function
+ * @param {Object} req - The request object containing a state parameter in the URL.
+ * @param {Object} res - The response object.
+ * @param {Function} next - The next middleware function.
+ * @returns {Promise} - Returns a JSON response with the accidents data or an error message.
+ */
 export async function getAccidentsByState(req, res, next){
   try {
     const state = req.params.state.toUpperCase();
@@ -25,6 +47,16 @@ export async function getAccidentsByState(req, res, next){
     next(res.status(500).json({ error: error.message }));
   }
 }
+/**
+ * Retrieves car accidents by a specific date and returns them in the response.
+ * If no accidents are found for the given date, it responds with a 404 status and an error message.
+ * @async
+ * @function
+ * @param {Object} req - The request object containing a date parameter in the URL.
+ * @param {Object} res - The response object.
+ * @param {Function} next - The next middleware function.
+ * @returns {Promise} - Returns a JSON response with the accidents data or an error message.
+ */
 export async function getAccidentsByDate(req, res, next){
   try {
     const date = req.params.date;
@@ -38,6 +70,17 @@ export async function getAccidentsByDate(req, res, next){
     next(res.status(500).json({ error: error.message}));
   }
 }
+/**
+ * Retrieves car accidents by severity level and returns them in the response.
+ * If no accidents are found for the given severity, it responds with a 404 status 
+ * and an error message.
+ * @async
+ * @function
+ * @param {Object} req - The request object containing a severity parameter in the URL.
+ * @param {Object} res - The response object.
+ * @param {Function} next - The next middleware function.
+ * @returns {Promise} - Returns a JSON response with the accidents data or an error message.
+ */
 export async function getAccidentsBySeverity(req, res, next){
   try {
     const severity = req.params.severity.toLowerCase();

@@ -4,8 +4,9 @@ import sinon from 'sinon';
 import { db } from '../db/db.mjs';
 import app from '../api.mjs';
 import * as chai from 'chai';
-const expect = chai.expect;
 
+const expect = chai.expect;
+// Mock data for accident records
 const mockListAccidents = [
   {
     ID: 'A-512230',
@@ -105,7 +106,7 @@ const mockListAccidents = [
   }
 ];
 
-//Retrives all accidents
+// Test retrieving all accidents
 describe('GET /accidents', () => {
   after(()=>{
     sinon.restore();
@@ -124,7 +125,7 @@ describe('GET /accidents', () => {
   });
 });
 
-// Error handling for all accidents
+// Test error handling for retrieving all accidents
 describe('Error Handling for Accidents', () => {
   after(()=>{
     sinon.restore();
@@ -140,7 +141,7 @@ describe('Error Handling for Accidents', () => {
   });
 });
 
-// Retrieve accidents by state
+// Test retrieving accidents by state
 describe('GET /accidents/state/:state', () => {
   it.skip('should retrieve accidents by state', async () => {
     const res = await request(app).get('/api/accidents/state/california');
@@ -152,7 +153,7 @@ describe('GET /accidents/state/:state', () => {
   });
 });
 
-// Retrieve accidents by date
+// Test retrieving accidents by state
 describe('GET /accidents/date/:date', () => {
   it.skip('should retrieve accidents by date', async () => {
     const res = await request(app).get('/api/accidents/date/2024-10-22');
@@ -164,7 +165,7 @@ describe('GET /accidents/date/:date', () => {
   });
 });
 
-// Retrieve accidents by severity
+// Test retrieving accidents by severity
 describe('GET /accidents/severity/:severity', () => {
   it.skip('should retrieve accidents by severity', async () => {
     const res = await request(app).get('/api/accidents/severity/high');

@@ -6,6 +6,8 @@ import { db } from '../db/db.mjs';
 import app from '../api.mjs';
 
 const expect = chai.expect;
+
+// Mock data for weather events to use in tests
 const mockWeatherEvents = [
   {
     EventId: 'W-2229',
@@ -92,7 +94,8 @@ const mockWeatherEvents = [
     Precipitation_in: 0.5
   }
 ];
-//Retrieve all weather events
+
+// Tests for retrieving all weather events
 describe('GET /weather', () => {
   before(()=>{
     const stubDB = sinon.stub(db, 'readAll');
@@ -111,7 +114,7 @@ describe('GET /weather', () => {
   });
 });
 
-// Error handling for weather events
+// Test error handling for weather events
 describe('Error Handling for Weather Events', () => {
   after(()=>{
     sinon.restore();
@@ -126,7 +129,7 @@ describe('Error Handling for Weather Events', () => {
   });
 });
 
-// Retrieve weather events by date
+// Tests for retrieving weather events by date
 describe('GET /weather/date/:date', () => {
   it.skip('should retrieve weather events by date', async () => {
     const res = await request(app).get('/api/weather/date/2024-10-20');
@@ -138,7 +141,7 @@ describe('GET /weather/date/:date', () => {
   });
 });
 
-// Retrieve weather events by state
+// Tests for retrieving weather events by state
 describe('GET /weather/state/:state', () => {
   it.skip('should retrieve weather events by state', async () => {
     const res = await request(app).get('/api/weather/type/storm');
@@ -150,7 +153,7 @@ describe('GET /weather/state/:state', () => {
   });
 });
 
-// Retrieve weather events by type
+// Tests for retrieving weather events by type
 describe('GET /weather/type/:type', () => {
   it.skip('should retrieve weather events by type', async () => {
     const res = await request(app).get('/api/weather/type/storm');
