@@ -5,24 +5,39 @@ const dburl = process.env.ATLAS_URI || 'mongodb://localhost:27017/test';
 
 let instance = null;
 
+/**
+ * Converts the separate date and time into a Date object
+ */
 function parseTime(date, time){
   return new Date(`${date}T${time}`);
 }
-function matchDateAndLocation(accident, event){
+
+/**
+ * Return weather an accident is from the same region and time as an
+ * event
+ */
+function compareDateAndLocation(accident, event){
   return (
     accident.state === event.state &&
     accident.city === event.city &&
     accident.date === event.date
   );
 }
+/**
+ * Checks if the accident happens after the weather event started
+ */
 function checkTimeOverlap(accident, event){
   const accidentStart = parseTime(accident.Date, accident.Start_Time);
   const weatherStart = parseTime(event.Date, event['StartTime(UTC)']);
 
   return weatherStart <= accidentStart;
 }
+
+/**
+ * Checks if the accident happened while the weather event was taking place
+ */
 function isMatch(accident, event){
-  return matchDateAndLocation(accident, event) && checkTimeOverlap(accident, event); 
+  return compareDateAndLocation(accident, event) && checkTimeOverlap(accident, event); 
 }
 
 /**
