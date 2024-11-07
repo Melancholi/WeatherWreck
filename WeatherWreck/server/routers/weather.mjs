@@ -61,6 +61,14 @@ router.get('/', weatherController.getWeatherEvents);
  *   get:
  *     summary: Retrieve weather events for a specific state
  *     description: Retrieve a list of weather events, for a specific state, from MongoDb. Can be used to populate a list of fake weather events when prototyping or testing an API
+ *     parameters:
+ *       - in: path
+ *         name: state
+ *         required: true
+ *         description: The state abbreviation (e.g., IL for Illinois).
+ *         schema:
+ *           type: string
+ *           example: "IL"
  *     responses:
  *       200:
  *         description: A list of weather events for the specified state
@@ -75,6 +83,13 @@ router.get('/state/:state', weatherController.getWeatherEventsByState);
  *   get:
  *     summary: Retrieve weather events for a specific date
  *     description: Retrieve a list of weather events, for a specific date, from MongoDb. Can be used to populate a list of fake weather events when prototyping or testing an API
+ *     parameters:
+ *       - in: path
+ *         name: date
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The date of the weather event in YYYY-MM-DD format
  *     responses:
  *       200:
  *         description: A list of weather events for the specified date
@@ -89,6 +104,13 @@ router.get('/date/:date', weatherController.getWeatherEventsByDate);
  *   get:
  *     summary: Retrieve weather events for a specific type
  *     description: Retrieve a list of weather events, for a specific type, from MongoDb. Can be used to populate a list of fake weather events when prototyping or testing an API
+ *     parameters:
+ *       - in: path
+ *         name: type
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The type of weather event (e.g., Rainstorm, Tornado, etc.)
  *     responses:
  *       200:
  *         description: A list of weather events for the specified type
