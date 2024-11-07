@@ -149,12 +149,15 @@ class DB{
     const data = await Promise.all([collName1, collName2].map(async coll =>
       await this.readByCondition(coll, query)
     ));
+    //depending on order of opening the connections
     const weatherEvents = !data[0][0]['ID'] ? data[0] : data[1];
-    const carAccidents = weatherEvents == data[1] ? data[0] : data[1];
-    console.log(carAccidents);
+    const carAccidents = weatherEvents === data[1] ? data[0] : data[1];
+    
+    //filter data and match it into array of objects mixed with data of two 
+    //collections
     return weatherEvents.map(event =>{
       const accidents = carAccidents.filter(acc => isMatch(acc, event));
-      return { event, accidents };
+      return accidents.map(accident => formatData(event, accident));
     });
   }
   /**
