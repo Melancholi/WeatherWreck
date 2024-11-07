@@ -153,6 +153,23 @@ describe('GET /accidents/state/:state', () => {
   });
 });
 
+// Test error handling for retriving accidents by an invalid state
+describe('GET /accidents/state/:state - invalid state', () => {
+  after(()=>{
+    sinon.restore();
+  });
+  before(()=>{
+    const stubDB = sinon.stub(db, 'readByCondition');
+    // Resolving to an empty array to simulate no results
+    stubDB.resolves([]);
+  });
+  it('should handle errors when error thrown for wrong state', async () => {
+    const res = await request(app).get('/api/accidents/state/invalid');
+    expect(res.status).to.equal(404);
+    expect(res.body.error).to.equal('No accidents found for INVALID');
+  });
+});
+
 // Test retrieving accidents by state
 describe('GET /accidents/date/:date', () => {
   it.skip('should retrieve accidents by date', async () => {
@@ -165,6 +182,23 @@ describe('GET /accidents/date/:date', () => {
   });
 });
 
+// Test error handling for retriving accidents by an invalid date
+describe('GET /accidents/date/:date - invalid date', () => {
+  after(()=>{
+    sinon.restore();
+  });
+  before(()=>{
+    const stubDB = sinon.stub(db, 'readByCondition');
+    // Resolving to an empty array to simulate no results
+    stubDB.resolves([]);
+  });
+  it('should handle errors when error thrown for wrong date', async () => {
+    const res = await request(app).get('/api/accidents/date/2099-12-31');
+    expect(res.status).to.equal(404);
+    expect(res.body.error).to.equal('No accidents found for 2099-12-31');
+  });
+});
+
 // Test retrieving accidents by severity
 describe('GET /accidents/severity/:severity', () => {
   it.skip('should retrieve accidents by severity', async () => {
@@ -174,6 +208,23 @@ describe('GET /accidents/severity/:severity', () => {
   it.skip('should respond with status code 200', async () => {
     const response = await request(app).get('/api/accidents/severity/high');
     expect(response.statusCode).to.equal(200);
+  });
+});
+
+// Test error handling for retriving accidents by an invalid severity
+describe('GET /accidents/severity/:severity - invalid severity', () => {
+  after(()=>{
+    sinon.restore();
+  });
+  before(()=>{
+    const stubDB = sinon.stub(db, 'readByCondition');
+    // Resolving to an empty array to simulate no results
+    stubDB.resolves([]);
+  });
+  it('should handle errors when error thrown for wrong severity', async () => {
+    const res = await request(app).get('/api/accidents/severity/5');
+    expect(res.status).to.equal(404);
+    expect(res.body.error).to.equal('No accidents found for severity 5');
   });
 });
 
