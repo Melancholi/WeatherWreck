@@ -24,6 +24,27 @@ function checkTimeOverlap(accident, event){
 function isMatch(accident, event){
   return matchDateAndLocation(accident, event) && checkTimeOverlap(accident, event); 
 }
+
+/**
+ * Creates new object from information from both event, and accident
+ * @returns {Object} Complete description accident object
+ */
+function formatData(event, accident){
+  return  {
+    'WeatherID': event.EventId,
+    'AccidentID': accident.ID,
+    'State' : accident.State,
+    'City' : accident.City,
+    'Description' : accident.Description,
+    'Start_Time' : accident.Start_Time,
+    'End_Time' : accident.End_Time,
+    'Date' : accident.Date,
+    'Weather_Severity' : event.Severity,
+    'Accident_Severity' : accident.Severity,
+    'Weather_Condition' : event.Type,
+  };
+}
+
 /**
  * Database class, API that allows reading/writing to the mongodb
  */
