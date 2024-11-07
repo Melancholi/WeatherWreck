@@ -122,6 +122,22 @@ class DB{
     }
     return await instance.collections[collName].find(query).toArray();
   }
+  
+  async readByConditionMatch(collName1, collName2, query){
+    if (!(instance.collections[collName1] && instance.collections[collName2])) {
+      throw new Error(`Collection ${collName1, collName2} not opened.`);
+    }
+    const data = await Promise.all([collName1, collName2].map(async coll =>
+      await this.readByCondition(coll, query)
+    ));
+    const weatherEvents = !data[0][0]['ID'] ? data[0] : data[1];
+    const carAccidents = weatherEvents == data[1] ? data[0] : data[1];
+    console.log(carAccidents);
+    return weatherEvents.map(event =>{
+      const accidents = carAccidents.filter(acc => isMatch(acc, event));
+      return { event, accidents };
+    });
+  }
   /**
    * inserts an object into the database
    * @param {JSON} event the data to be added
