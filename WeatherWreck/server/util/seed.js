@@ -29,7 +29,9 @@ export function formatFile(row, type){
     const endPoint = [row.End_Lng, row.End_lat];
     row['Date'] = row.Start_Time.split(' ')[0];
     row['Start_Time'] = row.Start_Time.split(' ')[1];
-    row['End_Time'] = row.End_Time.split(' ')[1];
+    //fix a small issue due to time being 00:00:00
+    row['End_Time'] = row['End_Time'].split(' ')[1] === '00:00:00'
+      ? '23:59:59' : row['End_Time'].split(' ')[1];
     //remove now useless rows
     delete row['Start_Lat'];
     delete row['Start_Lng'];
@@ -46,7 +48,9 @@ export function formatFile(row, type){
     delete row['LocationLat'];
     row['Date'] = row['StartTime(UTC)'].split(' ')[0];
     row['StartTime(UTC)'] = row['StartTime(UTC)'].split(' ')[1];
-    row['EndTime(UTC)'] = row['EndTime(UTC)'].split(' ')[1];
+    //fix a small issue due to time being 00:00:00
+    row['EndTime(UTC)'] = row['EndTime(UTC)'].split(' ')[1] === '00:00:00'
+      ? '23:59:59' : row['EndTime(UTC)'].split(' ')[1];
     formatData = {
       ...row,
     };
