@@ -86,8 +86,47 @@ const router = express.Router();
  *         description: No accidents found
  */
 router.get('/', accidentController.getAccidents);
+
+/**
+ * @swagger
+ * /api/accidents/state/{state}:
+ *   get:
+ *     summary: Retrieve car accidents for a specific state
+ *     description: Retrieve a list of car accidents, for a specific state, from MongoDb. Can be used to populate a list of fake car accidents when prototyping or testing an API
+ *     responses:
+ *       200:
+ *         description: A list of accidents for the specified state
+ *       404:
+ *         description: No accidents found for the state
+ */
 router.get('/state/:state', accidentController.getAccidentsByState);
+
+/**
+ * @swagger
+ * /api/accidents/date/{date}:
+ *   get:
+ *     summary: Retrieve car accidents for a specific date
+ *     description: Retrieve a list of car accidents, for a specific date, from MongoDb. Can be used to populate a list of fake car accidents when prototyping or testing an API
+ *     responses:
+ *       200:
+ *         description: A list of accidents for the specified date
+ *       404:
+ *         description: No accidents found for the date
+ */
 router.get('/date/:date', accidentController.getAccidentsByDate);
+
+/**
+ * @swagger
+ * /api/accidents/severity/{severity}:
+ *   get:
+ *     summary: Retrieve car accidents for a specific severity
+ *     description: Retrieve a list of car accidents, for a specific severity, from MongoDb. Can be used to populate a list of fake car accidents when prototyping or testing an API
+ *     responses:
+ *       200:
+ *         description: A list of accidents for the specified severity
+ *       404:
+ *         description: No accidents found for the severity
+ */
 router.get('/severity/:severity', accidentController.getAccidentsBySeverity);
 
 export default router;
