@@ -5,6 +5,27 @@ const dburl = process.env.ATLAS_URI || 'mongodb://localhost:27017/test';
 
 let instance = null;
 
+function parseTime(date, time){
+  return new Date(`${date}T${time}`);
+}
+function matchDateAndLocation(accident, event){
+  return (
+    accident.state === event.state &&
+    accident.city === event.city &&
+    accident.date === event.date
+  );
+}
+function checkTimeOverlap(accident, event){
+  const accidentStart = parseTime(accident.Date, accident.Start_Time);
+  const accidentEnd = parseTime(accident.Date, accident.End_Time);
+  const weatherStart = parseTime(event.Date, event['StartTime(UTC)']);
+  const weatherEnd = parseTime(event.Date, event['EndTime(UTC)']);
+
+  return weatherEnd >= accidentStart && accidentEnd >= weatherStart;
+}
+function isMatch(accident, event){
+  return matchDateAndLocation(accident, event) && checkTimeOverlap(accident, event); 
+}
 /**
  * Database class, API that allows reading/writing to the mongodb
  */
