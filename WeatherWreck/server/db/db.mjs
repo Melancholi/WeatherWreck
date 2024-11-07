@@ -17,11 +17,9 @@ function matchDateAndLocation(accident, event){
 }
 function checkTimeOverlap(accident, event){
   const accidentStart = parseTime(accident.Date, accident.Start_Time);
-  const accidentEnd = parseTime(accident.Date, accident.End_Time);
   const weatherStart = parseTime(event.Date, event['StartTime(UTC)']);
-  const weatherEnd = parseTime(event.Date, event['EndTime(UTC)']);
 
-  return weatherEnd >= accidentStart && accidentEnd >= weatherStart;
+  return weatherStart <= accidentStart;
 }
 function isMatch(accident, event){
   return matchDateAndLocation(accident, event) && checkTimeOverlap(accident, event); 
