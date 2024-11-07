@@ -93,6 +93,14 @@ router.get('/', accidentController.getAccidents);
  *   get:
  *     summary: Retrieve car accidents for a specific state
  *     description: Retrieve a list of car accidents, for a specific state, from MongoDb. Can be used to populate a list of fake car accidents when prototyping or testing an API
+ *     parameters:
+ *       - in: path
+ *         name: state
+ *         required: true
+ *         description: The state abbreviation (e.g., IL for Illinois).
+ *         schema:
+ *           type: string
+ *           example: "IL"
  *     responses:
  *       200:
  *         description: A list of accidents for the specified state
@@ -107,6 +115,13 @@ router.get('/state/:state', accidentController.getAccidentsByState);
  *   get:
  *     summary: Retrieve car accidents for a specific date
  *     description: Retrieve a list of car accidents, for a specific date, from MongoDb. Can be used to populate a list of fake car accidents when prototyping or testing an API
+ *     parameters:
+ *       - in: path
+ *         name: date
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The date of the weather event in YYYY-MM-DD format
  *     responses:
  *       200:
  *         description: A list of accidents for the specified date
@@ -121,6 +136,13 @@ router.get('/date/:date', accidentController.getAccidentsByDate);
  *   get:
  *     summary: Retrieve car accidents for a specific severity
  *     description: Retrieve a list of car accidents, for a specific severity, from MongoDb. Can be used to populate a list of fake car accidents when prototyping or testing an API
+ *     parameters:
+ *       - in: path
+ *         name: severity
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The severity of the accident (e.g., 1, 2, 3 and 4)
  *     responses:
  *       200:
  *         description: A list of accidents for the specified severity
