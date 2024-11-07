@@ -54,8 +54,47 @@ const router = express.Router();
  *         description: No weather events found
  */
 router.get('/', weatherController.getWeatherEvents);
+
+/**
+ * @swagger
+ * /api/weather/state/{state}:
+ *   get:
+ *     summary: Retrieve weather events for a specific state
+ *     description: Retrieve a list of weather events, for a specific state, from MongoDb. Can be used to populate a list of fake weather events when prototyping or testing an API
+ *     responses:
+ *       200:
+ *         description: A list of weather events for the specified state
+ *       404:
+ *         description: No weather evemts found for the state
+ */
 router.get('/state/:state', weatherController.getWeatherEventsByState);
+
+/**
+ * @swagger
+ * /api/weather/date/{date}:
+ *   get:
+ *     summary: Retrieve weather events for a specific date
+ *     description: Retrieve a list of weather events, for a specific date, from MongoDb. Can be used to populate a list of fake weather events when prototyping or testing an API
+ *     responses:
+ *       200:
+ *         description: A list of weather events for the specified date
+ *       404:
+ *         description: No weather evemts found for the date
+ */
 router.get('/date/:date', weatherController.getWeatherEventsByDate);
+
+/**
+ * @swagger
+ * /api/weather/type/{type}:
+ *   get:
+ *     summary: Retrieve weather events for a specific type
+ *     description: Retrieve a list of weather events, for a specific type, from MongoDb. Can be used to populate a list of fake weather events when prototyping or testing an API
+ *     responses:
+ *       200:
+ *         description: A list of weather events for the specified type
+ *       404:
+ *         description: No weather evemts found for the type
+ */
 router.get('/type/:type', weatherController.getWeatherEventsByType);
 
 export default router;
