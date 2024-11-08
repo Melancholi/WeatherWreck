@@ -208,6 +208,88 @@ class DB{
     }
     return await instance.collections[collName].insertMany(events);
   }
+
+  /**
+ * Fetches events and matching accidents based on query filter
+ * @param {Object} query - The query filter to be applied, e.g., { State: { $eq: "New York" } }
+ */
+  async fetchEventsAndAccidents(query) {
+    // Step 1: Fetch events matching the query filter
+    const events = await instance.collections['WeatherForecast'].aggregate([
+      {
+        $match: query  
+        // Match based on state or other filter condition
+      },
+      {
+        //Similar to joins in SQL databases
+        $lookup: {
+          from: 'CarAccidents',
+          // set values from outside 
+          let: { eventState: '$State', eventCity: '$City',
+            eventDate: '$Date', eventStartTime: '$StartTime(UTC)' },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ['$State', '$$eventState'] },
+                    { $eq: ['$Date', '$$eventDate'] }
+                  ]
+                }
+              }
+            },
+          ],
+          // name data
+          as: 'matchingAccidents'
+        }
+      },
+      {
+        //what the document to return will look like
+        $project: {
+          EventId: 1,
+          Type: 1,
+          Severity: 1,
+          City: 1,
+          State: 1,
+          Date: 1,
+          StartTime: 1,
+          //array of matche data
+          matchingAccidents: 1
+        }
+      },
+      {
+        //do this search 25 times -> array of 25 events with x amt matching events
+        $limit:25
+      }
+    ]).toArray();
+
+    // Step 2: Process each event and its matching accidents
+    const formattedResults = events.map(event => {
+      return event.matchingAccidents.map(accident => {
+        return {
+          //ids are not returned, might be because of name that includes id
+          AccidentID: accident['ID'],
+          WeatherID: event['EventId'],
+          'Weather_Condition': event.Type,
+          'Weather_Severity': event.Severity,
+          'Accident_Severity': accident.Severity,
+          Description: accident.Description,
+          'Start_Time': accident.Start_Time,
+          'End_Time': accident.End_Time,
+          State: event.State,
+          City: event.City,
+          Date: event.Date,
+        };
+      });
+    });
+    return formattedResults;
+  }
+
 }
 
 export const db = new DB();
+
+// CHANGE ID FOR EVENTS AND ACCIDENTS TO SMT ELSE STUPID THING
+// FIX END_LAT BEING IN DB
+// FIX END POINT[2] BEING NULL DAMN IT
+// GIVE STRUCTURE TO DATA
