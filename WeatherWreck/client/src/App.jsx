@@ -1,11 +1,14 @@
 import FetchData from './components/fetchData.jsx';
+import Header from './components/Header.jsx';
+import Footer from './components/Footer.jsx';
 import './App.css';
 
 function App() {
   return (
     <div>
-      <h1> WeatherWreck</h1>
+      <Header />
       <FetchData/>
+      <Footer />
     </div>
   );
 }
