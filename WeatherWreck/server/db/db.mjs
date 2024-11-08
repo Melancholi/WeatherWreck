@@ -157,6 +157,15 @@ class DB{
     return await instance.collections[collName].find(query).toArray();
   }
   
+  /**
+   * Extension of the readbyconditon method, matches the data fetched 
+   * from 2 collections by query into a list of objects with data matching from 2
+   * collections
+   * @param {Object} query - The MongoDB query object specifying search conditions
+   * @param {string} collName1 The name of the collection to read and match with the other
+   * @param {string} collName2 The name of the collection to read and match with the other
+   * @returns {ArrayObject} Array of matching data objects
+   */
   async readByConditionMatch(collName1, collName2, query){
     if (!(instance.collections[collName1] && instance.collections[collName2])) {
       throw new Error(`Collection ${collName1, collName2} not opened.`);
