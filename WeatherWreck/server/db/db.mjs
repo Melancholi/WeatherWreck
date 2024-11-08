@@ -154,7 +154,7 @@ class DB{
     if (!instance.collections[collName]) {
       throw new Error(`Collection ${collName} not opened.`);
     }
-    return await instance.collections[collName].find(query).toArray();
+    return await instance.collections[collName].find(query).limit(100).toArray();
   }
   
   /**
@@ -174,7 +174,7 @@ class DB{
       await this.readByCondition(coll, query)
     ));
     //depending on order of opening the connections
-    const weatherEvents = !data[0][0]['ID'] ? data[0] : data[1];
+    const weatherEvents = !data[0][0]['Description'] ? data[0] : data[1];
     const carAccidents = weatherEvents === data[1] ? data[0] : data[1];
     
     //filter data and match it into array of objects mixed with data of two 
