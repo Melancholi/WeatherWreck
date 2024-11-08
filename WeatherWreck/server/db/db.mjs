@@ -18,9 +18,9 @@ function parseTime(date, time){
  */
 function compareDateAndLocation(accident, event){
   return (
-    accident.state === event.state &&
-    accident.city === event.city &&
-    accident.date === event.date
+    accident.State === event.State &&
+    accident.City === event.City &&
+    accident.Date === event.Date
   );
 }
 /**
