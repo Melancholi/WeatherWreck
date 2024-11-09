@@ -1,7 +1,9 @@
 import 'dotenv/config';
 import { MongoClient, ServerApiVersion } from 'mongodb';
 
-const dburl = process.env.ATLAS_URI || 'mongodb://localhost:27017/test';
+//gives the option to work with the user db or the prod db, just comment out the one you dont
+//want to use
+const dburl = process.env.ATLAS_URI || process.env.PROD_URI || 'mongodb://localhost:27017/test';
 
 let instance = null;
 
