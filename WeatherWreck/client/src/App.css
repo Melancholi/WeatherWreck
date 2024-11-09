@@ -42,6 +42,17 @@ header {
   justify-content: space-evenly;
 }
 
+#dataInfo {
+  width: auto;
+  padding: 0;
+  margin: 0;
+}
+
+#accidenInfo, #weatherInfo {
+  background-color: lightgrey;
+  padding: 15px;
+}
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
