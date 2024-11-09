@@ -248,6 +248,7 @@ class DB{
       {
         //what the document to return will look like
         $project: {
+          // eslint-disable-next-line camelcase
           Weather_Key: 1,
           Type: 1,
           Severity: 1,
@@ -290,8 +291,3 @@ class DB{
 }
 
 export const db = new DB();
-
-// CHANGE ID FOR EVENTS AND ACCIDENTS TO SMT ELSE STUPID THING
-// FIX END_LAT BEING IN DB
-// FIX END POINT[2] BEING NULL DAMN IT
-// GIVE STRUCTURE TO DATA
