@@ -246,7 +246,7 @@ class DB{
       {
         //what the document to return will look like
         $project: {
-          EventId: 1,
+          Weather_Key: 1,
           Type: 1,
           Severity: 1,
           City: 1,
@@ -268,8 +268,8 @@ class DB{
       return event.matchingAccidents.map(accident => {
         return {
           //ids are not returned, might be because of name that includes id
-          AccidentID: accident['ID'],
-          WeatherID: event['EventId'],
+          AccidentID: accident.Accident_Key,
+          WeatherID: event.Weather_Key,
           'Weather_Condition': event.Type,
           'Weather_Severity': event.Severity,
           'Accident_Severity': accident.Severity,
