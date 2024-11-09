@@ -9,14 +9,17 @@ function App() {
     Learned how to do this from this youtube video 
     https://youtu.be/SLfhMt5OUPI?t=355&si=8nmXMeosxHSO2kUY
   */
-  let component
+  let component;
   switch (window.location.pathname) {
-    case '/':
-      component = <AccidentMap />
-      break
-    case '/charts':
-      component = <ChartsPage />
-      break
+  case '/':
+    component = <AccidentMap />;
+    break;
+  case '/charts':
+    component = <ChartsPage />;
+    break;
+  default:
+    component = <AccidentMap />;
+    break;
   }
   return (
     <div>
