@@ -50,7 +50,6 @@ header {
 
 #accidenInfo, #weatherInfo {
   font-size: 15px;
-  background-color: lightgrey;
   padding: 10px;
 }
 #weatherInfo {
