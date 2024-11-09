@@ -52,13 +52,13 @@ describe('Database seed tests', function() {
      * @author Maara Vanessa Purici
      */
     it('Should return file paths correctly', async function() {
-      const mockFiles = ['mock_accidents.csv', 'mock_weather.csv'];
+      const mockFiles = ['trimmed_mock_accident_data.csv', 'trimmed_mock_weather_data.csv'];
       readdirStub.resolves(mockFiles);
 
       const result = await getFilePaths(folderPath);
       expect(result).to.deep.equal([
-        path.join(folderPath, 'mock_accidents.csv'),
-        path.join(folderPath, 'mock_weather.csv')
+        path.join(folderPath, 'trimmed_mock_accident_data.csv'),
+        path.join(folderPath, 'trimmed_mock_weather_data.csv')
       ]);
     });
 
