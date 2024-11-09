@@ -253,13 +253,13 @@ class DB{
           State: 1,
           Date: 1,
           StartTime: 1,
-          //array of matche data
+          //array of matched data
           matchingAccidents: 1
         }
       },
       {
         //do this search 25 times -> array of 25 events with x amt matching events
-        $limit:25
+        $limit:10
       }
     ]).toArray();
 
