@@ -10,8 +10,8 @@ export default function NavBar() {
         <nav>
           <ul id="navUl">
             {/* TO DO: Make the the folowing clickable and functional */}
-            <li>View Accidents</li>
-            <li>View Charts</li>
+            <a href="/" className="nav-link">View Accidents</a>
+            <a href="/charts" className="nav-link">View Charts</a>
           </ul>
         </nav>
       </div>
