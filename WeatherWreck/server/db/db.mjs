@@ -1,10 +1,6 @@
 import 'dotenv/config';
 import { MongoClient, ServerApiVersion } from 'mongodb';
 
-//gives the option to work with the user db or the prod db, just comment out the one you dont
-//want to use
-const dburl = process.env.ATLAS_URI || process.env.PROD_URI || 'mongodb://localhost:27017/test';
-
 let instance = null;
 
 /**
@@ -77,16 +73,9 @@ class DB{
    * @proprety collection : The data from mongo db that we will interact with
    */
   constructor(){
-    if(!instance){
+    if (!instance) {
       instance = this;
-      this.client = new MongoClient(dburl, {
-        serverApi: {
-          version: ServerApiVersion.v1,
-          strict: true,
-          deprecationErrors: true,
-        }
-      }
-      );
+      this.client = null;
       this.db = null;
       this.collections = {};
     }
@@ -98,11 +87,18 @@ class DB{
    * database if the db does not already exists.
    * @param {string} dbName the name of the cluster to access
    */
-  async connect(dbName){
+  async connect(dbName, dburl = process.env.ATLAS_URI){
     //rework this to check for the same collection and one db connection
     if (instance.db){
       return;
     }
+    this.client = new MongoClient(dburl, {
+      serverApi: {
+        version: ServerApiVersion.v1,
+        strict: true,
+        deprecationErrors: true,
+      }
+    });
     await instance.client.connect();
     instance.db = await instance.client.db(dbName);
     //check for connection
