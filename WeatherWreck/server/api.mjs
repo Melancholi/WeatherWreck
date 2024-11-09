@@ -1,7 +1,6 @@
 import express from 'express';
 import accidentRouter from './routers/accident.mjs';
 import weatherRouter from './routers/weather.mjs';
-
 //Create APP
 const app = express();
 
