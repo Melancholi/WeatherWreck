@@ -89,19 +89,19 @@ describe('Database seed tests', function() {
      * 
      * @author Maara Vanessa Purici
      */
-    it('Should format CarAccidnets data correctly', function() {
+    it('Should format CarAccidents data correctly', function() {
       const mockAccidentRow = {
         'ID': 'A-01', 'State': 'TE', 'City': 'Test',
         'Start_Time': '2022-10-29 17:27:30',
         'End_Time': '2022-10-29 23:59:00',
         'Start_Lat': 41.946796, 'Start_Lng': -88.208092,
-        'End_lat': 41.947796, 'End_Lng': -88.209092
+        'End_Lat': 41.947796, 'End_Lng': -88.209092
       };
       
       const formattedData = formatFile(mockAccidentRow, 'CarAccidents');
 
       expect(formattedData).to.deep.include({
-        'ID': 'A-01', 'State': 'TE', 'City': 'Test',
+        'Accident_Key': 'A-01', 'State': 'TE', 'City': 'Test',
         'Date': '2022-10-29',
         'Start_Time': '17:27:30',
         'End_Time': '23:59:00',
