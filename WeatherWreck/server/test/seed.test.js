@@ -130,7 +130,7 @@ describe('Database seed tests', function() {
       const formattedData = formatFile(mockWeather, 'WeatherForecast');
 
       expect(formattedData).to.deep.include({
-        'EventId': 'W-01', 'State':'TE', 'City': 'Test',
+        'Weather_Key': 'W-01', 'State':'TE', 'City': 'Test',
         'StartTime(UTC)': '12:34:00', 'EndTime(UTC)': '15:54:00',
         'Severity': 'Light', 'Type': 'Snow',
         'Precipitation(in)': 0.0,
