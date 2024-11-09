@@ -72,7 +72,7 @@ const data = collections.map((coll, index) =>  ({
     //start the process of passing csv data to mongodb
     await Promise.all(data.map(async(collection)=>{
       const dataToInsert = [];
-      const fileContent = await fs.readFile(collection['filePath'], 'utf-8');
+      const fileContent = await fs.readFile(collection['filePath'], {encoding: 'utf-8'});
       //this csv-parse was based of onlines docs 
       await new Promise((resolve, reject) => {
         parse(fileContent, { 
