@@ -17,7 +17,7 @@ app.use('/api/weather', weatherRouter);
 app.get('/test/:state', async (req, res, next) =>{
   try{
     const state = req.params.state.toUpperCase();
-    const data = await db.readByConditionMatch('CarAccidents', 'WeatherForecast',
+    const data = await db.fetchEventsAndAccidents(
       { State: {$eq : state} });
     res.json(data);
   }catch(error){
