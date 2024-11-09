@@ -31,6 +31,17 @@ header {
 
 }
 
+.teammates {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.accidentsAttribution, .weatherAttribution {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
