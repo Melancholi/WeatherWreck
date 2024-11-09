@@ -225,8 +225,8 @@ class DB{
         $lookup: {
           from: 'CarAccidents',
           // set values from outside 
-          let: { eventState: '$State', eventCity: '$City',
-            eventDate: '$Date', eventStartTime: '$StartTime(UTC)' },
+          let: { eventState: '$State',
+            eventDate: '$Date'},
           pipeline: [
             {
               $match: {
