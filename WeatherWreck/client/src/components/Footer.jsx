@@ -19,8 +19,6 @@ export default function Footer() {
           </div>
         </section> 
         
-        <br/>
-
         <section id="weatherInfo">
           <div className="weatherAttribution">
             <p className="info">Data Taken From:</p>
