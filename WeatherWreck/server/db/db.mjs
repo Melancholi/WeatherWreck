@@ -212,7 +212,8 @@ class DB{
   }
 
   /**
- * Fetches events and matching accidents based on query filter
+ * Fetches events and matching accidents based on query filter direclty from db.
+ * More effecient than readByConditionMatch
  * @param {Object} query - The query filter to be applied, e.g., { State: { $eq: "New York" } }
  */
   async fetchEventsAndAccidents(query) {
