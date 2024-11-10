@@ -109,8 +109,9 @@ router.get('/date/:date', weatherController.getWeatherEventsByDate);
  * /api/weather/type/{type}:
  *   get:
  *     summary: Retrieve weather events for a specific type
- *     description: Retrieve a list of weather events, for a specific type, from MongoDb. 
- *Can be used to populate a list of fake weather events when prototyping or testing an API
+ *     description: |
+ *       Retrieve a list of weather events, for a specific type, from MongoDb. 
+ *       Can be used to populate a list of fake weather events when prototyping or testing an API
  *     parameters:
  *       - in: path
  *         name: type
