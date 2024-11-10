@@ -15,20 +15,22 @@ export default function FilterControl({setFilter}){
           <option value="Weather">Weather</option>
           <option value="Date">Date</option>
         </select>
-        {filterType !== '' & filterType !== 'Date' &&
-        <input type="text" id="filterValue" 
-          onChange={(e) =>
-            setFilter({filterType: filterType,
-              filterValue: e.target.value
-            })}/>}
+        {filterType !== '' & filterType !== 'Date' ?
+          <input type="text" id="filterValue" 
+            onChange={(e) =>
+              setFilter({filterType: filterType,
+                filterValue: e.target.value
+              })}/> 
+          : null}
 
-        {filterType === 'Date' &&
+        {filterType === 'Date' ?
           <input type="date" id="filterValue"
             min="2020-06-30" max="2022-06-30"
             onChange={(e) =>
               setFilter({filterType: filterType,
                 filterValue: e.target.value
-              })}/>}
+              })}/>
+          : null}
       </section>
     </search>
   );
