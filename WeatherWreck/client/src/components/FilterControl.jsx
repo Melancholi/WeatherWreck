@@ -3,7 +3,8 @@ export default function FilterControl({setFilter}){
   const [filterType, setFilterType] = useState('');
   return (
     <search>
-      <label>Filter By
+      <h3>SEARCH BY</h3>
+      <section id="SearchSection">
         <select
           id="FilterChoice"
           value={filterType}
@@ -13,21 +14,21 @@ export default function FilterControl({setFilter}){
           <option value="Weather">Weather</option>
           <option value="Date">Date</option>
         </select>
-      </label>
-
-      {filterType !== '' & filterType !== 'Date' &&
+        {filterType !== '' & filterType !== 'Date' &&
         <input type="text" id="filterValue" 
           onChange={(e) =>
             setFilter({filterType: filterType,
               filterValue: e.target.value
             })}/>}
-      {filterType === 'Date' &&
-        <input type="date" id="filterValue"
-          min="2020-06-30" max="2022-06-30"
-          onChange={(e) =>
-            setFilter({filterType: filterType,
-              filterValue: e.target.value
-            })}/>}
+
+        {filterType === 'Date' &&
+          <input type="date" id="filterValue"
+            min="2020-06-30" max="2022-06-30"
+            onChange={(e) =>
+              setFilter({filterType: filterType,
+                filterValue: e.target.value
+              })}/>}
+      </section>
     </search>
   );
 }
