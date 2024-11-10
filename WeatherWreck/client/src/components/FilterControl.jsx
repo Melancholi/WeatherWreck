@@ -14,6 +14,13 @@ export default function FilterControl({setFilter}){
           <option value="Date">Date</option>
         </select>
       </label>
+
+      {filterType !== '' & filterType !== 'Date' &&
+        <input type="text" id="filterValue" 
+          onChange={(e) =>
+            setFilter({filterType: filterType,
+              filterValue: e.target.value
+            })}/>}
     </search>
   );
 }
