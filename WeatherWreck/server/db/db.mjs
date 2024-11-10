@@ -44,17 +44,17 @@ function isMatch(accident, event){
  */
 function formatData(event, accident){
   return  {
-    'WeatherID': event.EventId,
-    'AccidentID': accident.ID,
-    'State' : accident.State,
-    'City' : accident.City,
-    'Description' : accident.Description,
-    'Start_Time' : accident.Start_Time,
-    'End_Time' : accident.End_Time,
-    'Date' : accident.Date,
-    'Weather_Severity' : event.Severity,
-    'Accident_Severity' : accident.Severity,
-    'Weather_Condition' : event.Type,
+    AccidentID: accident.Accident_Key,
+    WeatherID: event.Weather_Key,
+    'Weather_Condition': event.Type,
+    'Weather_Severity': event.Severity,
+    'Accident_Severity': accident.Severity,
+    Description: accident.Description,
+    'Start_Time': accident.Start_Time,
+    'End_Time': accident.End_Time,
+    State: event.State,
+    City: event.City,
+    Date: event.Date,
   };
 }
 
@@ -268,20 +268,7 @@ class DB{
     // Step 2: Process each event and its matching accidents
     const formattedResults = events.map(event => {
       return event.matchingAccidents.map(accident => {
-        return {
-          //ids are not returned, might be because of name that includes id
-          AccidentID: accident.Accident_Key,
-          WeatherID: event.Weather_Key,
-          'Weather_Condition': event.Type,
-          'Weather_Severity': event.Severity,
-          'Accident_Severity': accident.Severity,
-          Description: accident.Description,
-          'Start_Time': accident.Start_Time,
-          'End_Time': accident.End_Time,
-          State: event.State,
-          City: event.City,
-          Date: event.Date,
-        };
+        return formatData(event, accident);
       });
     });
     return formattedResults;
