@@ -59,6 +59,7 @@ header {
 }
 
 #accidenInfo, #weatherInfo {
+<<<<<<< HEAD
   font-size: 15px;
   padding: 10px;
 }
@@ -68,6 +69,10 @@ header {
 .info {
   padding: 0;
   margin: 0;
+=======
+  background-color: lightgrey;
+  padding: 15px;
+>>>>>>> 0547f3f (Change the footer display)
 }
 
 @keyframes logo-spin {
