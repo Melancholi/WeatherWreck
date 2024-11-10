@@ -47,6 +47,9 @@ header {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0547f3f (Change the footer display)
 #dataInfo {
   width: auto;
   padding: 0;
@@ -54,6 +57,7 @@ header {
 }
 
 #accidenInfo, #weatherInfo {
+<<<<<<< HEAD
   font-size: 15px;
   padding: 10px;
 }
@@ -69,6 +73,12 @@ header {
 >>>>>>> c08c62e (Made change in css)
 =======
 >>>>>>> 640331a (Made changes to the css)
+=======
+  background-color: lightgrey;
+  padding: 15px;
+}
+
+>>>>>>> 0547f3f (Change the footer display)
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
