@@ -120,11 +120,13 @@ class DB{
    * Closes the connection, setting the instance to null
    */
   async close(){
-    await instance.client.close();
-    instance.db = null;
-    instance.collections = {};
-    instance = null;
-    console.log('Connection closed');
+    if (instance.db){
+      await instance.client.close();
+      instance.db = null;
+      instance.collections = {};
+      instance = null;
+      console.log('Connection closed');
+    }
   }
 
   // Data Manipulation
