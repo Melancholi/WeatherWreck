@@ -9,7 +9,6 @@ export default function NavBar() {
       <div id="navBar">
         <nav>
           <ul id="navUl">
-            {/* TO DO: Make the the folowing clickable and functional */}
             <a href="/" className="nav-link">View Accidents</a>
             <a href="/charts" className="nav-link">View Charts</a>
           </ul>
