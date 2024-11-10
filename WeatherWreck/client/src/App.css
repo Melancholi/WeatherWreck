@@ -24,7 +24,6 @@ header {
   justify-content: center;
 }
 
-<<<<<<< HEAD
 #appTitle {
   display: flex;
   justify-content: center;
@@ -35,8 +34,6 @@ header {
   height: 80px;
 }
 
-=======
->>>>>>> 6f5c38d (Made change in css)
 #navUl {
   list-style: none;
   display: flex;
@@ -44,7 +41,6 @@ header {
 
 }
 
-<<<<<<< HEAD
 .teammates {
   display: flex;
   justify-content: space-evenly;
@@ -74,8 +70,6 @@ header {
   margin: 0;
 }
 
-=======
->>>>>>> 6f5c38d (Made change in css)
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
