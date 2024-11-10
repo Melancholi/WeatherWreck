@@ -1,4 +1,3 @@
-import React from 'react';
 import Plot from 'react-plotly.js';
 
 export default function PieChart() {
@@ -13,9 +12,9 @@ export default function PieChart() {
   }];
   
   var layout = {
-    height: 400,
+    height: 500,
     width: 500,
-    title: "Test Pie Chart"
+    title: 'Test Pie Chart'
   };
 
   return (
