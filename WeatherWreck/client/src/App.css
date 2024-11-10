@@ -59,15 +59,12 @@ header {
 }
 
 #accidenInfo, #weatherInfo {
-<<<<<<< HEAD
-<<<<<<< HEAD
   font-size: 15px;
   padding: 10px;
 }
 #weatherInfo {
   margin-top: 8px;
 }
-
 .info {
   padding: 0;
   margin: 0;
