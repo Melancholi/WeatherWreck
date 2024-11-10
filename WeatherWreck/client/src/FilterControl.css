@@ -1,3 +1,10 @@
+#SearchHeader{
+  color:black;
+}
+#FilterControlSection{
+  background: lightgray;
+  padding: 20px;
+}
 #SearchSection{
   padding: 20px;
   gap:10px;
