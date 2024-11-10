@@ -3,8 +3,8 @@ import '../FilterControl.css';
 export default function FilterControl({setFilter}){
   const [filterType, setFilterType] = useState('');
   return (
-    <search>
-      <h3>SEARCH BY</h3>
+    <search id="FilterControlSection">
+      <h3 id="SearchHeader">SEARCH OPTIONS</h3>
       <section id="SearchSection">
         <select
           id="FilterChoice"
