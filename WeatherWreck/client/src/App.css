@@ -18,6 +18,58 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#appTitle {
+  display: flex;
+  justify-content: center;
+}
+#logo {
+  padding-top: 20px;
+  padding-right: 20px;
+  height: 80px;
+}
+
+#navUl {
+  list-style: none;
+  display: flex;
+  justify-content: space-evenly;
+
+}
+
+.teammates {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.accidentsAttribution, .weatherAttribution {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+#dataInfo {
+  width: auto;
+  padding: 0;
+  margin: 0;
+}
+
+#accidenInfo, #weatherInfo {
+  font-size: 15px;
+  padding: 10px;
+}
+#weatherInfo {
+  margin-top: 8px;
+}
+.info {
+  padding: 0;
+  margin: 0;
+}
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
