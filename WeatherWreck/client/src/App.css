@@ -24,6 +24,16 @@ header {
   justify-content: center;
 }
 
+#appTitle {
+  display: flex;
+  justify-content: center;
+}
+#logo {
+  padding-top: 20px;
+  padding-right: 20px;
+  height: 80px;
+}
+
 #navUl {
   list-style: none;
   display: flex;
