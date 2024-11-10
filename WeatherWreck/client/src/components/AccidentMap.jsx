@@ -1,4 +1,5 @@
 // eslint-disable-next-line no-unused-vars
+import FetchData from './fetchData.jsx';
 import FilterControl  from './FilterControl.jsx';
 import {useState} from 'react';
 import 'leaflet/dist/leaflet.css';
@@ -23,7 +24,10 @@ export default function AccidentMap() {
   }
 
   return (
-    <div id="map">
+    <div id="main">
+      <section>
+        <FilterControl setFilter={onOptionChange}/>
+      </section>
       <h1>Temporary Accident Map Page</h1>
     </div>
   );
