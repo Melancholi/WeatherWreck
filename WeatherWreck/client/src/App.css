@@ -32,6 +32,9 @@ header {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 640331a (Made changes to the css)
 .teammates {
   display: flex;
   justify-content: space-evenly;
@@ -43,6 +46,7 @@ header {
   justify-content: space-evenly;
 }
 
+<<<<<<< HEAD
 #dataInfo {
   width: auto;
   padding: 0;
@@ -63,6 +67,8 @@ header {
 
 =======
 >>>>>>> c08c62e (Made change in css)
+=======
+>>>>>>> 640331a (Made changes to the css)
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
