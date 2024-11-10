@@ -3,7 +3,7 @@ import BarChart from './BarChart.jsx';
 import PieChart from './PieChart.jsx';
 
 export default function ChartsPage() {
-  const [checked, setChecked] = useState('bar')
+  const [checked, setChecked] = useState('bar');
   function handleCheckedMode(mode) {
     setChecked(mode);
   }

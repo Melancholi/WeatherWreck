@@ -1,4 +1,3 @@
-import React from 'react';
 import Plot from 'react-plotly.js';
 
 export default function BarChart() {
@@ -14,11 +13,18 @@ export default function BarChart() {
     }
   ];
 
+  var layout = {
+    height: 500,
+    width: 500,
+    title: 'Test Bar Chart'
+  };
+
   return (
     <div>
       <h1>Temporary BarChart Display</h1>
       <Plot
         data={data}
+        layout={layout}
       />
     </div>
   );
