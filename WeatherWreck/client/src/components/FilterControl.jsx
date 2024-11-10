@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import '../FilterControl.css';
 export default function FilterControl({setFilter}){
   const [filterType, setFilterType] = useState('');
   return (
