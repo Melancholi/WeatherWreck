@@ -1,5 +1,8 @@
 import Plot from 'react-plotly.js';
 
+/**
+ * Shows accident severity breakdown by weather condition.
+ */
 export default function PieChart() {
   /*
     Example from https://plotly.com/javascript/pie-charts/
