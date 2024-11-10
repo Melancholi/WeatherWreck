@@ -52,9 +52,7 @@ export default function AccidentMap() {
     fetchData();
   }, []);
 
-  function AccidentMarker
-
-  
+  export default function AccidentMap() {
   if(loading){
     return <p> Loading ...</p>;
   }else{
