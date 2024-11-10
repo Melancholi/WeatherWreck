@@ -2,7 +2,8 @@
 export default function NavBar() {
   return (
     <header>
-      <div>
+      <div id="appTitle">
+        <img src="../../public/favicon.ico" alt="App Logo" id="logo"/>
         <h1> WeatherWreck</h1>
       </div>
 
