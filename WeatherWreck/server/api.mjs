@@ -18,12 +18,12 @@ const swaggerDefinition = {
       url: 'https://creativecommons.org/licenses/by-nc-sa/4.0/'
     }
   },
-}
+};
 
 const options = {
   swaggerDefinition,
   // Paths to files containing OpenAPI definitions
-  apis: ["./routers/*.mjs", './controllers/*.mjs'],
+  apis: ['./routers/*.mjs', './controllers/*.mjs'],
 };
 
 const swaggerSpec = swaggerJSDoc(options);
@@ -37,6 +37,6 @@ app.use('/api/accidents', accidentRouter);
 // Route for weather-related API endpoints
 app.use('/api/weather', weatherRouter);
 
-app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 export default app;

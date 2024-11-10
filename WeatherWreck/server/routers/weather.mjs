@@ -8,7 +8,9 @@ const router = express.Router();
  * /api/weather:
  *   get:
  *     summary: Retrieve a list of all weather events
- *     description: Retrieve a list of weather events from MongoDb. Can be used to populate a list of fake car accidents when prototyping or testing an API
+ *     description: |
+ *       Retrieve a list of weather events from MongoDb. 
+ *       Can be used to populate a list of fake car accidents when prototyping or testing an API
  *     responses:
  *       200:
  *         description: A list of weather events
@@ -60,7 +62,9 @@ router.get('/', weatherController.getWeatherEvents);
  * /api/weather/state/{state}:
  *   get:
  *     summary: Retrieve weather events for a specific state
- *     description: Retrieve a list of weather events, for a specific state, from MongoDb. Can be used to populate a list of fake weather events when prototyping or testing an API
+ *     description: |
+ *       Retrieve a list of weather events, for a specific state, from MongoDb. 
+ *       Can be used to populate a list of fake weather events when prototyping or testing an API
  *     parameters:
  *       - in: path
  *         name: state
@@ -82,7 +86,9 @@ router.get('/state/:state', weatherController.getWeatherEventsByState);
  * /api/weather/date/{date}:
  *   get:
  *     summary: Retrieve weather events for a specific date
- *     description: Retrieve a list of weather events, for a specific date, from MongoDb. Can be used to populate a list of fake weather events when prototyping or testing an API
+ *     description: |
+ *       Retrieve a list of weather events, for a specific date, from MongoDb. 
+ *       Can be used to populate a list of fake weather events when prototyping or testing an API
  *     parameters:
  *       - in: path
  *         name: date
@@ -103,7 +109,8 @@ router.get('/date/:date', weatherController.getWeatherEventsByDate);
  * /api/weather/type/{type}:
  *   get:
  *     summary: Retrieve weather events for a specific type
- *     description: Retrieve a list of weather events, for a specific type, from MongoDb. Can be used to populate a list of fake weather events when prototyping or testing an API
+ *     description: Retrieve a list of weather events, for a specific type, from MongoDb. 
+ *Can be used to populate a list of fake weather events when prototyping or testing an API
  *     parameters:
  *       - in: path
  *         name: type

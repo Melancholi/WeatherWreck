@@ -8,7 +8,9 @@ const router = express.Router();
  * /api/accidents:
  *   get:
  *     summary: Retrieve a list of all car accidents
- *     description: Retrieve a list of car accidents from MongoDb. Can be used to populate a list of fake car accidents when prototyping or testing an API
+ *     description: |
+ *       Retrieve a list of car accidents from MongoDb. 
+ *       Can be used to populate a list of fake car accidents when prototyping or testing an API
  *     responses:
  *       200:
  *         description: A list of car accidents
@@ -92,7 +94,9 @@ router.get('/', accidentController.getAccidents);
  * /api/accidents/state/{state}:
  *   get:
  *     summary: Retrieve car accidents for a specific state
- *     description: Retrieve a list of car accidents, for a specific state, from MongoDb. Can be used to populate a list of fake car accidents when prototyping or testing an API
+ *     description: |
+ *       Retrieve a list of car accidents, for a specific state, from MongoDb. 
+ *       Can be used to populate a list of fake car accidents when prototyping or testing an API
  *     parameters:
  *       - in: path
  *         name: state
@@ -114,7 +118,9 @@ router.get('/state/:state', accidentController.getAccidentsByState);
  * /api/accidents/date/{date}:
  *   get:
  *     summary: Retrieve car accidents for a specific date
- *     description: Retrieve a list of car accidents, for a specific date, from MongoDb. Can be used to populate a list of fake car accidents when prototyping or testing an API
+ *     description: |
+ *       Retrieve a list of car accidents, for a specific date, from MongoDb. 
+ *       Can be used to populate a list of fake car accidents when prototyping or testing an API
  *     parameters:
  *       - in: path
  *         name: date
@@ -135,7 +141,9 @@ router.get('/date/:date', accidentController.getAccidentsByDate);
  * /api/accidents/severity/{severity}:
  *   get:
  *     summary: Retrieve car accidents for a specific severity
- *     description: Retrieve a list of car accidents, for a specific severity, from MongoDb. Can be used to populate a list of fake car accidents when prototyping or testing an API
+ *     description: |
+ *       Retrieve a list of car accidents, for a specific severity, from MongoDb. 
+ *       Can be used to populate a list of fake car accidents when prototyping or testing an API
  *     parameters:
  *       - in: path
  *         name: severity
