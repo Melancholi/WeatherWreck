@@ -1,5 +1,8 @@
 import Plot from 'react-plotly.js';
 
+/**
+ * Displays accident percentages based on weather condition.
+ */
 export default function BarChart() {
   /*
     Example from https://plotly.com/javascript/bar-charts/
