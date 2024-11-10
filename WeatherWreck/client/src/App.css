@@ -70,6 +70,20 @@ header {
   margin: 0;
 }
 
+#chartComponent {
+  display: flex;
+}
+#dataPanel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: pink;
+}
+#dataCharts {
+  flex: 3;
+}
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
