@@ -2,6 +2,10 @@ import React from 'react';
 import Plot from 'react-plotly.js';
 
 export default function PieChart() {
+  /*
+    Example from https://plotly.com/javascript/pie-charts/
+    I used the example for the "Basic Pie Chart"
+  */
   const data = [{
     values: [19, 26, 55],
     labels: ['Residential', 'Non-Residential', 'Utility'],
