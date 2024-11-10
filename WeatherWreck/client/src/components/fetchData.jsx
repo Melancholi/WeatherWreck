@@ -1,5 +1,4 @@
 import {useState, useEffect} from 'react';
-import FilterControl  from './FilterControl.jsx';
 /**
  * This component fetches accident data from an API and displays it in a list format.
  * Initially, it shows a loading message until the data is retrieved.
@@ -10,15 +9,7 @@ import FilterControl  from './FilterControl.jsx';
 export default function FetchData(){
   // State to hold the fetched data
   const [data, setData] = useState([]);
-  const [filterOption, setFilterOption] = useState({
-    filterType : '',
-    filterValue: ''
-  });
   const [loading, setLoading] = useState(true);
-
-  function onOptionChange(value){
-    setFilterOption(value);
-  }
 
   useEffect(()=>{
     const fetchData = async () => {
@@ -43,9 +34,7 @@ export default function FetchData(){
     // Display fetched data as a list once loaded
     return( 
       <div>
-        <FilterControl setFilter={onOptionChange}/>
         <h2> Accidents Data</h2>
-        <p> {filterOption.filterType} {filterOption.filterValue}</p>
         <ul> {data.map((item, index)=>(
           <li key={index}> {JSON.stringify(item)}</li>
         ))}
