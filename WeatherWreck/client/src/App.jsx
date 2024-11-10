@@ -1,11 +1,6 @@
-<<<<<<< HEAD
 import ChartsPage from './components/ChartsPage.jsx';
 import AccidentMap from './components/AccidentMap.jsx';
 import NavBar from './components/NavBar.jsx';
-=======
-import FetchData from './components/fetchData.jsx';
-import Header from './components/Header.jsx';
->>>>>>> d6d981c (Add basic header and footer)
 import Footer from './components/Footer.jsx';
 import './App.css';
 
@@ -28,13 +23,8 @@ function App() {
   }
   return (
     <div>
-<<<<<<< HEAD
       <NavBar />
       {component}
-=======
-      <Header />
-      <FetchData/>
->>>>>>> d6d981c (Add basic header and footer)
       <Footer />
     </div>
   );
