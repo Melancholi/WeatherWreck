@@ -21,6 +21,13 @@ export default function FilterControl({setFilter}){
             setFilter({filterType: filterType,
               filterValue: e.target.value
             })}/>}
+      {filterType === 'Date' &&
+        <input type="date" id="filterValue"
+          min="2020-06-30" max="2022-06-30"
+          onChange={(e) =>
+            setFilter({filterType: filterType,
+              filterValue: e.target.value
+            })}/>}
     </search>
   );
 }
