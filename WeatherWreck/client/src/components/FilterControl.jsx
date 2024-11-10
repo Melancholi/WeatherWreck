@@ -1,4 +1,19 @@
 import {useState} from 'react';
 export default function FilterControl({setFilter}){
   const [filterType, setFilterType] = useState('');
+  return (
+    <search>
+      <label>Filter By
+        <select
+          id="FilterChoice"
+          value={filterType}
+          onChange={e =>setFilterType(e.target.value)}>
+          <option value="State">State</option>
+          <option value="City">City</option>
+          <option value="Weather">Weather</option>
+          <option value="Date">Date</option>
+        </select>
+      </label>
+    </search>
+  );
 }
