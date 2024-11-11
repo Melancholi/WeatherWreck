@@ -143,12 +143,19 @@ describe('Error Handling for Accidents', () => {
 
 // Test retrieving accidents by state
 describe('GET /accidents/state/:state', () => {
-  it.skip('should retrieve accidents by state', async () => {
-    const res = await request(app).get('/api/accidents/state/california');
-    expect(res.body).to.deep.equal(mockListAccidents);
+  after(()=>{
+    sinon.restore();
   });
-  it.skip('should respond with status code 200', async () => {
-    const response = await request(app).get('/accidents/state/california');
+  before(()=>{
+    const stubDB = sinon.stub(db, 'readByCondition');
+    stubDB.resolves(mockListAccidents[2]);
+  });
+  it('should retrieve accidents by state', async () => {
+    const res = await request(app).get('/api/accidents/state/CA');
+    expect(res.body).to.deep.equal(mockListAccidents[2]);
+  });
+  it('should respond with status code 200', async () => {
+    const response = await request(app).get('/api/accidents/state/CA');
     expect(response.statusCode).to.equal(200);
   });
 });
