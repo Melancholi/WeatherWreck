@@ -10,10 +10,10 @@ export default function FilterControl({setFilter}){
           id="FilterChoice"
           value={filterType}
           onChange={e =>setFilterType(e.target.value)}>
-          <option value="State">State</option>
-          <option value="City">City</option>
-          <option value="Weather">Weather</option>
-          <option value="Date">Date</option>
+          <option value="state">State</option>
+          <option value="city">City</option>
+          <option value="type">Weather</option>
+          <option value="date">Date</option>
         </select>
         {filterType !== '' & filterType !== 'Date' ?
           <input type="text" id="filterValue" 
