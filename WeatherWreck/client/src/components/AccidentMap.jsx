@@ -37,7 +37,7 @@ export default function AccidentMap() {
         const response = await fetch(`/api/accidents/state/${state}`);
         const result = await response.json();
         setData(result);
-        console.log(data);
+        console.log(result);
       } catch (error) {
         console.error('Error fetching data:', error);
         setError(`Failed to load data.`);
@@ -49,7 +49,23 @@ export default function AccidentMap() {
     fetchData();
   }, []);
 
-  function AccidentMarker
+  function AccidentMarker(){
+    
+    return (
+      <>
+        {data.map((accident, index) => 
+          <Marker 
+            key={index} 
+            position={[accident.Coordinates[1], accident.Coordinates[0]]} 
+            icon={customIcon}>
+            <Popup>
+              <p> More info</p>
+            </Popup>
+          </Marker>
+        )}
+      </>
+    );
+  }
 
   
   if(loading){
@@ -91,16 +107,7 @@ export default function AccidentMap() {
               attribution={attribution}
               url={tileUrl}
             />    
-            <Marker 
-              key={'times-square'} 
-              position={[40.7580, -73.9855]} 
-              icon={customIcon}>
-              <Popup>
-                <p> 
-                Times Square, NYC - More Info
-                </p>
-              </Popup>
-            </Marker>
+            <AccidentMarker />
           </MapContainer>
         </div>
       </div>
