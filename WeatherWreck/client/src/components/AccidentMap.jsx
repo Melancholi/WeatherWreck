@@ -16,7 +16,7 @@ export default function AccidentMap() {
         <FilterControl setFilter={onOptionChange}/>
       </section>
       <h1>Temporary Accident Map Page</h1>
-      <FetchData/>
+      {/* <FetchData/> */}
     </div>
   );
 }
