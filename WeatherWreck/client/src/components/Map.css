@@ -1,8 +1,9 @@
-#map { height: 180px; }
+/* Map.css */
+
 
 .ui-container {
   height: 100%;
-  width: 100%;
+  width: 80%;
   display: flex;
 }
 
@@ -10,4 +11,9 @@
   flex: 1;
   flex-direction: column;
   display: flex;
+}
+#map, .leaflet-container {
+  flex:3;
+  width: 100%;
+  height: 100vh; /* Full viewport height */
 }
