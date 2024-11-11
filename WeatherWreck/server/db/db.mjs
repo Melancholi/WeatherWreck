@@ -55,6 +55,8 @@ function formatData(event, accident){
     State: event.State,
     City: event.City,
     Date: event.Date,
+    'Start_Point': accident.Start_Point,
+    'End_Point': accident.End_Point,
   };
 }
 
@@ -264,7 +266,6 @@ class DB{
             City: 1,
             State: 1,
             Date: 1,
-            StartTime: 1,
             //array of matched data
             matchingAccidents: 1
           }
@@ -331,7 +332,6 @@ class DB{
           City: 1,
           State: 1,
           Date: 1,
-          StartTime: 1,
           //array of matched data
           matchingAccidents: 1
         }
