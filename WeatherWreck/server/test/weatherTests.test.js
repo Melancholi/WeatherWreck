@@ -142,8 +142,8 @@ describe('GET /weather/date/:date', () => {
     const res = await request(app).get('/api/weather/date/2022-01-01');
     expect(res.body).to.deep.equal(mockWeatherEvents.slice(0, 1));
   });
-  it.skip('should respond with status code 200', async () => {
-    const response = await request(app).get('/api/weather/date/2024-10-20');
+  it('should respond with status code 200', async () => {
+    const response = await request(app).get('/api/weather/date/2022-01-01');
     expect(response.statusCode).to.equal(200);
   });
 });
