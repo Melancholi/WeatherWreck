@@ -1,0 +1,19 @@
+#SearchHeader{
+  color:black;
+}
+#FilterControlSection{
+  background: lightgray;
+  padding: 20px;
+}
+#SearchSection{
+  padding: 20px;
+  gap:10px;
+  background: gray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+#FilterChoice{
+  display: flex;
+}
