@@ -210,6 +210,79 @@ class DB{
   }
 
   /**
+ * Fetches random matching events from all 50 states 
+ */
+  async generalFetchEventsAndAccidents(){
+    const states = await instance.collections['WeatherForecast'].aggregate([
+      {
+        $group: {
+          _id: '$State'
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          State: '$_id'
+        }
+      }
+    ]).toArray();
+    const events = await Promise.all(states.map(async state =>{
+      return await instance.collections['WeatherForecast'].aggregate([
+        {
+          $match : {State: {$eq: state.State}}
+        },
+        {
+          $lookup:{
+            from:'CarAccidents',
+            let: { eventState: '$State',
+              eventDate: '$Date'},
+            pipeline: [
+              {
+                $match:{
+                  $expr:{
+                    $and: [
+                      { $eq: ['$State', '$$eventState'] },
+                      { $eq: ['$Date', '$$eventDate'] }
+                    ]
+                  }
+                }
+              },
+              {
+                $limit:5,
+              },
+            ],
+            as: 'matchingAccidents'
+          }
+        },
+        {
+          //what the document to return will look like
+          $project: {
+            // eslint-disable-next-line camelcase
+            Weather_Key: 1,
+            Type: 1,
+            Severity: 1,
+            City: 1,
+            State: 1,
+            Date: 1,
+            StartTime: 1,
+            //array of matched data
+            matchingAccidents: 1
+          }
+        },
+        {
+          //do this search 10 times
+          $limit:1
+        }
+      ]).toArray();
+    }));
+    return events.flat().map(event => {
+      return event.matchingAccidents.map(accident => {
+        return formatData(event, accident);
+      });
+    }).flat();
+  }
+
+  /**
  * Fetches events and matching accidents based on query filter direclty from db.
  * More effecient than readByConditionMatch
  * @param {Object} query - The query filter to be applied, e.g., { State: { $eq: "New York" } }
