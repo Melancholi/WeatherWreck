@@ -7,15 +7,15 @@ const validWeatherType = [
   'Rain', 'Snow', 'Storm'
 ];
 
-// const accidents = {
-//   'Cold': [],
-//   'Fog': [],
-//   'Hail': [],
-//   'Precipitation': [],
-//   'Rain': [],
-//   'Snow': [],
-//   'Storm': []
-// };
+const accidents = {
+  'Cold': [],
+  'Fog': [],
+  'Hail': [],
+  'Precipitation': [],
+  'Rain': [],
+  'Snow': [],
+  'Storm': []
+};
 
 export default function ChartsPage() {
   const [acc, setAcc] = useState([]);
@@ -24,13 +24,24 @@ export default function ChartsPage() {
   const [isFetched, setIsFetched] = useState(false);
 
   useEffect(() => {
-    // Only fetch data if it hasn't been fetched already
+    // Only fetching data if it hasn't been fetched already
     const data = async () => {
       try {
         const response = await fetch('/api/accidents/matched');
         const result = await response.json();
-        setAcc(result);
-        // Setting the flag to true after the fetch is complete
+
+        // Looping through the fetched data and categorize accidents based on Weather_Condition
+        result.forEach(accident => {
+          const weatherCondition = accident.Weather_Condition;
+
+          // Checking if the weather condition is valid
+          if (validWeatherType.includes(weatherCondition)) {
+            accidents[weatherCondition].push(accident);
+          }
+        });
+
+        setAcc(accidents);
+        // Flagging that data has been fetched
         setIsFetched(true);
       } catch (error) {
         console.error('Error fetching data:', error);
