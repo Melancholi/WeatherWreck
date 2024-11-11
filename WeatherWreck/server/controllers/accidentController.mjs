@@ -51,13 +51,12 @@ export async function getAccidentsByState(req, res, next){
       return res.status(404).json({error: `No accidents found for ${state}`});
     }
     // Map each accident to include only AccidentID, Weather_Condition, and coordinates
-    const simplifiedData = data.flatMap(accidentArray => 
-      accidentArray.map(accident => ({
-        AccidentID: accident.AccidentID,
-        WeatherCondition: accident.Weather_Condition,
-        Coordinates: accident.Coordinates 
-      }))
-    );
+    const simplifiedData = data.map(accident => ({
+      AccidentID: accident.AccidentID,
+      WeatherCondition: accident.Weather_Condition,
+      Coordinates: accident.Coordinates 
+    }));
+
     res.status(200).json(simplifiedData);
   } catch (error) {
     console.error(error.message);
