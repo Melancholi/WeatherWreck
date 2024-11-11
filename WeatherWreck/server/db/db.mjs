@@ -217,6 +217,7 @@ class DB{
  * and return the matching data
  */
   async fetchEventsAndAccidents(query = { _id : {$exists:true}}) {
+    const randomValue = Math.floor(Math.random() * 10000);
     // Step 1: Fetch events matching the query filter
     const events = await instance.collections['WeatherForecast'].aggregate([
       {
@@ -260,6 +261,9 @@ class DB{
           //array of matched data
           matchingAccidents: 1
         }
+      },
+      {
+        $skip: randomValue
       },
       {
         //do this search 25 times -> array of 25 events with x amt matching events
