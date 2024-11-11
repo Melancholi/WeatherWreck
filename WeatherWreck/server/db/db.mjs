@@ -280,7 +280,7 @@ class DB{
           'End_Time': accident.End_Time,
           State: event.State,
           City: event.City,
-          Date: event.Date,
+          Date: event.Date
         };
       });
     });
