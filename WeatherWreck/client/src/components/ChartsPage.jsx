@@ -20,21 +20,33 @@ const validWeatherType = [
 export default function ChartsPage() {
   const [acc, setAcc] = useState([]);
   const [loading, setLoading] = useState(true);
-  useEffect (() => {
+  // Tracking whether data has been fetched or not
+  const [isFetched, setIsFetched] = useState(false);
+
+  useEffect(() => {
+    // Only fetch data if it hasn't been fetched already
     const data = async () => {
       try {
-        const response = await fetch('/api/accidents/matched'); 
+        const response = await fetch('/api/accidents/matched');
         const result = await response.json();
         setAcc(result);
+        // Setting the flag to true after the fetch is complete
+        setIsFetched(true);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
         setLoading(false);
       }
     };
-    
-    data();
-  }, []);
+
+    // Checking if the data has already been fetched
+    if (!isFetched) {
+      data();
+    } else {
+      setLoading(false);
+    }
+  }, [isFetched]);
+
   const [checked, setChecked] = useState('bar');
   function handleCheckedMode(mode) {
     setChecked(mode);
@@ -66,14 +78,11 @@ export default function ChartsPage() {
       </section>
 
       {loading ? (
-        <>
-          <p>Loading...</p>
-        </>
-      ): (
-        <>
-          <p></p>
-        </>
+        <p>Loading...</p>
+      ) : (
+        <p>{acc.length} items fetched</p>
       )}
+
       <section id="dataCharts">
         {checked === 'bar' &&
             <BarChart />
