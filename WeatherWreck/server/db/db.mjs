@@ -55,8 +55,7 @@ function formatData(event, accident){
     State: event.State,
     City: event.City,
     Date: event.Date,
-    'Start_Point': accident.Start_Point,
-    'End_Point': accident.End_Point,
+    Coordinates: [accident.Start_Point, accident.End_Point]
   };
 }
 
