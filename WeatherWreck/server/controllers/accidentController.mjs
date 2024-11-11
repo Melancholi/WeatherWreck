@@ -94,3 +94,16 @@ export async function getAccidentsBySeverity(req, res, next){
     next(res.status(500).json({ error: error.message }));
   }
 }
+
+export async function getMatchedEvents(req, res, next) {
+  try {
+    const data = await db.generalFetchEventsAndAccidents();
+    if( data.length === 0){
+      return res.status(404).json({error: 'No matches found'});
+    }
+    res.status(200).json(data);
+  } catch (error) {
+    console.error(error.message);
+    next(res.status(500).json({ error: error.message }));
+  }
+}
