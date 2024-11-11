@@ -179,12 +179,20 @@ describe('GET /accidents/state/:state - invalid state', () => {
 
 // Test retrieving accidents by state
 describe('GET /accidents/date/:date', () => {
-  it.skip('should retrieve accidents by date', async () => {
-    const res = await request(app).get('/api/accidents/date/2024-10-22');
-    expect(res.body).to.deep.equal(mockListAccidents);
+  after(()=>{
+    sinon.restore();
   });
-  it.skip('should respond with status code 200', async () => {
-    const response = await request(app).get('/api/accidents/date/2024-10-22');
+  before(()=>{
+    const stubDB = sinon.stub(db, 'readByCondition');
+    // Resolving to an empty array to simulate no results
+    stubDB.resolves(mockListAccidents.slice(0, 3));
+  });
+  it('should retrieve accidents by date', async () => {
+    const res = await request(app).get('/api/accidents/date/2022-09-08');
+    expect(res.body).to.deep.equal(mockListAccidents.slice(0, 3));
+  });
+  it('should respond with status code 200', async () => {
+    const response = await request(app).get('/api/accidents/date/2022-09-08');
     expect(response.statusCode).to.equal(200);
   });
 });
