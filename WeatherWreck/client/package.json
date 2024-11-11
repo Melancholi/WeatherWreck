@@ -12,7 +12,10 @@
   "dependencies": {
     "client": "file:",
     "d3": "^7.9.0",
+<<<<<<< HEAD
     "plotly.js": "^2.35.2",
+=======
+>>>>>>> bc0fc5e (Add a basic bar chart)
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-plotly.js": "^2.6.0"
