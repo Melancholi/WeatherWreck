@@ -3,6 +3,7 @@ import 'leaflet/dist/leaflet.css';
 import './Map.css';
 import { Icon  } from 'leaflet';
 import { useState, useEffect} from 'react';
+import FilterControl  from './FilterControl.jsx';
 import { 
   MapContainer, 
   TileLayer, 
@@ -29,6 +30,14 @@ export default function AccidentMap() {
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [filterOption, setFilterOption] = useState({
+    filterType : '',
+    filterValue: ''
+  });
+  function onOptionChange(value){
+    setFilterOption(value);
+  }
+
 
   useEffect(()=>{
     const fetchData = async () => {
@@ -73,21 +82,8 @@ export default function AccidentMap() {
   }else{
     return (
       <div className="ui-container">
-        <div className ="ui-controls">
-          <label>
-            <input 
-              type ="radio" 
-              name="mode" 
-              value="info" 
-            /> data
-          </label>
-          <label>
-            <input 
-              type ="radio" 
-              name="mode" 
-              value="history"
-            /> state
-          </label>
+        <div id="main">
+          <FilterControl setFilter={onOptionChange}/>
         </div>
         {/* Error message display */}
         {error && <div>{error}</div>}
