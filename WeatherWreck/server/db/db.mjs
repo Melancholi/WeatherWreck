@@ -44,17 +44,18 @@ function isMatch(accident, event){
  */
 function formatData(event, accident){
   return  {
-    'WeatherID': event.EventId,
-    'AccidentID': accident.ID,
-    'State' : accident.State,
-    'City' : accident.City,
-    'Description' : accident.Description,
-    'Start_Time' : accident.Start_Time,
-    'End_Time' : accident.End_Time,
-    'Date' : accident.Date,
-    'Weather_Severity' : event.Severity,
-    'Accident_Severity' : accident.Severity,
-    'Weather_Condition' : event.Type,
+    AccidentID: accident.Accident_Key,
+    WeatherID: event.Weather_Key,
+    'Weather_Condition': event.Type,
+    'Weather_Severity': event.Severity,
+    'Accident_Severity': accident.Severity,
+    Description: accident.Description,
+    'Start_Time': accident.Start_Time,
+    'End_Time': accident.End_Time,
+    State: event.State,
+    City: event.City,
+    Date: event.Date,
+    Coordinates: [accident.Start_Point, accident.End_Point]
   };
 }
 
@@ -210,15 +211,91 @@ class DB{
   }
 
   /**
+ * Fetches random matching events from all 50 states 
+ */
+  async generalFetchEventsAndAccidents(){
+    const states = await instance.collections['WeatherForecast'].aggregate([
+      {
+        $group: {
+          _id: '$State'
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          State: '$_id'
+        }
+      }
+    ]).toArray();
+    const events = await Promise.all(states.map(async state =>{
+      return await instance.collections['WeatherForecast'].aggregate([
+        {
+          $match : {State: {$eq: state.State}}
+        },
+        {
+          $lookup:{
+            from:'CarAccidents',
+            let: { eventState: '$State',
+              eventDate: '$Date'},
+            pipeline: [
+              {
+                $match:{
+                  $expr:{
+                    $and: [
+                      { $eq: ['$State', '$$eventState'] },
+                      { $eq: ['$Date', '$$eventDate'] }
+                    ]
+                  }
+                }
+              },
+              {
+                $limit:5,
+              },
+            ],
+            as: 'matchingAccidents'
+          }
+        },
+        {
+          //what the document to return will look like
+          $project: {
+            // eslint-disable-next-line camelcase
+            Weather_Key: 1,
+            Type: 1,
+            Severity: 1,
+            City: 1,
+            State: 1,
+            Date: 1,
+            //array of matched data
+            matchingAccidents: 1
+          }
+        },
+        {
+          //do this search 10 times
+          $limit:1
+        }
+      ]).toArray();
+    }));
+    return events.flat().map(event => {
+      return event.matchingAccidents.map(accident => {
+        return formatData(event, accident);
+      });
+    }).flat();
+  }
+
+  /**
  * Fetches events and matching accidents based on query filter direclty from db.
  * More effecient than readByConditionMatch
  * @param {Object} query - The query filter to be applied, e.g., { State: { $eq: "New York" } }
+ * @note if no parameters are passed to the method, it will search for all cases
+ * and return the matching data
  */
-  async fetchEventsAndAccidents(query) {
+  async fetchEventsAndAccidents(query = { _id : {$exists:true}}) {
+    //first implementation at diversifying the data fetched
+    const randomValue = Math.floor(Math.random() * 10000);
     // Step 1: Fetch events matching the query filter
     const events = await instance.collections['WeatherForecast'].aggregate([
       {
-        $match: query  
+        $match: query
         // Match based on state or other filter condition
       },
       {
@@ -237,7 +314,7 @@ class DB{
                     { $eq: ['$Date', '$$eventDate'] }
                   ]
                 }
-              }
+              },
             },
           ],
           // name data
@@ -254,13 +331,15 @@ class DB{
           City: 1,
           State: 1,
           Date: 1,
-          StartTime: 1,
           //array of matched data
           matchingAccidents: 1
         }
       },
       {
-        //do this search 25 times -> array of 25 events with x amt matching events
+        $skip: randomValue
+      },
+      {
+        //do this search 10 times
         $limit:10
       }
     ]).toArray();
@@ -268,23 +347,11 @@ class DB{
     // Step 2: Process each event and its matching accidents
     const formattedResults = events.map(event => {
       return event.matchingAccidents.map(accident => {
-        return {
-          //ids are not returned, might be because of name that includes id
-          AccidentID: accident.Accident_Key,
-          WeatherID: event.Weather_Key,
-          'Weather_Condition': event.Type,
-          'Weather_Severity': event.Severity,
-          'Accident_Severity': accident.Severity,
-          Description: accident.Description,
-          'Start_Time': accident.Start_Time,
-          'End_Time': accident.End_Time,
-          State: event.State,
-          City: event.City,
-          Date: event.Date,
-        };
+        return formatData(event, accident);
       });
     });
-    return formattedResults;
+    //flatten the arrays
+    return formattedResults.flat();
   }
 
 }
