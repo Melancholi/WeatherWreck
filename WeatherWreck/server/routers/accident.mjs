@@ -167,4 +167,6 @@ router.get('/date/:date', accidentController.getAccidentsByDate);
  */
 router.get('/severity/:severity', accidentController.getAccidentsBySeverity);
 
+router.get('/matched', accidentController.getMatchedEvents);
+
 export default router;
