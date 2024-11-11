@@ -46,11 +46,19 @@ export async function getAccidents(req, res, next){
 export async function getAccidentsByState(req, res, next){
   try {
     const state = req.params.state.toUpperCase();
-    const data = await db.readByCondition('CarAccidents', { State: {$eq : state} });
+    const data = await db.fetchEventsAndAccidents({ State: {$eq : state} });
     if( data.length === 0){
       return res.status(404).json({error: `No accidents found for ${state}`});
     }
-    res.status(200).json(data);
+    // Map each accident to include only AccidentID, Weather_Condition, and coordinates
+    const simplifiedData = data.flatMap(accidentArray => 
+      accidentArray.map(accident => ({
+        AccidentID: accident.AccidentID,
+        WeatherCondition: accident.Weather_Condition,
+        Coordinates: accident.Coordinates 
+      }))
+    );
+    res.status(200).json(simplifiedData);
   } catch (error) {
     console.error(error.message);
     next(res.status(500).json({ error: error.message }));
