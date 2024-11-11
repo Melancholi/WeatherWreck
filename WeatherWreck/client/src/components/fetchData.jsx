@@ -4,7 +4,8 @@
 //  * Initially, it shows a loading message until the data is retrieved.
 //  * 
 //  * @component
-//  * @returns {JSX.Element} - The rendered component with either loading text or a list of accidents.
+//  * @returns {JSX.Element} - The rendered component with either loading text 
+//or a list of accidents.
 //  */
 // export default function FetchData(){
 //   // State to hold the fetched data
