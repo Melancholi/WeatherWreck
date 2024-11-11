@@ -3,7 +3,7 @@ export default function AccidentMap() {
   return (
     <div>
       <h1>Temporary Accident Map Page</h1>
-      <FetchData/>
+      {/* <FetchData/> */}
     </div>
   );
 }
