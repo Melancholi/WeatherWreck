@@ -30,11 +30,9 @@ export default function PieChart({weatherOfAccidents}) {
     values.push(accidents.length);
     //Add the values to display
     Object.entries(severity).forEach(([severity, count]) => {
-      if (count > 0) {
-        labels.push(`Severity ${severity}`);
-        parents.push(weatherCondition);
-        values.push(count);
-      }
+      labels.push(`Severity ${severity}`);
+      parents.push(weatherCondition);
+      values.push(count);
     });
 
   });
