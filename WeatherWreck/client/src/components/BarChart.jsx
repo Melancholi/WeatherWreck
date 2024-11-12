@@ -6,7 +6,6 @@ import Plot from 'react-plotly.js';
 export default function BarChart({ events, validWeatherType }) {
   const weatherCounts = [];
   
-
   // Getting the amount of accidents that happended for each weather condition
   for (let i = 0; i < validWeatherType.length; i++) {
     const weatherType = validWeatherType[i];
