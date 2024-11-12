@@ -5,6 +5,7 @@ import Plot from 'react-plotly.js';
  */
 export default function BarChart({ events, validWeatherType }) {
   const weatherCounts = [];
+  
 
   // Getting the amount of accidents that happended for each weather condition
   for (let i = 0; i < validWeatherType.length; i++) {
@@ -25,6 +26,19 @@ export default function BarChart({ events, validWeatherType }) {
     {
       x: validWeatherType,
       y: weatherCounts,
+      hovertemplate: 'During the %{x} Weather Condition\n' +
+                     '%{y} Accidents Happened<extra></extra>',
+      marker: {
+        color: [
+          '#49899D', // Cold
+          '#24AFE9', // Fog
+          '#A9A9A9',  // Hail
+          '#496371',  // Precipitation
+          '#73D1DC',  // Rain
+          '#A7E9F4',  // Snow
+          '#FE8418' // Storm
+        ]
+      },
       type: 'bar'
     }
   ];
