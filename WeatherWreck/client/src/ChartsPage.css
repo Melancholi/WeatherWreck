@@ -1,0 +1,4 @@
+#chartComponent{
+  display: flex;
+  flex-direction: column;
+}
