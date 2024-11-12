@@ -96,7 +96,10 @@ export default function ChartsPage() {
 
       <section id="dataCharts">
         {checked === 'bar' &&
-            <BarChart />
+            <BarChart 
+              events={acc}
+              validWeatherType={validWeatherType}
+            />
           }
 
           
