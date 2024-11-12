@@ -1,9 +1,19 @@
 import Plot from 'react-plotly.js';
 
 /**
- * Displays accident percentages based on weather condition.
+ * Displays a bar chart visualizing the number of accidents based on 
+ * different weather conditions.
+ * The chart shows accident counts for each weather type using a bar 
+ * chart with custom colors.
+ * 
+ * @component
+ * @param {Object} events - An object where keys are weather conditions 
+ * and values are arrays of accidents.
+ * @param {string[]} validWeatherType - An array of valid weather conditions 
+ * used to filter and display the accident data.
  */
 export default function BarChart({ events, validWeatherType }) {
+  // Array to store the number of accidents for each valid weather condition
   const weatherCounts = [];
   
   // Getting the amount of accidents that happended for each weather condition
@@ -21,6 +31,7 @@ export default function BarChart({ events, validWeatherType }) {
     Example from https://plotly.com/javascript/bar-charts/
     I mostly used the example for the "Basic Bar Chart"
   */
+
   const data = [
     {
       x: validWeatherType,
