@@ -11,7 +11,7 @@ import Plot from 'react-plotly.js';
  */
 export default function PieChart({weatherOfAccidents}) {
   /*
-    Example from https://plotly.com/javascript/sunburst-charts/
+    Based from https://plotly.com/javascript/sunburst-charts/
   */
   const values = [];
   const labels = [];
