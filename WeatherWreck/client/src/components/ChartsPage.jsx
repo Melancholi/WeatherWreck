@@ -25,6 +25,14 @@ const accidents = {
   'Storm': []
 };
 
+function Loading() {
+  return (
+    <div className="loading-container"> 
+      {/* <img src={bobLoadingImage} alt="Please wait" className="loading-image" /> */}
+      <p>I know, I know... Wait patiently... It&apos;s loading ...</p>
+    </div>);
+}
+
 /**
  * The main component that displays charts for accidents based on weather conditions.
  * It fetches accident data, categorizes it based on weather condition, and displays
@@ -100,7 +108,6 @@ export default function ChartsPage() {
             onChange={() => handleCheckedMode('bar')}/>
           <label>View Bar Chart</label>
         </div>
-
             
         <div>
           <input 
@@ -114,23 +121,21 @@ export default function ChartsPage() {
       </section>
 
       {loading ? 
-        <p>Loading...</p>
+        <Loading />
         : 
-        <p>{acc.length} items fetched</p>
+        <section id="dataCharts">
+          {checked === 'bar' &&
+            <BarChart 
+              events={acc}
+              validWeatherType={validWeatherType}
+            />
+          }
+
+          {checked === 'pie' &&
+            <PieChart />
+          }
+        </section>
       }
-
-      <section id="dataCharts">
-        {checked === 'bar' &&
-          <BarChart 
-            events={acc}
-            validWeatherType={validWeatherType}
-          />
-        }
-
-        {checked === 'pie' &&
-          <PieChart />
-        }
-      </section>
     </div>
   );
 }
