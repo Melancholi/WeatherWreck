@@ -54,6 +54,8 @@ const router = express.Router();
  *                         example: "High"
  *       404:
  *         description: No weather events found
+ *       500:
+ *         description: Internal server error
  */
 router.get('/', weatherController.getWeatherEvents);
 
@@ -78,6 +80,8 @@ router.get('/', weatherController.getWeatherEvents);
  *         description: A list of weather events for the specified state
  *       404:
  *         description: No weather evemts found for the state
+ *       500:
+ *         description: Internal server error
  */
 router.get('/state/:state', weatherController.getWeatherEventsByState);
 
@@ -101,6 +105,8 @@ router.get('/state/:state', weatherController.getWeatherEventsByState);
  *         description: A list of weather events for the specified date
  *       404:
  *         description: No weather evemts found for the date
+ *       500:
+ *         description: Internal server error
  */
 router.get('/date/:date', weatherController.getWeatherEventsByDate);
 
@@ -124,6 +130,8 @@ router.get('/date/:date', weatherController.getWeatherEventsByDate);
  *         description: A list of weather events for the specified type
  *       404:
  *         description: No weather evemts found for the type
+ *       500:
+ *         description: Internal server error
  */
 router.get('/type/:type', weatherController.getWeatherEventsByType);
 
