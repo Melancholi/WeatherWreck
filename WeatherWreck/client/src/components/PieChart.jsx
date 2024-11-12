@@ -63,12 +63,12 @@ export default function PieChart({weatherOfAccidents}) {
   };
 
   return (
-    <div>
-      <h1>Temporary PieChart Display</h1>
+    <figure>
+      <h1>Accident Severity by Weather Condition</h1>
       <Plot
         data={data}
         layout={layout}
       />
-    </div>
+    </figure>
   );
 }
