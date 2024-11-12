@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import BarChart from './BarChart.jsx';
 import PieChart from './PieChart.jsx';
-
+import '../ChartsPage.css';
 const validWeatherType = [
   'Cold', 'Fog', 'Hail', 'Precipitation',
   'Rain', 'Snow', 'Storm'
