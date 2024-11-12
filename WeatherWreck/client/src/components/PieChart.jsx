@@ -1,9 +1,15 @@
 import Plot from 'react-plotly.js';
 
+
 /**
- * Shows accident severity breakdown by weather condition.
+ * Pie chart Component that displays the correllation bewteen the severity of car accidents and
+ *  weather events
+ * @param {ArrayObject} weatherOfAccidents - Array containing list of weather events 
+ * and their accidents
+ * @returns {JSX.Element} A sunburst chart displaying accident severity depending on the 
+ * weather
  */
-export default function PieChart() {
+export default function PieChart({weatherOfAccidents}) {
   /*
     Example from https://plotly.com/javascript/pie-charts/
     I used the example for the "Basic Pie Chart"
