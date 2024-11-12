@@ -3,7 +3,7 @@
   width: 100%;
   display: flex;
 }
-#main{
+#filters{
   flex:1;
 }
 #map, .leaflet-container {
@@ -31,5 +31,9 @@
   width: 50%; 
   height:50%;
   margin-bottom: 10px;
+}
+.error-message{
+  flex:1;
+  color: brown;
 }
 

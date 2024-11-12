@@ -31,17 +31,23 @@ import bobLoadingImage from '../assets/bob.png';
 // });
 function customIcon(weatherType){
   let icon;
-  if(weatherType === 'Snow'){
+  switch (weatherType) {
+  case 'Snow':
     icon = IconSnow;
-  } else if(weatherType === 'Rain'){
+    break;
+  case 'Rain':
     icon = IconRain;
-  } else if(weatherType === 'Cold'){
+    break;
+  case 'Cold':
     icon = IconCold;
-  } else if(weatherType === 'Fog'){
+    break;
+  case 'Fog':
     icon = IconFog;
-  } else if(weatherType === 'Precipitation'){
+    break;
+  case 'Precipitation':
     icon = IconPrecipitation;
-  } else{
+    break;
+  default:
     icon = IconStorm;
   }
   return new Icon({
@@ -70,6 +76,7 @@ export default function AccidentMap() {
     const fetchData = async () => {
       try {
         setLoading(true);
+        setData(null);
         let api = `/api/accidents/`;
 
         if (filterOption.filterType !== '' && filterOption.filterValue !== '') {
@@ -78,11 +85,11 @@ export default function AccidentMap() {
         const response = await fetch(api);
         const result = await response.json();
 
-        // if (result.length === 0) {
-        //   setError('No data found for the selected filter.');
-        // } else {
-        //   setError(null);
-        // }
+        if (result.length === 0) {
+          setError('No data found for the selected filter.');
+        } else {
+          setError(null);
+        }
 
         setData(result);
       } catch (error) {
@@ -124,8 +131,8 @@ export default function AccidentMap() {
     return (
       <div className="ui-container">
         {/* Error message display */}
-        {error && <div>{error}</div>}
-        <div id="main">
+        {error && <div  className="error-message">{error}</div>}
+        <div id="filters">
           <FilterControl setFilter={onOptionChange}/>
         </div>
         {/* See leaflet-container CSS class */}
