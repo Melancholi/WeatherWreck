@@ -113,24 +113,23 @@ export default function ChartsPage() {
         </div>    
       </section>
 
-      {loading ? (
+      {loading ? 
         <p>Loading...</p>
-      ) : (
+        : 
         <p>{acc.length} items fetched</p>
-      )}
+      }
 
       <section id="dataCharts">
         {checked === 'bar' &&
-            <BarChart 
-              events={acc}
-              validWeatherType={validWeatherType}
-            />
-          }
+          <BarChart 
+            events={acc}
+            validWeatherType={validWeatherType}
+          />
+        }
 
-          
-          {checked === 'pie' &&
-            <PieChart />
-          }
+        {checked === 'pie' &&
+          <PieChart />
+        }
       </section>
     </div>
   );
