@@ -87,12 +87,11 @@ export default function ChartsPage() {
           <label>View Pie Chart</label>
         </div>    
       </section>
-
-      {loading ? (
+      {loading ? 
         <p>Loading...</p>
-      ) : (
+        : 
         <p>{acc.length} items fetched</p>
-      )}
+      }
 
       <section id="dataCharts">
         {checked === 'bar' &&
