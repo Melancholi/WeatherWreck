@@ -46,9 +46,9 @@ export default function FetchData(){
         <FilterControl setFilter={onOptionChange}/>
         <h2> Accidents Data</h2>
         <p> {filterOption.filterType} {filterOption.filterValue}</p>
-        <ul> {data.map((item, index)=>(
+        <ul> {data.map((item, index)=>
           <li key={index}> {JSON.stringify(item)}</li>
-        ))}
+        )}
         </ul>
       </div>);
   } 
