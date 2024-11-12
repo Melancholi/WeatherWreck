@@ -29,6 +29,6 @@ export default function BarChart() {
         data={data}
         layout={layout}
       />
-    </div>
+    </figure>
   );
 }
