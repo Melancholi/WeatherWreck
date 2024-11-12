@@ -11,19 +11,43 @@ import {
   Marker,
   Popup
 } from 'react-leaflet';
-import markerImage from '../assets/IconSnow.png';
-
+import IconSnow from '../assets/IconSnow.png';
+import IconCold from '../assets/IconCold.png';
+import IconFog from '../assets/IconFog.png';
+import IconRain from '../assets/IconRain.png';
+import IconPrecipitation from '../assets/IconPrecip.png';
+import IconStorm from '../assets/IconStorm.png';
 
 /**
  * Custom icon for map markers.
  * @type {Icon}
  */
-const customIcon = new Icon({
-  iconUrl: markerImage,
-  iconSize: [38, 38],
-  iconAnchor: [22, 30]
-});
-
+// const customIcon = new Icon({
+//   iconUrl: markerImage,
+//   iconSize: [38, 38],
+//   iconAnchor: [22, 30]
+// });
+function customIcon(weatherType){
+  let icon;
+  if(weatherType === 'Snow'){
+    icon = IconSnow;
+  } else if(weatherType === 'Rain'){
+    icon = IconRain;
+  } else if(weatherType === 'Cold'){
+    icon = IconCold;
+  } else if(weatherType === 'Fog'){
+    icon = IconFog;
+  } else if(weatherType === 'Precipitation'){
+    icon = IconPrecipitation;
+  } else{
+    icon = IconStorm;
+  }
+  return new Icon({
+    iconUrl: icon,
+    iconSize: [38, 38],
+    iconAnchor: [22, 30]
+  });
+}
 export default function AccidentMap() {
   const attribution = 
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
@@ -65,9 +89,9 @@ export default function AccidentMap() {
           <Marker 
             key={index} 
             position={[accident.Coordinates[1], accident.Coordinates[0]]} 
-            icon={customIcon}>
+            icon={customIcon(accident.WeatherCondition)}>
             <Popup>
-              <p> More info</p>
+              <p> Weather condition:{accident.WeatherCondition} </p>
             </Popup>
           </Marker>
         )}
