@@ -97,12 +97,10 @@ export default function ChartsPage() {
       <section id="dataCharts">
         {checked === 'bar' &&
             <BarChart />
-          }
-
-          
-          {checked === 'pie' &&
-            <PieChart />
-          }
+        }
+        {checked === 'pie' &&
+            <PieChart weatherOfAccidents={acc} />
+        }
       </section>
     </div>
   );
