@@ -2,11 +2,19 @@ import { useEffect, useState } from 'react';
 import BarChart from './BarChart.jsx';
 import PieChart from './PieChart.jsx';
 
+/**
+ * List of valid weather conditions for filtering accident data.
+ * @constant {string[]}
+ */
 const validWeatherType = [
   'Cold', 'Fog', 'Hail', 'Precipitation',
   'Rain', 'Snow', 'Storm'
 ];
 
+/**
+ * Object used to store accidents categorized by weather condition.
+ * @type {Object.<string, Object[]>}
+ */
 const accidents = {
   'Cold': [],
   'Fog': [],
@@ -17,12 +25,23 @@ const accidents = {
   'Storm': []
 };
 
+/**
+ * The main component that displays charts for accidents based on weather conditions.
+ * It fetches accident data, categorizes it based on weather condition, and displays
+ * either a Bar Chart or Pie Chart based on user selection.
+ */
 export default function ChartsPage() {
+  // State to store the categorized accident data
   const [acc, setAcc] = useState([]);
+  // State to track the loading status of the data
   const [loading, setLoading] = useState(true);
-  // Tracking whether data has been fetched or not
+  // State to track whether the data has been fetched
   const [isFetched, setIsFetched] = useState(false);
 
+  /**
+   * useEffect hook that fetches accident data from the API and categorizes it
+   * based on weather condition. It sets the categorized data into state once fetched.
+   */
   useEffect(() => {
     // Only fetching data if it hasn't been fetched already
     const data = async () => {
@@ -58,7 +77,13 @@ export default function ChartsPage() {
     }
   }, [isFetched]);
 
+  // State to track the selected chart view (Bar or Pie).
   const [checked, setChecked] = useState('bar');
+  /**
+   * Function that handles the chart type change (Bar or Pie).
+   * @function
+   * @param {string} mode - The selected chart type ('bar' or 'pie').
+   */
   function handleCheckedMode(mode) {
     setChecked(mode);
   }
