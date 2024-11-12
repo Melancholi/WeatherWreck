@@ -40,15 +40,26 @@ export default function PieChart({weatherOfAccidents}) {
   });
 
   const data = [{
-    values: [19, 26, 55],
-    labels: ['Residential', 'Non-Residential', 'Utility'],
-    type: 'pie'
+    labels: labels,
+    parents: parents,
+    values: values,
+    type: 'sunburst',
+    branchvalues: 'total',
+    outsidetextfont: { size: 20, color: '#377eb8' },
+    marker: { line: { width: 5 } },
+    insidetextorientation: 'auto',
+    textinfo:'label+value+percent parent',
+    textfont: { size: 14 }, 
   }];
-  
-  var layout = {
+
+  const layout = {
     height: 500,
     width: 500,
-    title: 'Test Pie Chart'
+    margin: { t: 70, l: 0, r: 0, b: 20 },
+    sunburstcolorway:[
+      '#636EFA', '#EF553B', '#00CC96', '#AB63FA', '#FFA15A'
+    ],
+    title: 'Accident Severity by Weather Condition'
   };
 
   return (
