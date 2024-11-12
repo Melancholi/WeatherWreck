@@ -1,3 +1,5 @@
+import './InfoBox.css';
+
 export default function AccidentInfoBox({ details, onClose }) {
   if (!details) return null;
 
