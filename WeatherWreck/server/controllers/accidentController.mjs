@@ -18,6 +18,7 @@ export async function getAccidents(req, res, next){
     }
     const simplifiedData = data.map(accident => ({
       AccidentID: accident.AccidentID,
+      WeatheID: accident.WeatherID,
       WeatherCondition: accident.Weather_Condition,
       Coordinates: accident.Coordinates,
       Date: accident.Date
@@ -50,6 +51,7 @@ export async function getAccidentsByState(req, res, next){
     // Map each accident to include only AccidentID, Weather_Condition, and coordinates
     const simplifiedData = data.map(accident => ({
       AccidentID: accident.AccidentID,
+      WeatheID: accident.WeatherID,
       WeatherCondition: accident.Weather_Condition,
       Coordinates: accident.Coordinates,
       State: accident.State
@@ -81,6 +83,7 @@ export async function getAccidentsByDate(req, res, next){
     // Map each accident to include only AccidentID, Weather_Condition, and coordinates
     const simplifiedData = data.map(accident => ({
       AccidentID: accident.AccidentID,
+      WeatheID: accident.WeatherID,
       WeatherCondition: accident.Weather_Condition,
       Coordinates: accident.Coordinates,
       Date: accident.Date
@@ -114,6 +117,7 @@ export async function getAccidentsBySeverity(req, res, next){
     // Map each accident to include only AccidentID, Weather_Condition, and coordinates
     const simplifiedData = data.map(accident => ({
       AccidentID: accident.AccidentID,
+      WeatheID: accident.WeatherID,
       WeatherCondition: accident.Weather_Condition,
       Coordinates: accident.Coordinates,
       WeatherSeverity: accident.Weather_Severity
@@ -137,6 +141,7 @@ export async function getAccidentsByType(req, res, next){
     // Map each accident to include only AccidentID, Weather_Condition, and coordinates
     const simplifiedData = data.map(accident => ({
       AccidentID: accident.AccidentID,
+      WeatheID: accident.WeatherID,
       WeatherCondition: accident.Weather_Condition,
       Coordinates: accident.Coordinates,
     }));
@@ -149,23 +154,31 @@ export async function getAccidentsByType(req, res, next){
 
 export async function getAccidentDetails(req, res, next){
   try {
-    const accidentId = req.params.accident_id; //A-3873408 A-757402
-    const weatherId = req.params.weather_id;
-    const data = await db.fetchEventsAndAccidents({ WeatherId: { $eq : weatherId} });
+    const accidentId = req.params.accident_id; //A-3806044 A-757402
+    const weatherId = req.params.weather_id; //W-316042
+    const data = await db.fetchEventsAndAccidents({ Weather_Key: { $eq : weatherId} });
+
     if( data.length === 0){
-      return res.status(404).json({error: `No details found for ${accidentId}`});
+      return res.status(404).json({error: `No details found for ${weatherId}`});
     }
-    // Map each accident to include only AccidentID, Weather_Condition, and coordinates
-    const simplifiedData = data.map(accident => ({
-      WeatherCondition: accident.Weather_Condition,
-      WeatherSeverity: accident.Weather_Severity,
-      AccidentSeverity: accident.Accident_Severity,
-      Description: accident.Description,
-      State: accident.State,
-      City: accident.City,
-      Date: accident.Date
-    }));
-    res.status(200).json(simplifiedData);
+
+    const filteredAccident = data.find( accident => accident.AccidentID === accidentId );
+
+    if(!filteredAccident){
+      return res.status(404).json({error: `Oupsy something went wrong for ${accidentId} `});
+    }
+    
+    // Return the found accident
+    res.status(200).json({
+      WeatherCondition: filteredAccident.Weather_Condition,
+      WeatherSeverity: filteredAccident.Weather_Severity,
+      AccidentSeverity: filteredAccident.Accident_Severity,
+      Description: filteredAccident.Description,
+      State: filteredAccident.State,
+      City: filteredAccident.City,
+      Date: filteredAccident.Date
+    });
+
   } catch (error) {
     console.error(error.message);
     next(res.status(500).json({ error: error.message }));

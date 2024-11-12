@@ -18,6 +18,7 @@ import IconRain from '../assets/IconRain.png';
 import IconPrecipitation from '../assets/IconPrecip.png';
 import IconStorm from '../assets/IconStorm.png';
 import bobLoadingImage from '../assets/bob.png';
+import AccidentInfoBox from './AccidentInfoBox';
 /**
  * Custom icon for map markers.
  * @type {Icon}
@@ -59,12 +60,14 @@ export default function AccidentMap() {
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
   const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
   const [error, setError] = useState(null);
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filterOption, setFilterOption] = useState({
     filterType : '',
     filterValue: ''
   });
+  const [selectedAccident, setSelectedAccident] = useState(null);
+
 
   function onOptionChange(value){
     setFilterOption(value);
@@ -74,7 +77,6 @@ export default function AccidentMap() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        setData(null);
         let api = `/api/accidents/`;
 
         if (filterOption.filterType !== '' && filterOption.filterValue !== '') {
@@ -83,12 +85,7 @@ export default function AccidentMap() {
         const response = await fetch(api);
         const result = await response.json();
 
-        if (result.length === 0) {
-          setError('No data found for the selected filter.');
-        } else {
-          setError(null);
-        }
-
+        setError(result.length ? null : 'No data found for the selected filter.'); 
         setData(result);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -101,6 +98,16 @@ export default function AccidentMap() {
     fetchData();
   }, [filterOption]);
 
+  async function fetchAccidentDetails(accidentId, weatherId) {
+    try {
+      const response = await fetch(`/api/accidents/details/${accidentId}/${weatherId}`);
+      const details = await response.json();
+      setSelectedAccident(details);
+    } catch (error) {
+      console.error('Error fetching accident details:', error);
+    }
+  }
+
   function AccidentMarker(){
     return (
       <>
@@ -108,7 +115,10 @@ export default function AccidentMap() {
           <Marker 
             key={index} 
             position={[accident.Coordinates[1], accident.Coordinates[0]]} 
-            icon={customIcon(accident.WeatherCondition)}>
+            icon={customIcon(accident.WeatherCondition)}
+            eventHandlers={{
+              click: () => fetchAccidentDetails(accident.AccidentID, accident.WeatherID),
+            }}>
             <Popup>
               <p> Weather:{accident.WeatherCondition} </p>
             </Popup>
@@ -127,34 +137,38 @@ export default function AccidentMap() {
       </div>);
   }else{
     return (
-      <div className="ui-container">
+      <div id="main">
         {/* Error message display */}
-        {error && <div  className="error-message">{error}</div>}
-        <div id="filters">
-          <FilterControl setFilter={onOptionChange}/>
+        {error && <div id="error-message">{error}</div>}
+        <div className="ui-container">
+          <div id="filters">
+            <FilterControl setFilter={onOptionChange}/>
+          </div>
+          {/* See leaflet-container CSS class */}
+          <div id="map">
+            <MapContainer
+              center={[39.8283, -98.5795]}
+              zoom={4}
+              zoomControl={true}
+              updateWhenZooming={false}
+              updateWhenIdle={true}
+              preferCanvas={true}
+              minZoom={3}
+              maxZoom={16}
+            >
+              <TileLayer
+                attribution={attribution}
+                url={tileUrl}
+              />
+              {data.length > 0 ? <AccidentMarker /> : null}
+            </MapContainer>
+          </div>
+          <div id="legend">
+            <Legend />
+          </div>
         </div>
-        {/* See leaflet-container CSS class */}
-        <div id="map">
-          <MapContainer
-            center={[39.8283, -98.5795]}
-            zoom={4}
-            zoomControl={true}
-            updateWhenZooming={false}
-            updateWhenIdle={true}
-            preferCanvas={true}
-            minZoom={3}
-            maxZoom={16}
-          >
-            <TileLayer
-              attribution={attribution}
-              url={tileUrl}
-            />
-
-            {data.length > 0 ? <AccidentMarker /> : null}
-          </MapContainer>
-        </div>
-        <div id="legend">
-          <Legend />
+        <div id="info-box">
+          <AccidentInfoBox details={selectedAccident} onClose={() => setSelectedAccident(null)} />
         </div>
       </div>
     );

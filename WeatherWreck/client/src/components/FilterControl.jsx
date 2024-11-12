@@ -58,7 +58,7 @@ export default function FilterControl({setFilter}){
     'Rain', 'Snow', 'Precipitation', 'Fog', 'Storm', 'Cold'
   ]);
 
-  const [severities] = useState(['Light', 'Moderate', 'Heavy']);
+  const [severities] = useState(['Light', 'Moderate', 'Heavy', 'Severe']);
   return (
     <search id="FilterControlSection">
       <h3 id="SearchHeader">SEARCH OPTIONS</h3>
