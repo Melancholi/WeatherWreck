@@ -1,0 +1,17 @@
+.legend {
+  background: white;
+  padding: 10px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  color: black;
+}
+
+.legend-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 8px;
+}

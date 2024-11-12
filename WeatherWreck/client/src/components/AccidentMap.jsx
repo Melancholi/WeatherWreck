@@ -4,6 +4,7 @@ import FilterControl  from './FilterControl.jsx';
 import {useState} from 'react';
 import 'leaflet/dist/leaflet.css';
 import './Map.css';
+import Legend from './Legend.jsx';
 import { Icon  } from 'leaflet';
 import { 
   MapContainer, 
@@ -12,7 +13,7 @@ import {
   Popup,
   Polyline
 } from 'react-leaflet';
-import markerImage from '../assets/marker-icon.png';
+import markerImage from '../assets/IconSnow.png';
 
 
 /**
@@ -36,8 +37,7 @@ export default function AccidentMap() {
   useEffect(()=>{
     const fetchData = async () => {
       try {
-        const state = 'OH';
-        const response = await fetch(`/api/accidents/state/${state}`);
+        const response = await fetch(`/api/accidents/`);
         const result = await response.json();
         setData(result);
         console.log(result);
@@ -53,7 +53,6 @@ export default function AccidentMap() {
   }, []);
 
   function AccidentMarker(){
-    
     return (
       <>
         {data.map((accident, index) => 
@@ -113,13 +112,10 @@ export default function AccidentMap() {
             <AccidentMarker />
           </MapContainer>
         </div>
+        <div id="legend">
+          <Legend />
+        </div>
       </div>
-      // <div>
-      //   <ul> {data.map((item, index)=>(
-      //     <li key={index}> {JSON.stringify(item)}</li>
-      //   ))}
-      //   </ul>
-      // </div>
     );
   }
 }

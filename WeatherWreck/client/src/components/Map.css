@@ -3,17 +3,17 @@
 
 .ui-container {
   height: 100%;
-  width: 80%;
+  width: 100%;
   display: flex;
 }
-
-.ui-controls {
-  flex: 1;
-  flex-direction: column;
-  display: flex;
+#main{
+  flex:1;
 }
 #map, .leaflet-container {
   flex:3;
   width: 100%;
   height: 100vh; /* Full viewport height */
+}
+#legend{
+  flex:1;
 }
