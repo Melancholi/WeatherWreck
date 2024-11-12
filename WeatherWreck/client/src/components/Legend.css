@@ -1,6 +1,8 @@
 .legend {
   background: white;
   padding: 10px;
+  background-color: gainsboro;
+  height: 97.6%;
 }
 
 .legend-item {

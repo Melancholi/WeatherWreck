@@ -19,7 +19,7 @@ import IconFog from '../assets/IconFog.png';
 import IconRain from '../assets/IconRain.png';
 import IconPrecipitation from '../assets/IconPrecip.png';
 import IconStorm from '../assets/IconStorm.png';
-
+import bobLoadingImage from '../assets/bob.png';
 /**
  * Custom icon for map markers.
  * @type {Icon}
@@ -57,14 +57,34 @@ export default function AccidentMap() {
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [filterOption, setFilterOption] = useState({
+    filterType : '',
+    filterValue: ''
+  });
+
+  function onOptionChange(value){
+    setFilterOption(value);
+  }
 
   useEffect(()=>{
     const fetchData = async () => {
       try {
-        const response = await fetch(`/api/accidents/`);
+        setLoading(true);
+        let api = `/api/accidents/`;
+
+        if (filterOption.filterType !== '' && filterOption.filterValue !== '') {
+          api += `/${filterOption.filterType}/${filterOption.filterValue}`;
+        }
+        const response = await fetch(api);
         const result = await response.json();
+
+        // if (result.length === 0) {
+        //   setError('No data found for the selected filter.');
+        // } else {
+        //   setError(null);
+        // }
+
         setData(result);
-        console.log(result);
       } catch (error) {
         console.error('Error fetching data:', error);
         setError(`Failed to load data.`);
@@ -74,7 +94,7 @@ export default function AccidentMap() {
     };
     // Call the fetch function when component mounts
     fetchData();
-  }, []);
+  }, [filterOption]);
 
   function AccidentMarker(){
     return (
@@ -85,7 +105,7 @@ export default function AccidentMap() {
             position={[accident.Coordinates[1], accident.Coordinates[0]]} 
             icon={customIcon(accident.WeatherCondition)}>
             <Popup>
-              <p> Weather condition:{accident.WeatherCondition} </p>
+              <p> Weather:{accident.WeatherCondition} </p>
             </Popup>
           </Marker>
         )}
@@ -95,28 +115,19 @@ export default function AccidentMap() {
 
   
   if(loading){
-    return <p> Loading ...</p>;
+    return (
+      <div className="loading-container"> 
+        <img src={bobLoadingImage} alt="Please wait" className="loading-image" />
+        <p>I know, I know... Wait patiently... It&apos;s loading ...</p>
+      </div>);
   }else{
     return (
       <div className="ui-container">
-        <div className ="ui-controls">
-          <label>
-            <input 
-              type ="radio" 
-              name="mode" 
-              value="info" 
-            /> data
-          </label>
-          <label>
-            <input 
-              type ="radio" 
-              name="mode" 
-              value="history"
-            /> state
-          </label>
-        </div>
         {/* Error message display */}
         {error && <div>{error}</div>}
+        <div id="main">
+          <FilterControl setFilter={onOptionChange}/>
+        </div>
         {/* See leaflet-container CSS class */}
         <div id="map">
           <MapContainer
@@ -132,8 +143,9 @@ export default function AccidentMap() {
             <TileLayer
               attribution={attribution}
               url={tileUrl}
-            />    
-            <AccidentMarker />
+            />
+
+            {data.length > 0 ? <AccidentMarker /> : null}
           </MapContainer>
         </div>
         <div id="legend">
