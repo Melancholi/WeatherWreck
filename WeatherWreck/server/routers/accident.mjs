@@ -157,6 +157,11 @@ router.get('/date/:date', accidentController.getAccidentsByDate);
  *       404:
  *         description: No accidents found for the severity
  */
+
+router.get('/type/:type', accidentController.getAccidentsByType);
+
 router.get('/severity/:severity', accidentController.getAccidentsBySeverity);
+
+router.get('/details/:accident_id/:weather_id', accidentController.getAccidentDetails);
 
 export default router;
