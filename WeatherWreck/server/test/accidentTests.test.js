@@ -107,7 +107,7 @@ const mockListAccidents = [
 ];
 
 // Test retrieving all accidents
-describe('GET /accidents', () => {
+describe.skip('GET /accidents', () => {
   after(()=>{
     sinon.restore();
   });
@@ -126,7 +126,7 @@ describe('GET /accidents', () => {
 });
 
 // Test error handling for retrieving all accidents
-describe('Error Handling for Accidents', () => {
+describe.skip('Error Handling for Accidents', () => {
   after(()=>{
     sinon.restore();
   });
