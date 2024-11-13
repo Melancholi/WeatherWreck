@@ -2,6 +2,8 @@ import {useState} from 'react';
 import './FilterControl.css';
 export default function FilterControl({setFilter}){
   const [filterType, setFilterType] = useState('');
+  const [filterValue, setFilterValue] = useState('');
+  const [selectedDate, setSelectedDate] = useState('');
   const [states] = useState([
     { name: 'Alabama', abbreviation: 'AL' },
     { name: 'Alaska', abbreviation: 'AK' },
@@ -57,16 +59,35 @@ export default function FilterControl({setFilter}){
   const [weatherTypes] = useState([
     'Rain', 'Snow', 'Precipitation', 'Fog', 'Storm', 'Cold'
   ]);
-
   const [severities] = useState(['Light', 'Moderate', 'Heavy', 'Severe']);
+
+  const handleDateChange = (e) => {
+    const date = e.target.value;
+    setSelectedDate(date);
+  };
+
+  const applyFilter = () => {
+    // Set the filter based on the selected filter type and value
+    if (filterType === 'date' && selectedDate.length === 10) {
+      setFilter({ filterType, filterValue: selectedDate });
+    } else if (filterType && filterValue) {
+      setFilter({ filterType, filterValue });
+    }
+  };
+
   return (
-    <search id="FilterControlSection">
+    <section id="FilterControlSection">
       <h3 id="SearchHeader">SEARCH OPTIONS</h3>
       <section id="SearchSection">
         <select
           id="FilterChoice"
           value={filterType}
-          onChange={e =>setFilterType(e.target.value)}>
+          onChange={(e) => {
+            setFilterType(e.target.value);
+            setFilterValue(''); // Clear filterValue on filter type change
+            setSelectedDate(''); // Clear date selection on filter type change
+          }}
+        >
           <option value="">Select Filter</option>
           <option value="state">State</option>
           <option value="severity">Severity</option>
@@ -77,7 +98,9 @@ export default function FilterControl({setFilter}){
         {filterType === 'state' && (
           <select
             id="filterValue"
-            onChange={(e) => setFilter({ filterType, filterValue: e.target.value })}>
+            value={filterValue}
+            onChange={(e) => setFilterValue(e.target.value)}
+          >
             <option value="">Select State</option>
             {states.map((state, index) => (
               <option key={index} value={state.abbreviation}>
@@ -90,7 +113,9 @@ export default function FilterControl({setFilter}){
         {filterType === 'severity' && (
           <select
             id="filterValue"
-            onChange={(e) => setFilter({  filterType: filterType, filterValue: e.target.value })}>
+            value={filterValue}
+            onChange={(e) => setFilterValue(e.target.value)}
+          >
             <option value="">Select Severity</option>
             {severities.map((severity, index) => (
               <option key={index} value={severity}>
@@ -103,7 +128,9 @@ export default function FilterControl({setFilter}){
         {filterType === 'type' && (
           <select
             id="filterValue"
-            onChange={(e) => setFilter({  filterType: filterType, filterValue: e.target.value })}>
+            value={filterValue}
+            onChange={(e) => setFilterValue(e.target.value)}
+          >
             <option value="">Select Weather Type</option>
             {weatherTypes.map((weather, index) => (
               <option key={index} value={weather}>
@@ -112,16 +139,22 @@ export default function FilterControl({setFilter}){
             ))}
           </select>
         )}
+
         {filterType === 'date' && (
           <input
             type="date"
             id="filterValue"
             min="2022-01-30"
             max="2022-12-31"
-            onChange={(e) => setFilter({  filterType: filterType, filterValue: e.target.value })}
+            value={selectedDate}
+            onChange={handleDateChange}
           />
         )}
+        
+        <button id="ApplyFilterButton" onClick={applyFilter}>
+          Apply Filter
+        </button>
       </section>
-    </search>
+    </section>
   );
 }

@@ -7,13 +7,14 @@ export default function AccidentInfoBox({ details, onClose }) {
     <div className="info-box">
       <button onClick={onClose} className="close-btn">Close</button>
       <h3>Accident Details</h3>
-      <p><strong>Weather Condition:</strong> {details.WeatherCondition}</p>
-      <p><strong>Weather Severity:</strong> {details.WeatherSeverity}</p>
-      <p><strong>Accident Severity:</strong> {details.AccidentSeverity}</p>
-      <p><strong>Description:</strong> {details.Description}</p>
-      <p><strong>State:</strong> {details.State}</p>
-      <p><strong>City:</strong> {details.City}</p>
-      <p><strong>Date:</strong> {new Date(details.Date).toLocaleDateString()}</p>
+      <p><strong>Weather Condition:</strong> Rain</p>
+      <p><strong>Weather Severity:</strong> Light</p>
+      <p><strong>Accident Severity:</strong> 3 </p>
+      <p><strong>Description:</strong> Lane blocked due to accident on I-90 
+      Kennedy Expy Eastbound at Exit 44A IL-19 Irving Park Rd</p>
+      <p><strong>State:</strong> IL</p>
+      <p><strong>City:</strong> Palestine</p>
+      <p><strong>Date:</strong> 2022-01-02</p>
     </div>
   );
 }
