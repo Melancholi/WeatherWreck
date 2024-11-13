@@ -167,21 +167,4 @@ router.get('/date/:date', accidentController.getAccidentsByDate);
  */
 router.get('/severity/:severity', accidentController.getAccidentsBySeverity);
 
-/**
- * @swagger
- * /api/accidents/matched:
- *   get:
- *     summary: Retrieve matched weather and accidents events
- *     description: |
- *       Retrieve a list of matched weather and accidents events from MongoDb. 
- *     responses:
- *       200:
- *         description: A list of matched weather and accidents events
- *       404:
- *         description: No matches found
- *       500:
- *         description: Internal server error
- */
-router.get('/matched', accidentController.getMatchedEvents);
-
 export default router;
