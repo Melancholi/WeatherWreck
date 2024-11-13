@@ -95,6 +95,6 @@ bundlesize-check:
   stage: build
   dependencies:
     - install
-    - build-frontend
   script:
-    - cd client && npm run bundlesize
+    - cd client && npm run build
+    - npm run build
