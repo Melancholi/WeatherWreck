@@ -339,6 +339,7 @@ class DB{
       },
       {
         //do this search 10 times
+        $limit:10
       }
     ]).toArray();
 
