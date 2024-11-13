@@ -95,11 +95,24 @@ export default function ChartsPage() {
 
       <section id="dataCharts">
         {checked === 'bar' &&
+<<<<<<< HEAD
             <BarChart />
         }
         {checked === 'pie' &&
             <PieChart weatherOfAccidents={acc} />
         }
+=======
+            <BarChart 
+              events={acc}
+              validWeatherType={validWeatherType}
+            />
+          }
+
+          
+          {checked === 'pie' &&
+            <PieChart />
+          }
+>>>>>>> fa22f19 (Made the bar chart use our data)
       </section>
     </div>
   );
