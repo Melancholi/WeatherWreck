@@ -1,8 +1,4 @@
 import Plot from 'react-plotly.js';
-const validWeatherType = [
-  'Cold', 'Fog', 'Hail', 'Precipitation',
-  'Rain', 'Snow', 'Storm'
-];
 
 /**
  * Displays a bar chart visualizing the number of accidents based on 
