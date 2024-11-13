@@ -84,8 +84,8 @@ export default function FilterControl({setFilter}){
           value={filterType}
           onChange={(e) => {
             setFilterType(e.target.value);
-            setFilterValue(''); // Clear filterValue on filter type change
-            setSelectedDate(''); // Clear date selection on filter type change
+            setFilterValue(''); 
+            setSelectedDate('');
           }}
         >
           <option value="">Select Filter</option>
