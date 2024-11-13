@@ -97,4 +97,4 @@ bundlesize-check:
     - install
   script:
     - cd client && npm run build
-    - npm run build
+    - npm run bundlesize
