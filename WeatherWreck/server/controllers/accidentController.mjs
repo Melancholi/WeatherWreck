@@ -21,7 +21,9 @@ export async function getAccidents(req, res, next){
       WeatheID: accident.WeatherID,
       WeatherCondition: accident.Weather_Condition,
       Coordinates: accident.Coordinates,
-      Date: accident.Date
+      Date: accident.Date,
+      WeatherSeverity: accident.Weather_Severity,
+      AccidentSeverity: accident.Accident_Severity
     }));
     res.status(200).json(simplifiedData);
   } catch (error) {
@@ -154,9 +156,10 @@ export async function getAccidentsByType(req, res, next){
 
 export async function getAccidentDetails(req, res, next){
   try {
-    const accidentId = req.params.accident_id; //A-3806044 A-757402
-    const weatherId = req.params.weather_id; //W-316042
-    const data = await db.fetchEventsAndAccidents({ Weather_Key: { $eq : weatherId} });
+    const accidentId = req.params.accident_id; //A-3806044
+    const weatherId = req.params.weather_id.toString(); //W-316042
+    console.log(weatherId);
+    const data = await db.fetchEventsAndAccidents({ Weather_Key: { $eq :weatherId} });
 
     if( data.length === 0){
       return res.status(404).json({error: `No details found for ${weatherId}`});
