@@ -56,12 +56,12 @@ export default function ChartsPage() {
     // Only fetching data if it hasn't been fetched already
     const data = async () => {
       try {
-        const response = await fetch('/api/accidents/matched');
+        const response = await fetch('/api/accidents/');
         const result = await response.json();
 
         // Looping through the fetched data and categorize accidents based on Weather_Condition
         result.forEach(accident => {
-          const weatherCondition = accident.Weather_Condition;
+          const weatherCondition = accident.WeatherCondition;
 
           // Checking if the weather condition is valid
           if (validWeatherType.includes(weatherCondition)) {
