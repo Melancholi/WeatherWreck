@@ -71,7 +71,7 @@ export default function BarChart({ events, validWeatherType }) {
 
   return( 
     <figure>
-      <h1>Accident Percent by Weather Condition</h1>
+      <h1 className="chartsH1">Accident Percent by Weather Condition</h1>
       <Plot
         data={data}
         layout={layout}
