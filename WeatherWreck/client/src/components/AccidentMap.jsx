@@ -1,17 +1,15 @@
-// eslint-disable-next-line no-unused-vars
-import FetchData from './fetchData.jsx';
-import FilterControl  from './FilterControl.jsx';
-import {useState} from 'react';
+
 import 'leaflet/dist/leaflet.css';
 import './Map.css';
 import Legend from './Legend.jsx';
 import { Icon  } from 'leaflet';
+import { useState, useEffect} from 'react';
+import FilterControl  from './FilterControl.jsx';
 import { 
   MapContainer, 
   TileLayer, 
   Marker,
-  Popup,
-  Polyline
+  Popup
 } from 'react-leaflet';
 import IconSnow from '../assets/IconSnow.png';
 import IconCold from '../assets/IconCold.png';
@@ -21,15 +19,10 @@ import IconPrecipitation from '../assets/IconPrecip.png';
 import IconStorm from '../assets/IconStorm.png';
 import bobLoadingImage from '../assets/bob.png';
 import AccidentInfoBox from './AccidentInfoBox';
+
 /**
- * Custom icon for map markers.
- * @type {Icon}
+ * Custom icons for map markers.
  */
-// const customIcon = new Icon({
-//   iconUrl: markerImage,
-//   iconSize: [38, 38],
-//   iconAnchor: [22, 30]
-// });
 function customIcon(weatherType){
   let icon;
   switch (weatherType) {
