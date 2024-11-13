@@ -2,3 +2,88 @@
   display: flex;
   flex-direction: column;
 }
+#dataPanel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: lightgrey;
+  width: 100%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+  gap: 10px;
+}
+#dataCharts {
+  flex: 3;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.loading-image {
+  height: 500px;
+  width: auto;
+}
+
+/* Media query for mobile devices */
+@media (max-width: 600px) {
+  #dataCharts {
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 10px;
+  }
+
+  #dataPanel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  #dataPanel label {
+    font-size: 14px;
+  }
+
+  .loading-image {
+    height: 300px;
+    width: auto;
+  }
+}
+
+/* Media query for tablet and above (min-width: 600px) */
+@media (min-width: 600px) {
+  #dataPanel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: lightgrey;
+    width: 100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+  }
+
+  /* Charts stay horizontally aligned on larger screens */
+  #dataCharts {
+    flex: 3;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  /* Ensure the loading image is the same size */
+  .loading-image {
+    height: 500px;
+    width: auto;
+  }
+}

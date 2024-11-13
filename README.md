@@ -50,3 +50,14 @@ ATLAS_URI= <...url...>
 4. open another console
 5. cd server/
 6. npm run dev
+
+## UI Screenshots
+- Note that were not able to fit the header and footer since our UI is big
+### Accidents View
+![Accidents View](wireframe/UI_1.png)
+### Charts View
+#### Bar Chart
+![Bar Chart](wireframe/UI_3.png)
+
+#### Pie Chart
+![Pie Chart](wireframe/UI_2.png)
