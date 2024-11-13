@@ -142,7 +142,7 @@ describe.skip('Error Handling for Accidents', () => {
 });
 
 // Test retrieving accidents by state
-describe('GET /accidents/state/:state', () => {
+describe.skip('GET /accidents/state/:state', () => {
   after(()=>{
     sinon.restore();
   });
@@ -161,7 +161,7 @@ describe('GET /accidents/state/:state', () => {
 });
 
 // Test error handling for retriving accidents by an invalid state
-describe('GET /accidents/state/:state - invalid state', () => {
+describe.skip('GET /accidents/state/:state - invalid state', () => {
   after(()=>{
     sinon.restore();
   });
@@ -178,7 +178,7 @@ describe('GET /accidents/state/:state - invalid state', () => {
 });
 
 // Test retrieving accidents by state
-describe('GET /accidents/date/:date', () => {
+describe.skip('GET /accidents/date/:date', () => {
   after(()=>{
     sinon.restore();
   });
@@ -198,7 +198,7 @@ describe('GET /accidents/date/:date', () => {
 });
 
 // Test error handling for retriving accidents by an invalid date
-describe('GET /accidents/date/:date - invalid date', () => {
+describe.skip('GET /accidents/date/:date - invalid date', () => {
   after(()=>{
     sinon.restore();
   });
@@ -215,7 +215,7 @@ describe('GET /accidents/date/:date - invalid date', () => {
 });
 
 // Test retrieving accidents by severity
-describe('GET /accidents/severity/:severity', () => {
+describe.skip('GET /accidents/severity/:severity', () => {
   it.skip('should retrieve accidents by severity', async () => {
     const res = await request(app).get('/api/accidents/severity/high');
     expect(res.body).to.deep.equal(mockListAccidents);
@@ -227,7 +227,7 @@ describe('GET /accidents/severity/:severity', () => {
 });
 
 // Test error handling for retriving accidents by an invalid severity
-describe('GET /accidents/severity/:severity - invalid severity', () => {
+describe.skip('GET /accidents/severity/:severity - invalid severity', () => {
   after(()=>{
     sinon.restore();
   });

@@ -55,7 +55,7 @@ function formatData(event, accident){
     State: event.State,
     City: event.City,
     Date: event.Date,
-    Coordinates: [accident.Start_Point, accident.End_Point]
+    Coordinates: accident.Start_Point
   };
 }
 
@@ -290,7 +290,6 @@ class DB{
  * and return the matching data
  */
   async fetchEventsAndAccidents(query = { _id : {$exists:true}}) {
-    //first implementation at diversifying the data fetched
     const randomValue = Math.floor(Math.random() * 10000);
     // Step 1: Fetch events matching the query filter
     const events = await instance.collections['WeatherForecast'].aggregate([
@@ -340,7 +339,6 @@ class DB{
       },
       {
         //do this search 10 times
-        $limit:10
       }
     ]).toArray();
 

@@ -129,7 +129,7 @@ router.get('/date/:date', weatherController.getWeatherEventsByDate);
  *       200:
  *         description: A list of weather events for the specified type
  *       404:
- *         description: No weather evemts found for the type
+ *         description: No weather events found for the type
  *       500:
  *         description: Internal server error
  */
