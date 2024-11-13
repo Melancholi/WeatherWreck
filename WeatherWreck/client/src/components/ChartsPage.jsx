@@ -122,22 +122,11 @@ export default function ChartsPage() {
         </div>    
       </section>
 
-<<<<<<< HEAD
       {loading ? 
         <Loading />
         : 
         <section id="dataCharts">
           {checked === 'bar' &&
-=======
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <p>{acc.length} items fetched</p>
-      )}
-
-      <section id="dataCharts">
-        {checked === 'bar' &&
->>>>>>> fa22f19 (Made the bar chart use our data)
             <BarChart 
               events={acc}
               validWeatherType={validWeatherType}
