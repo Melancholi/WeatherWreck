@@ -12,9 +12,9 @@ import {db} from '../db/db.mjs';
  */
 export async function getAccidents(req, res, next){
   try {
-    const data = await db.generalFetchEventsAndAccidents();
-    if (data.length === 0){
-      return res.status(404).json({error: 'No accidents found'});
+    const accidents = await db.readAll('CarAccidents');
+    if (accidents.length === 0){
+      return res.status(404).json({error: `No accidents found`});
     }
     const simplifiedData = data.map(accident => ({
       AccidentID: accident.AccidentID,
@@ -116,70 +116,7 @@ export async function getAccidentsBySeverity(req, res, next){
     if( data.length === 0){
       return res.status(404).json({error: `No accidents found for severity ${severity}`});
     }
-    // Map each accident to include only AccidentID, Weather_Condition, and coordinates
-    const simplifiedData = data.map(accident => ({
-      AccidentID: accident.AccidentID,
-      WeatheID: accident.WeatherID,
-      WeatherCondition: accident.Weather_Condition,
-      Coordinates: accident.Coordinates,
-      WeatherSeverity: accident.Weather_Severity
-    }));
-    res.status(200).json(simplifiedData);
-  } catch (error) {
-    console.error(error.message);
-    next(res.status(500).json({ error: error.message }));
-  }
-}
-
-export async function getAccidentsByType(req, res, next){
-  try {
-    const type = req.params.type;
-    //Capitalize first letter
-    const camelCaseType = type[0].toUpperCase() + type.slice(1);
-    const data = await db.fetchEventsAndAccidents({ Type: { $eq : camelCaseType} });
-    if( data.length === 0){
-      return res.status(404).json({error: `No accidents found for type ${type}`});
-    }
-    // Map each accident to include only AccidentID, Weather_Condition, and coordinates
-    const simplifiedData = data.map(accident => ({
-      AccidentID: accident.AccidentID,
-      WeatheID: accident.WeatherID,
-      WeatherCondition: accident.Weather_Condition,
-      Coordinates: accident.Coordinates,
-    }));
-    res.status(200).json(simplifiedData);
-  } catch (error) {
-    console.error(error.message);
-    next(res.status(500).json({ error: error.message }));
-  }
-}
-
-export async function getAccidentDetails(req, res, next){
-  try {
-    const accidentId = req.params.accident_id; 
-    const weatherId = req.params.weather_id;
-    const data = await db.fetchEventsAndAccidents({ WeatherId: { $eq : weatherId} });
-    if( data.length === 0){
-      return res.status(404).json({error: `No details found for ${weatherId}`});
-    }
-
-    const filteredAccident = data.find( accident => accident.AccidentID === accidentId );
-
-    if(!filteredAccident){
-      return res.status(404).json({error: `Oupsy something went wrong for ${accidentId} `});
-    }
-    
-    // Return the found accident
-    res.status(200).json({
-      WeatherCondition: filteredAccident.Weather_Condition,
-      WeatherSeverity: filteredAccident.Weather_Severity,
-      AccidentSeverity: filteredAccident.Accident_Severity,
-      Description: filteredAccident.Description,
-      State: filteredAccident.State,
-      City: filteredAccident.City,
-      Date: filteredAccident.Date
-    });
-
+    res.status(200).json(data);
   } catch (error) {
     console.error(error.message);
     next(res.status(500).json({ error: error.message }));

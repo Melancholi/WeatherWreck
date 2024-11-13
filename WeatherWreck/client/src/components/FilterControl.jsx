@@ -139,7 +139,6 @@ export default function FilterControl({setFilter}){
             ))}
           </select>
         )}
-
         {filterType === 'date' && (
           <input
             type="date"
