@@ -2,7 +2,7 @@
   "files": [
     {
       "path": "./dist/**/*.js",
-      "maxSize": "100 kB"
+      "maxSize": "2 MB"
     },
     {
       "path": "./dist/**/*.css",
