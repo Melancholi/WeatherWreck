@@ -338,8 +338,7 @@ class DB{
         $skip: randomValue
       },
       {
-        //do this search 25 times -> array of 25 events with x amt matching events
-        $limit:10
+        //do this search 10 times
       }
     ]).toArray();
 
