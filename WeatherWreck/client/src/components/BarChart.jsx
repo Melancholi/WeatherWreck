@@ -40,13 +40,13 @@ export default function BarChart({ events, validWeatherType }) {
                      '%{y} Accidents Happened<extra></extra>',
       marker: {
         color: [
-          '#49899D', // Cold
-          '#24AFE9', // Fog
-          '#A9A9A9',  // Hail
-          '#496371',  // Precipitation
-          '#73D1DC',  // Rain
-          '#A7E9F4',  // Snow
-          '#FE8418' // Storm
+          '#49899D',
+          '#24AFE9',
+          '#A9A9A9',
+          '#496371',
+          '#73D1DC',
+          '#A7E9F4',
+          '#FE8418' 
         ]
       },
       type: 'bar'
