@@ -21,7 +21,7 @@ export default function PieChart({weatherOfAccidents}) {
 
     //First set the quantities for the severity
     accidents.forEach(accident =>{
-      severity[accident.Accident_Severity]++;
+      severity[accident.AccidentSeverity]++;
     });
 
     //sets up the hierarchy
