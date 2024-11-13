@@ -12,11 +12,20 @@ import {db} from '../db/db.mjs';
  */
 export async function getAccidents(req, res, next){
   try {
-    const accidents = await db.readAll('CarAccidents');
-    if (accidents.length === 0){
-      return res.status(404).json({error: `No accidents found`});
+    const data = await db.generalFetchEventsAndAccidents();
+    if (data.length === 0){
+      return res.status(404).json({error: 'No accidents found'});
     }
-    res.status(200).json(accidents);
+    const simplifiedData = data.map(accident => ({
+      AccidentID: accident.AccidentID,
+      WeatheID: accident.WeatherID,
+      WeatherCondition: accident.Weather_Condition,
+      Coordinates: accident.Coordinates,
+      Date: accident.Date,
+      WeatherSeverity: accident.Weather_Severity,
+      AccidentSeverity: accident.Accident_Severity
+    }));
+    res.status(200).json(simplifiedData);
   } catch (error) {
     console.error(error.message);
     next(res.status(500).json({ error: error.message }));
@@ -87,19 +96,6 @@ export async function getAccidentsBySeverity(req, res, next){
     const data = await db.readByCondition('CarAccidents', { Severity: { $eq : severity} });
     if( data.length === 0){
       return res.status(404).json({error: `No accidents found for severity ${severity}`});
-    }
-    res.status(200).json(data);
-  } catch (error) {
-    console.error(error.message);
-    next(res.status(500).json({ error: error.message }));
-  }
-}
-
-export async function getMatchedEvents(req, res, next) {
-  try {
-    const data = await db.generalFetchEventsAndAccidents();
-    if( data.length === 0){
-      return res.status(404).json({error: 'No matches found'});
     }
     res.status(200).json(data);
   } catch (error) {

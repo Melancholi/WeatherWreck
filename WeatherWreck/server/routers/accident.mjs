@@ -86,6 +86,8 @@ const router = express.Router();
  *                         example: ["", ""]
  *       404:
  *         description: No accidents found
+ *       500:
+ *         description: Internal server error
  */
 router.get('/', accidentController.getAccidents);
 
@@ -110,6 +112,8 @@ router.get('/', accidentController.getAccidents);
  *         description: A list of accidents for the specified state
  *       404:
  *         description: No accidents found for the state
+ *       500:
+ *         description: Internal server error
  */
 router.get('/state/:state', accidentController.getAccidentsByState);
 
@@ -133,6 +137,8 @@ router.get('/state/:state', accidentController.getAccidentsByState);
  *         description: A list of accidents for the specified date
  *       404:
  *         description: No accidents found for the date
+ *       500:
+ *         description: Internal server error
  */
 router.get('/date/:date', accidentController.getAccidentsByDate);
 
@@ -156,11 +162,9 @@ router.get('/date/:date', accidentController.getAccidentsByDate);
  *         description: A list of accidents for the specified severity
  *       404:
  *         description: No accidents found for the severity
+ *       500:
+ *         description: Internal server error
  */
 router.get('/severity/:severity', accidentController.getAccidentsBySeverity);
-
-
-router.get('/matched', accidentController.getMatchedEvents);
-
 
 export default router;
