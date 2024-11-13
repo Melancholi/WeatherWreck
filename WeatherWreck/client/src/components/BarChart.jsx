@@ -23,12 +23,12 @@ export default function BarChart() {
   };
 
   return (
-    <div>
+    <figure>
       <h1>Temporary BarChart Display</h1>
       <Plot
         data={data}
         layout={layout}
       />
-    </div>
+    </figure>
   );
 }

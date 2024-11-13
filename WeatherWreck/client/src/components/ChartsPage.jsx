@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import BarChart from './BarChart.jsx';
 import PieChart from './PieChart.jsx';
-
+import '../ChartsPage.css';
 const validWeatherType = [
   'Cold', 'Fog', 'Hail', 'Precipitation',
   'Rain', 'Snow', 'Storm'
@@ -87,22 +87,19 @@ export default function ChartsPage() {
           <label>View Pie Chart</label>
         </div>    
       </section>
-
-      {loading ? (
+      {loading ? 
         <p>Loading...</p>
-      ) : (
+        : 
         <p>{acc.length} items fetched</p>
-      )}
+      }
 
       <section id="dataCharts">
         {checked === 'bar' &&
             <BarChart />
-          }
-
-          
-          {checked === 'pie' &&
-            <PieChart />
-          }
+        }
+        {checked === 'pie' &&
+            <PieChart weatherOfAccidents={acc} />
+        }
       </section>
     </div>
   );
