@@ -103,28 +103,3 @@ export async function getAccidentsBySeverity(req, res, next){
     next(res.status(500).json({ error: error.message }));
   }
 }
-
-/**
- * Retrieves matched weather and accidents events from the database and
- * returns them in the response.
- * If no matches are found, then it responds with a 404 status and an error message.
- * @async
- * @function
- * @param {Object} req - The request object.
- * @param {Object} res - The response object.
- * @param {Function} next - The next middleware function.
- * @returns {Promise} - Returns a JSON response with the matched weather and accidents 
- * events data or an error message.
- */
-export async function getMatchedEvents(req, res, next) {
-  try {
-    const data = await db.generalFetchEventsAndAccidents();
-    if( data.length === 0){
-      return res.status(404).json({error: 'No matches found'});
-    }
-    res.status(200).json(data);
-  } catch (error) {
-    console.error(error.message);
-    next(res.status(500).json({ error: error.message }));
-  }
-}
