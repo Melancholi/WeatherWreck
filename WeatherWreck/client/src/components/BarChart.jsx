@@ -54,9 +54,9 @@ export default function BarChart({ events, validWeatherType }) {
   ];
 
   var layout = {
-    height: 800,
-    width: 800,
-    title: 'Accident Percentages Based On Weather Condition',
+    height: 500,
+    width: 500,
+    title: 'Accident Percent by Weather Condition',
     yaxis: {
       title: {
         text: 'Number of Accidents'
@@ -71,6 +71,7 @@ export default function BarChart({ events, validWeatherType }) {
 
   return( 
     <figure>
+      <h1>Accident Percent by Weather Condition</h1>
       <Plot
         data={data}
         layout={layout}
