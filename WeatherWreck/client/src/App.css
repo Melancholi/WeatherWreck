@@ -1,7 +1,7 @@
 #root {
-  max-width: 1280px;
+  /* max-width: 1280px; */
   margin: 0 auto;
-  padding: 2rem;
+  /* padding: 2rem; */
   text-align: center;
 }
 
@@ -70,19 +70,6 @@ header {
   margin: 0;
 }
 
-#chartComponent {
-  display: flex;
-}
-#dataPanel {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background: pink;
-}
-#dataCharts {
-  flex: 3;
-}
 
 @keyframes logo-spin {
   from {
