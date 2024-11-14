@@ -39,9 +39,9 @@ export default function NavBar() {
           <nav>
             <ul id="navUl">
               {/* <a className="nav-link" id="map">View Accidents</a> */}
-              <button id="map" onclick="Foo">View Accidents</button>
+              <button id="map" onclick={Foo}>View Accidents</button>
               {/* <a className="nav-link" id="charts">View Charts</a> */}
-              <button id="charts" onclick="Boo">View Charts</button>
+              <button id="charts" onclick={Boo}>View Charts</button>
             </ul>
           </nav>
         </div>
