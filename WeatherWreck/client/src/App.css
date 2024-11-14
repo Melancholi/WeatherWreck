@@ -42,6 +42,10 @@ header {
   justify-content: space-evenly;
 
 }
+button {
+  width: 150px;
+  height: auto;
+}
 
 .teammates {
   display: flex;
