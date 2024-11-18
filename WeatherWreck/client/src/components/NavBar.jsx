@@ -5,7 +5,7 @@ export default function NavBar({ setCurrentPage }) {
   return (
     <header>
       <div id="appTitle">
-        <img src="../../public/favicon.ico" alt="App Logo" id="logo" />
+        {/* <img src="WeatherWreck/favicon.ico" alt="App Logo" id="logo" /> */}
         <h1>WeatherWreck</h1>
       </div>
 
