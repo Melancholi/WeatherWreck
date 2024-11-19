@@ -1,8 +1,9 @@
+import favicon from '../../public/favicon.ico'
 export default function NavBar({ setCurrentPage }) {
   return (
     <header>
       <div id="appTitle">
-        <img src="/favicon.ico" alt="App Logo" id="logo" />
+        <img src={favicon} alt="App Logo" id="logo" />
         <h1>WeatherWreck</h1>
       </div>
 

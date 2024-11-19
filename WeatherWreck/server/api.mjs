@@ -30,7 +30,6 @@ const swaggerSpec = swaggerJSDoc(options);
 
 //Serve the static files from the React app
 app.use(express.static('./../client/dist'));
-app.use(express.static('./../client/public'));
 
 // Route for accident-related API endpoints
 app.use('/api/accidents', accidentRouter);
