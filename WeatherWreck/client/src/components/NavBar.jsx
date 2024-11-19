@@ -1,11 +1,8 @@
-import ChartsPage from './ChartsPage.jsx';
-import AccidentMap from './AccidentMap.jsx';
-
 export default function NavBar({ setCurrentPage }) {
   return (
     <header>
       <div id="appTitle">
-        {/* <img src="WeatherWreck/favicon.ico" alt="App Logo" id="logo" /> */}
+        <img src="/favicon.ico" alt="App Logo" id="logo" />
         <h1>WeatherWreck</h1>
       </div>
 
