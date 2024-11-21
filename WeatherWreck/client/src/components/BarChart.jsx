@@ -12,6 +12,13 @@ const getChartSize = () => {
   let width; 
   let height;
 
+  /* Adjusts the size of the chart based on screen width 
+    (for smaller, medium, large screens)
+    Learned about innerHeight property from here
+    https://developer.mozilla.org/en-US/docs/Web/API/Window/innerHeight
+    Learned about innerWidth property from here
+    https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth
+  */
   if (window.innerWidth < 600) {  
     width = window.innerWidth - 20;
     height = 300;
@@ -49,10 +56,16 @@ export default function BarChart({ events, validWeatherType }) {
 
   // Update chart size on window resize
   useEffect(() => {
+    /* Used an example from here
+      https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth
+    */ 
     window.addEventListener('resize', handleResize);
 
     // Cleanup event listener
     return () => {
+      /* Used an example from here
+      https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/removeEventListener
+      */
       window.removeEventListener('resize', handleResize);
     };
   }, []);
@@ -188,7 +201,7 @@ export default function BarChart({ events, validWeatherType }) {
 
   return (
     <figure>
-      <h1 className="chartsH1">Accident Count by Weather Condition and Severity</h1>
+      <h1 className="chartsH1">Accident Percent by Weather Condition and Severity</h1>
       <Plot
         data={data}
         layout={layout}
