@@ -2,7 +2,11 @@ import { useState, useEffect } from 'react';
 import Plot from 'react-plotly.js';
 
 /**
- * Function to dynamically get the chart size based on the screen width
+ * Function to dynamically get the chart size based on the screen width.
+ * It adjusts the chart size for small, medium, and large screen widths.
+ * 
+ * @returns {number} width - The width of the chart.
+ * @returns {number} height - The height of the chart.
  */ 
 const getChartSize = () => {
   let width; 
@@ -24,7 +28,7 @@ const getChartSize = () => {
 
 /**
  * Displays a bar chart visualizing the number of accidents based on 
- * different weather conditions and severities.
+ * different weather conditions and the severities of the weather.
  * 
  * @component
  * @param {Object} events - An object where keys are weather conditions 
@@ -36,7 +40,9 @@ export default function BarChart({ events, validWeatherType }) {
   // State to store the width and height for the chart
   const [chartSize, setChartSize] = useState(getChartSize());
 
-  // Handling the chart size on window resize
+  /**
+   * Handles resizing of the window by updating the chart size.
+   */
   const handleResize = () => {
     setChartSize(getChartSize());
   };
@@ -45,12 +51,13 @@ export default function BarChart({ events, validWeatherType }) {
   useEffect(() => {
     window.addEventListener('resize', handleResize);
 
+    // Cleanup event listener
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
 
-  // Define the weather severities
+  // Define the weather severities 
   const weatherSeverities = ["Heavy", "Light", "Moderate", "Other", "Severe", "UNK"];
 
   // Array to store the number of accidents for each valid weather condition
@@ -98,7 +105,6 @@ export default function BarChart({ events, validWeatherType }) {
     '#FE8418'
   ];
 
-  // Prepare the bar chart data
   const data = [];
 
   // Add the total accident count as a bar for each weather condition
@@ -130,7 +136,6 @@ export default function BarChart({ events, validWeatherType }) {
     });
   });
 
-  // Chart layout
   const layout = {
     height: chartSize.height,
     width: chartSize.width,
@@ -143,6 +148,7 @@ export default function BarChart({ events, validWeatherType }) {
     yaxis: {
       title: 'Number of Accidents',
     },
+    // Legend for severity levels
     legend: {
       title: {
         text: 'Severity',
