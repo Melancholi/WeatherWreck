@@ -90,3 +90,11 @@ build-frontend:
     when: on_success
     paths:
       - client/build
+
+bundlesize-check:
+  stage: build
+  dependencies:
+    - install
+  script:
+    - cd client && npm run build
+    - npm run bundlesize

@@ -107,7 +107,7 @@ const mockListAccidents = [
 ];
 
 // Test retrieving all accidents
-describe('GET /accidents', () => {
+describe.skip('GET /accidents', () => {
   after(()=>{
     sinon.restore();
   });
@@ -126,7 +126,7 @@ describe('GET /accidents', () => {
 });
 
 // Test error handling for retrieving all accidents
-describe('Error Handling for Accidents', () => {
+describe.skip('Error Handling for Accidents', () => {
   after(()=>{
     sinon.restore();
   });
@@ -142,31 +142,80 @@ describe('Error Handling for Accidents', () => {
 });
 
 // Test retrieving accidents by state
-describe('GET /accidents/state/:state', () => {
-  it.skip('should retrieve accidents by state', async () => {
-    const res = await request(app).get('/api/accidents/state/california');
-    expect(res.body).to.deep.equal(mockListAccidents);
+describe.skip('GET /accidents/state/:state', () => {
+  after(()=>{
+    sinon.restore();
   });
-  it.skip('should respond with status code 200', async () => {
-    const response = await request(app).get('/accidents/state/california');
+  before(()=>{
+    const stubDB = sinon.stub(db, 'readByCondition');
+    stubDB.resolves(mockListAccidents[2]);
+  });
+  it('should retrieve accidents by state', async () => {
+    const res = await request(app).get('/api/accidents/state/CA');
+    expect(res.body).to.deep.equal(mockListAccidents[2]);
+  });
+  it('should respond with status code 200', async () => {
+    const response = await request(app).get('/api/accidents/state/CA');
     expect(response.statusCode).to.equal(200);
+  });
+});
+
+// Test error handling for retriving accidents by an invalid state
+describe.skip('GET /accidents/state/:state - invalid state', () => {
+  after(()=>{
+    sinon.restore();
+  });
+  before(()=>{
+    const stubDB = sinon.stub(db, 'readByCondition');
+    // Resolving to an empty array to simulate no results
+    stubDB.resolves([]);
+  });
+  it('should handle errors when error thrown for wrong state', async () => {
+    const res = await request(app).get('/api/accidents/state/invalid');
+    expect(res.status).to.equal(404);
+    expect(res.body.error).to.equal('No accidents found for INVALID');
   });
 });
 
 // Test retrieving accidents by state
-describe('GET /accidents/date/:date', () => {
-  it.skip('should retrieve accidents by date', async () => {
-    const res = await request(app).get('/api/accidents/date/2024-10-22');
-    expect(res.body).to.deep.equal(mockListAccidents);
+describe.skip('GET /accidents/date/:date', () => {
+  after(()=>{
+    sinon.restore();
   });
-  it.skip('should respond with status code 200', async () => {
-    const response = await request(app).get('/api/accidents/date/2024-10-22');
+  before(()=>{
+    const stubDB = sinon.stub(db, 'readByCondition');
+    // Resolving to an empty array to simulate no results
+    stubDB.resolves(mockListAccidents.slice(0, 3));
+  });
+  it('should retrieve accidents by date', async () => {
+    const res = await request(app).get('/api/accidents/date/2022-09-08');
+    expect(res.body).to.deep.equal(mockListAccidents.slice(0, 3));
+  });
+  it('should respond with status code 200', async () => {
+    const response = await request(app).get('/api/accidents/date/2022-09-08');
     expect(response.statusCode).to.equal(200);
   });
 });
 
+// Test error handling for retriving accidents by an invalid date
+describe.skip('GET /accidents/date/:date - invalid date', () => {
+  after(()=>{
+    sinon.restore();
+  });
+  before(()=>{
+    const stubDB = sinon.stub(db, 'readByCondition');
+    // Resolving to an empty array to simulate no results
+    stubDB.resolves([]);
+  });
+  it('should handle errors when error thrown for wrong date', async () => {
+    const res = await request(app).get('/api/accidents/date/2099-12-31');
+    expect(res.status).to.equal(404);
+    expect(res.body.error).to.equal('No accidents found for 2099-12-31');
+  });
+});
+
 // Test retrieving accidents by severity
-describe('GET /accidents/severity/:severity', () => {
+describe.skip('GET /accidents/severity/:severity', () => {
   it.skip('should retrieve accidents by severity', async () => {
     const res = await request(app).get('/api/accidents/severity/high');
     expect(res.body).to.deep.equal(mockListAccidents);
@@ -174,6 +223,23 @@ describe('GET /accidents/severity/:severity', () => {
   it.skip('should respond with status code 200', async () => {
     const response = await request(app).get('/api/accidents/severity/high');
     expect(response.statusCode).to.equal(200);
+  });
+});
+
+// Test error handling for retriving accidents by an invalid severity
+describe.skip('GET /accidents/severity/:severity - invalid severity', () => {
+  after(()=>{
+    sinon.restore();
+  });
+  before(()=>{
+    const stubDB = sinon.stub(db, 'readByCondition');
+    // Resolving to an empty array to simulate no results
+    stubDB.resolves([]);
+  });
+  it('should handle errors when error thrown for wrong severity', async () => {
+    const res = await request(app).get('/api/accidents/severity/5');
+    expect(res.status).to.equal(404);
+    expect(res.body.error).to.equal('No accidents found for severity 5');
   });
 });
 

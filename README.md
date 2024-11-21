@@ -16,6 +16,8 @@ This project is a web application (MERN Stack) that visualizes car accidents and
 >            - https://arxiv.org/abs/1906.05409 
 >            - https://arxiv.org/abs/1909.09638
 
+- https://leafletjs.com/examples/quick-start/ ( for map and markers)
+
 > ### Licenses
 > - Restictions/licenses if any: CC BY_NC_SA 4.0 - Attribution-Noncommercial-Sharelink 4.0 International (https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
@@ -48,3 +50,14 @@ ATLAS_URI= <...url...>
 4. open another console
 5. cd server/
 6. npm run dev
+
+## UI Screenshots
+- Note that were not able to fit the header and footer since our UI is big
+### Accidents View
+![Accidents View](wireframe/UI_1.png)
+### Charts View
+#### Bar Chart
+![Bar Chart](wireframe/UI_3.png)
+
+#### Pie Chart
+![Pie Chart](wireframe/UI_2.png)

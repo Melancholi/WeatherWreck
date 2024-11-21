@@ -52,13 +52,13 @@ describe('Database seed tests', function() {
      * @author Maara Vanessa Purici
      */
     it('Should return file paths correctly', async function() {
-      const mockFiles = ['mock_accidents.csv', 'mock_weather.csv'];
+      const mockFiles = ['trimmed_mock_accident_data.csv', 'trimmed_mock_weather_data.csv'];
       readdirStub.resolves(mockFiles);
 
       const result = await getFilePaths(folderPath);
       expect(result).to.deep.equal([
-        path.join(folderPath, 'mock_accidents.csv'),
-        path.join(folderPath, 'mock_weather.csv')
+        path.join(folderPath, 'trimmed_mock_accident_data.csv'),
+        path.join(folderPath, 'trimmed_mock_weather_data.csv')
       ]);
     });
 
@@ -89,19 +89,19 @@ describe('Database seed tests', function() {
      * 
      * @author Maara Vanessa Purici
      */
-    it('Should format CarAccidnets data correctly', function() {
+    it('Should format CarAccidents data correctly', function() {
       const mockAccidentRow = {
         'ID': 'A-01', 'State': 'TE', 'City': 'Test',
         'Start_Time': '2022-10-29 17:27:30',
         'End_Time': '2022-10-29 23:59:00',
         'Start_Lat': 41.946796, 'Start_Lng': -88.208092,
-        'End_lat': 41.947796, 'End_Lng': -88.209092
+        'End_Lat': 41.947796, 'End_Lng': -88.209092
       };
       
       const formattedData = formatFile(mockAccidentRow, 'CarAccidents');
 
       expect(formattedData).to.deep.include({
-        'ID': 'A-01', 'State': 'TE', 'City': 'Test',
+        'Accident_Key': 'A-01', 'State': 'TE', 'City': 'Test',
         'Date': '2022-10-29',
         'Start_Time': '17:27:30',
         'End_Time': '23:59:00',
@@ -130,7 +130,7 @@ describe('Database seed tests', function() {
       const formattedData = formatFile(mockWeather, 'WeatherForecast');
 
       expect(formattedData).to.deep.include({
-        'EventId': 'W-01', 'State':'TE', 'City': 'Test',
+        'Weather_Key': 'W-01', 'State':'TE', 'City': 'Test',
         'StartTime(UTC)': '12:34:00', 'EndTime(UTC)': '15:54:00',
         'Severity': 'Light', 'Type': 'Snow',
         'Precipitation(in)': 0.0,
