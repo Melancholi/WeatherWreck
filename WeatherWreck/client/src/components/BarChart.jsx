@@ -9,11 +9,7 @@ import Plot from 'react-plotly.js';
  * @returns {number} height - The height of the chart.
  */ 
 const getChartSize = () => {
-<<<<<<< HEAD
   let width; 
-=======
-  let width;
->>>>>>> 52ae6ea5db630f7ca4c1ca6c7bc5535bddd16a96
   let height;
 
   if (window.innerWidth < 600) {  
@@ -62,11 +58,7 @@ export default function BarChart({ events, validWeatherType }) {
   }, []);
 
   // Define the weather severities 
-<<<<<<< HEAD
   const weatherSeverities = ['Severe', 'Heavy', 'Moderate', 'Light', 'Other', 'UNK'];
-=======
-  const weatherSeverities = ["Severe", "Heavy", "Moderate", "Light", "Other", "UNK"];
->>>>>>> 52ae6ea5db630f7ca4c1ca6c7bc5535bddd16a96
 
   // Array to store the number of accidents for each valid weather condition
   const weatherCounts = [];
@@ -109,11 +101,7 @@ export default function BarChart({ events, validWeatherType }) {
     Precipitation: '#FFA15A',
     Rain: '#636EFA',
     Snow: '#00CC96',
-<<<<<<< HEAD
     Storm: '#BBBFFB'
-=======
-    Storm: '#00CC96'
->>>>>>> 52ae6ea5db630f7ca4c1ca6c7bc5535bddd16a96
   };
 
   // Add separate bars for each severity level with different opacities
@@ -129,22 +117,11 @@ export default function BarChart({ events, validWeatherType }) {
   // Helper function to apply opacity to color
   const getColorWithOpacity = (color, opacity) => {
     /**
-<<<<<<< HEAD
      * Math.round(opacity * 255) gives us an integer opacity value between 0 and 255.
      * toString(16) converts that integer to a hex value.
      * padStart(2, '0') ensures the hex opacity value is always two digits long 
      */
     return `${color}${Math.round(opacity * 255).toString(16).padStart(2, '0')}`;
-=======
-     * Used an answer form here as an example 
-     * https://stackoverflow.com/questions/19799777/how-to-add-transparency-information-to-a-hex-color-code
-     * 
-     * Math.floor(opacity * 255) gives us an integer opacity value between 0 and 255.
-     * toString(16) converts that integer to a hex value.
-     * padStart(2, '0') ensures the hex opacity value is always two digits long (e.g., 0.8 becomes CC).
-     */
-    return `${color}${Math.floor(opacity * 255).toString(16).padStart(2, '0')}`;
->>>>>>> 52ae6ea5db630f7ca4c1ca6c7bc5535bddd16a96
   };
 
   const data = [];
@@ -162,11 +139,7 @@ export default function BarChart({ events, validWeatherType }) {
   });
 
   // Add separate bars for each severity level (next to the total accidents bar)
-<<<<<<< HEAD
   weatherSeverities.forEach((severity) => {
-=======
-  weatherSeverities.forEach((severity, severityIndex) => {
->>>>>>> 52ae6ea5db630f7ca4c1ca6c7bc5535bddd16a96
     data.push({
       x: validWeatherType,
       y: severityCounts[severity],
@@ -201,7 +174,6 @@ export default function BarChart({ events, validWeatherType }) {
     // Legend for severity levels
     legend: {
       title: {
-<<<<<<< HEAD
         text: 'Condtion & Severity',
       },
       font: {
@@ -209,10 +181,6 @@ export default function BarChart({ events, validWeatherType }) {
       },
       traceorder: 'normal',
       itemclick: 'toggleothers',
-=======
-        text: 'Severity',
-      },
->>>>>>> 52ae6ea5db630f7ca4c1ca6c7bc5535bddd16a96
     },
     // Makes the bars round at the top
     barcornerradius: 15
