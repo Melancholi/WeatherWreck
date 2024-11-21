@@ -117,11 +117,14 @@ export default function BarChart({ events, validWeatherType }) {
   // Helper function to apply opacity to color
   const getColorWithOpacity = (color, opacity) => {
     /**
-     * Math.round(opacity * 255) gives us an integer opacity value between 0 and 255.
+     * Used an answer form here as an example 
+     * https://stackoverflow.com/questions/19799777/how-to-add-transparency-information-to-a-hex-color-code
+     * 
+     * Math.floor(opacity * 255) gives us an integer opacity value between 0 and 255.
      * toString(16) converts that integer to a hex value.
      * padStart(2, '0') ensures the hex opacity value is always two digits long (e.g., 0.8 becomes CC).
      */
-    return `${color}${Math.round(opacity * 255).toString(16).padStart(2, '0')}`;
+    return `${color}${Math.floor(opacity * 255).toString(16).padStart(2, '0')}`;
   };
 
   const data = [];
