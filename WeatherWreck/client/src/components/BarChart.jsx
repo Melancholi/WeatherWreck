@@ -158,7 +158,7 @@ export default function BarChart({ events, validWeatherType }) {
       },
     });
   });
-
+  
   const layout = {
     height: chartSize.height,
     width: chartSize.width,
