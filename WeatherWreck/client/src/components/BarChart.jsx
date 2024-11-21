@@ -5,7 +5,8 @@ import Plot from 'react-plotly.js';
  * Function to dynamically get the chart size based on the screen width
  */ 
 const getChartSize = () => {
-  let width, height;
+  let width; 
+  let height;
 
   /* Adjusts the size of the chart based on screen width 
     (for smaller, medium, large screens)

@@ -11,12 +11,12 @@ function App() {
   // Function to render the selected component
   const renderPage = () => {
     switch (currentPage) {
-      case 'AccidentMap':
-        return <AccidentMap />;
-      case 'ChartsPage':
-        return <ChartsPage />;
-      default:
-        return <AccidentMap />;
+    case 'AccidentMap':
+      return <AccidentMap />;
+    case 'ChartsPage':
+      return <ChartsPage />;
+    default:
+      return <AccidentMap />;
     }
   };
 
