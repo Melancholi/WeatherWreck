@@ -19,7 +19,7 @@ const getChartSize = () => {
     width = window.innerWidth - 50;
     height = 400;
   } else {
-    width = 800;
+    width = 500;
     height = 500;
   }
 
@@ -101,7 +101,7 @@ export default function BarChart({ events, validWeatherType }) {
     Precipitation: '#FFA15A',
     Rain: '#636EFA',
     Snow: '#00CC96',
-    Storm: '#00CC96'
+    Storm: '#BBBFFB'
   };
 
   // Add separate bars for each severity level with different opacities
@@ -130,42 +130,43 @@ export default function BarChart({ events, validWeatherType }) {
   const data = [];
 
   // Add the total accident count as a bar for each weather condition
-  data.push({
-    x: validWeatherType,
-    y: weatherCounts,
-    name: 'Total Accidents',
-    type: 'bar',
-    hovertemplate: '%{x}: %{y} accidents<extra></extra>',
-    marker: {
-      color: validWeatherType.map(weatherType => weatherColors[weatherType]),
-    },
+  validWeatherType.forEach((weatherType, index) => {
+    data.push({
+      x: [weatherType],
+      y: [weatherCounts[index]],
+      name: `Total Accidents for ${weatherType}`,
+      type: 'bar',
+      hovertemplate: `${weatherType}: %{y} accidents<extra></extra>`,
+      marker: {
+        color: weatherColors[weatherType],
+      },
+      legendgroup: `Total Accidents`,
+    });
+
   });
 
   // Add separate bars for each severity level (next to the total accidents bar)
-  weatherSeverities.forEach((severity, severityIndex) => {
-    data.push({
-      x: validWeatherType,
-      y: severityCounts[severity],
-      name: severity,
-      type: 'bar',
-      hovertemplate: `${severity} severity: %{y} accidents<extra></extra>`,
-      marker: {
-        color: validWeatherType.map((weatherType) => {
-          // Getting the base color
-          const baseColor = weatherColors[weatherType];
-          // Getting the appropriate opacity
-          const opacity = opacityValues[severity];
-          // Apply different opacities for each severity level
-          return getColorWithOpacity(baseColor, opacity);
-        }),
-      },
+  weatherSeverities.forEach((severity) => {
+    validWeatherType.forEach((weatherType, weatherIndex) => {
+      data.push({
+        x: [weatherType],
+        y: [severityCounts[severity][weatherIndex]],
+        name: `${severity} for ${weatherType}`,
+        type: 'bar',
+        hovertemplate: `${severity} severity: %{y} accidents<extra></extra>`,
+        marker: {
+          // Apply opacity to the color
+          color: getColorWithOpacity(weatherColors[weatherType], opacityValues[severity]), 
+        },
+        // Group severity bars by their type
+        legendgroup: severity,
+      });
     });
   });
 
   const layout = {
     height: chartSize.height,
     width: chartSize.width,
-    // Groups the bars next to each other
     scattermode: 'group',
     title: 'Accident Count by Weather Condition and Severity',
     xaxis: {
@@ -174,14 +175,23 @@ export default function BarChart({ events, validWeatherType }) {
     yaxis: {
       title: 'Number of Accidents',
     },
-    // Legend for severity levels
+    // Group the legend by "Total Accidents" and severity types
     legend: {
       title: {
-        text: 'Severity',
+        text: 'Condition & Severity',
       },
+      // Reduce the font size of legend items
+      font: {
+        size: 10,
+      },
+      // Set a compact layout for the legend
+      orientation: 'h',
+      // Reduce the gap between legend groups
+      tracegroupgap: 2,
+      // Allows toggling other items off when clicking a legend item
+      itemclick: 'toggleothers',  
     },
-    // Makes the bars round at the top
-    barcornerradius: 15
+    barcornerradius: 15,
   };
 
   return (
