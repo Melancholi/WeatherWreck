@@ -95,15 +95,34 @@ export default function BarChart({ events, validWeatherType }) {
   }
 
   // Main colors for each weather condition
-  const weatherColors = [
-    '#49899D',
-    '#24AFE9',
-    '#A9A9A9',
-    '#496371',
-    '#73D1DC',
-    '#A7E9F4',
-    '#FE8418'
-  ];
+  const weatherColors = {
+    Cold: '#AB63FA',
+    Fog: '#EF553B',
+    Precipitation: '#FFA15A',
+    Rain: '#636EFA',
+    Snow: '#00CC96',
+    Storm: '#00CC96'
+  };
+
+  // Add separate bars for each severity level with different opacities
+  const opacityValues = {
+    Heavy: 0.8,
+    Light: 0.6,
+    Moderate: 0.5,
+    Other: 0.4,
+    Severe: 1.0,
+    UNK: 0.3,
+  };
+
+  // Helper function to apply opacity to color
+  const getColorWithOpacity = (color, opacity) => {
+    /**
+     * Math.round(opacity * 255) gives us an integer opacity value between 0 and 255.
+     * toString(16) converts that integer to a hex value.
+     * padStart(2, '0') ensures the hex opacity value is always two digits long (e.g., 0.8 becomes CC).
+     */
+    return `${color}${Math.round(opacity * 255).toString(16).padStart(2, '0')}`;
+  };
 
   const data = [];
 
@@ -128,9 +147,13 @@ export default function BarChart({ events, validWeatherType }) {
       type: 'bar',
       hovertemplate: `${severity} severity: %{y} accidents<extra></extra>`,
       marker: {
-        color: weatherColors.map((color, index) => {
-          // Adjust the opacity for severity breakdowns to keep it distinguishable
-          return index === severityIndex ? color : `${color}90`;
+        color: validWeatherType.map((weatherType) => {
+          // Getting the base color
+          const baseColor = weatherColors[weatherType];
+          // Getting the appropriate opacity
+          const opacity = opacityValues[severity];
+          // Apply different opacities for each severity level
+          return getColorWithOpacity(baseColor, opacity);
         }),
       },
     });
