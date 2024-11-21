@@ -58,18 +58,18 @@ export default function BarChart({ events, validWeatherType }) {
   }, []);
 
   // Define the weather severities 
-  const weatherSeverities = ["Heavy", "Light", "Moderate", "Other", "Severe", "UNK"];
+  const weatherSeverities = ["Severe", "Heavy", "Moderate", "Light", "Other", "UNK"];
 
   // Array to store the number of accidents for each valid weather condition
   const weatherCounts = [];
 
   // Data object to store counts of accidents for each severity level
   const severityCounts = {
-    Heavy: [],
-    Light: [],
-    Moderate: [],
-    Other: [],
     Severe: [],
+    Heavy: [],
+    Moderate: [],
+    Light: [],
+    Other: [],
     UNK: [],
   };
 
@@ -106,11 +106,11 @@ export default function BarChart({ events, validWeatherType }) {
 
   // Add separate bars for each severity level with different opacities
   const opacityValues = {
-    Heavy: 0.8,
-    Light: 0.6,
-    Moderate: 0.5,
+    Severe: 0.8,
+    Heavy: 0.7,
+    Moderate: 0.6,
+    Light: 0.5,
     Other: 0.4,
-    Severe: 1.0,
     UNK: 0.3,
   };
 
@@ -134,7 +134,7 @@ export default function BarChart({ events, validWeatherType }) {
     type: 'bar',
     hovertemplate: '%{x}: %{y} accidents<extra></extra>',
     marker: {
-      color: weatherColors,
+      color: validWeatherType.map(weatherType => weatherColors[weatherType]),
     },
   });
 
