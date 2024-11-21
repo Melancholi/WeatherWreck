@@ -19,12 +19,12 @@ export default function Legend() {
 
   return (
     <div className="legend">
-      {legendItems.map((item) => (
+      {legendItems.map((item) => 
         <div key={item.label} className="legend-item">
           <img src={item.icon} alt={item.label} className="legend-icon" />
           <span>{item.label}</span>
         </div>
-      ))}
+      )}
     </div>
   );
 }

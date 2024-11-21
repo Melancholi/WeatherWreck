@@ -95,51 +95,51 @@ export default function FilterControl({setFilter}){
           <option value="date">Date</option>
         </select>
 
-        {filterType === 'state' && (
+        {filterType === 'state' && 
           <select
             id="filterValue"
             value={filterValue}
             onChange={(e) => setFilterValue(e.target.value)}
           >
             <option value="">Select State</option>
-            {states.map((state, index) => (
+            {states.map((state, index) => 
               <option key={index} value={state.abbreviation}>
                 {state.name} ({state.abbreviation})
               </option>
-            ))}
+            )}
           </select>
-        )}
+        }
 
-        {filterType === 'severity' && (
+        {filterType === 'severity' && 
           <select
             id="filterValue"
             value={filterValue}
             onChange={(e) => setFilterValue(e.target.value)}
           >
             <option value="">Select Severity</option>
-            {severities.map((severity, index) => (
+            {severities.map((severity, index) => 
               <option key={index} value={severity}>
                 {severity}
               </option>
-            ))}
+            )}
           </select>
-        )}
+        }
 
-        {filterType === 'type' && (
+        {filterType === 'type' && 
           <select
             id="filterValue"
             value={filterValue}
             onChange={(e) => setFilterValue(e.target.value)}
           >
             <option value="">Select Weather Type</option>
-            {weatherTypes.map((weather, index) => (
+            {weatherTypes.map((weather, index) => 
               <option key={index} value={weather}>
                 {weather}
               </option>
-            ))}
+            )}
           </select>
-        )}
-        {filterType === 'date' && (
+        }
+        {filterType === 'date' && 
           <input
             type="date"
             id="filterValue"
@@ -148,7 +148,7 @@ export default function FilterControl({setFilter}){
             value={selectedDate}
             onChange={handleDateChange}
           />
-        )}
+        }
         
         <button id="ApplyFilterButton" onClick={applyFilter}>
           Apply Filter

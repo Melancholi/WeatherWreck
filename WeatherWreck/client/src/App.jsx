@@ -3,28 +3,27 @@ import AccidentMap from './components/AccidentMap.jsx';
 import NavBar from './components/NavBar.jsx';
 import Footer from './components/Footer.jsx';
 import './App.css';
+import { useState } from 'react';
 
 function App() {
-  /* 
-    Learned how to do this from this youtube video 
-    https://youtu.be/SLfhMt5OUPI?t=355&si=8nmXMeosxHSO2kUY
-  */
-  let component;
-  switch (window.location.pathname) {
-  case '/':
-    component = <AccidentMap />;
-    break;
-  case '/charts':
-    component = <ChartsPage />;
-    break;
-  default:
-    component = <AccidentMap />;
-    break;
-  }
+  const [currentPage, setCurrentPage] = useState('AccidentMap');
+
+  // Function to render the selected component
+  const renderPage = () => {
+    switch (currentPage) {
+    case 'AccidentMap':
+      return <AccidentMap />;
+    case 'ChartsPage':
+      return <ChartsPage />;
+    default:
+      return <AccidentMap />;
+    }
+  };
+
   return (
     <div>
-      <NavBar />
-      {component}
+      <NavBar setCurrentPage={setCurrentPage} />
+      {renderPage()}
       <Footer />
     </div>
   );

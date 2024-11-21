@@ -1,17 +1,22 @@
-
-export default function NavBar() {
+import favicon from '../../public/favicon.ico';
+export default function NavBar({ setCurrentPage }) {
   return (
     <header>
       <div id="appTitle">
-        <img src="../../public/favicon.ico" alt="App Logo" id="logo"/>
-        <h1> WeatherWreck</h1>
+        <img src={favicon} alt="App Logo" id="logo" />
+        <h1>WeatherWreck</h1>
       </div>
 
       <div id="navBar">
         <nav>
           <ul id="navUl">
-            <a href="/" className="nav-link">View Accidents</a>
-            <a href="/charts" className="nav-link">View Charts</a>
+            {/* Use onClick to switch pages */}
+            <li className="nav-link" onClick={() => setCurrentPage('AccidentMap')}>
+              View Accidents
+            </li>
+            <li className="nav-link" onClick={() => setCurrentPage('ChartsPage')}>
+              View Charts
+            </li>
           </ul>
         </nav>
       </div>
