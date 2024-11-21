@@ -19,7 +19,7 @@ const getChartSize = () => {
     width = window.innerWidth - 50;
     height = 400;
   } else {
-    width = 500;
+    width = 800;
     height = 500;
   }
 
@@ -117,56 +117,52 @@ export default function BarChart({ events, validWeatherType }) {
   // Helper function to apply opacity to color
   const getColorWithOpacity = (color, opacity) => {
     /**
-     * Used an answer form here as an example 
-     * https://stackoverflow.com/questions/19799777/how-to-add-transparency-information-to-a-hex-color-code
-     * 
-     * Math.floor(opacity * 255) gives us an integer opacity value between 0 and 255.
+     * Math.round(opacity * 255) gives us an integer opacity value between 0 and 255.
      * toString(16) converts that integer to a hex value.
      * padStart(2, '0') ensures the hex opacity value is always two digits long (e.g., 0.8 becomes CC).
      */
-    return `${color}${Math.floor(opacity * 255).toString(16).padStart(2, '0')}`;
+    return `${color}${Math.round(opacity * 255).toString(16).padStart(2, '0')}`;
   };
 
   const data = [];
 
   // Add the total accident count as a bar for each weather condition
-  validWeatherType.forEach((weatherType, index) => {
-    data.push({
-      x: [weatherType],
-      y: [weatherCounts[index]],
-      name: `Total Accidents for ${weatherType}`,
-      type: 'bar',
-      hovertemplate: `${weatherType}: %{y} accidents<extra></extra>`,
-      marker: {
-        color: weatherColors[weatherType],
-      },
-      legendgroup: `Total Accidents`,
-    });
-
+  data.push({
+    x: validWeatherType,
+    y: weatherCounts,
+    name: 'Total Accidents',
+    type: 'bar',
+    hovertemplate: '%{x}: %{y} accidents<extra></extra>',
+    marker: {
+      color: validWeatherType.map(weatherType => weatherColors[weatherType]),
+    },
   });
 
   // Add separate bars for each severity level (next to the total accidents bar)
-  weatherSeverities.forEach((severity) => {
-    validWeatherType.forEach((weatherType, weatherIndex) => {
-      data.push({
-        x: [weatherType],
-        y: [severityCounts[severity][weatherIndex]],
-        name: `${severity} for ${weatherType}`,
-        type: 'bar',
-        hovertemplate: `${severity} severity: %{y} accidents<extra></extra>`,
-        marker: {
-          // Apply opacity to the color
-          color: getColorWithOpacity(weatherColors[weatherType], opacityValues[severity]), 
-        },
-        // Group severity bars by their type
-        legendgroup: severity,
-      });
+  weatherSeverities.forEach((severity, severityIndex) => {
+    data.push({
+      x: validWeatherType,
+      y: severityCounts[severity],
+      name: severity,
+      type: 'bar',
+      hovertemplate: `${severity} severity: %{y} accidents<extra></extra>`,
+      marker: {
+        color: validWeatherType.map((weatherType) => {
+          // Getting the base color
+          const baseColor = weatherColors[weatherType];
+          // Getting the appropriate opacity
+          const opacity = opacityValues[severity];
+          // Apply different opacities for each severity level
+          return getColorWithOpacity(baseColor, opacity);
+        }),
+      },
     });
   });
 
   const layout = {
     height: chartSize.height,
     width: chartSize.width,
+    // Groups the bars next to each other
     scattermode: 'group',
     title: 'Accident Count by Weather Condition and Severity',
     xaxis: {
@@ -175,23 +171,19 @@ export default function BarChart({ events, validWeatherType }) {
     yaxis: {
       title: 'Number of Accidents',
     },
-    // Group the legend by "Total Accidents" and severity types
+    // Legend for severity levels
     legend: {
       title: {
-        text: 'Condition & Severity',
+        text: 'Condtion & Severity',
       },
-      // Reduce the font size of legend items
       font: {
-        size: 10,
+        size: 12
       },
-      // Set a compact layout for the legend
-      orientation: 'h',
-      // Reduce the gap between legend groups
-      tracegroupgap: 2,
-      // Allows toggling other items off when clicking a legend item
-      itemclick: 'toggleothers',  
+      traceorder: 'normal',
+      itemclick: 'toggleothers',
     },
-    barcornerradius: 15,
+    // Makes the bars round at the top
+    barcornerradius: 15
   };
 
   return (
