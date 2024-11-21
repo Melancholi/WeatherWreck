@@ -9,7 +9,7 @@ import '../ChartsPage.css';
  * @constant {string[]}
  */
 const validWeatherType = [
-  'Cold', 'Fog', 'Hail', 'Precipitation',
+  'Cold', 'Fog', 'Precipitation',
   'Rain', 'Snow', 'Storm'
 ];
 
@@ -20,7 +20,6 @@ const validWeatherType = [
 const accidents = {
   'Cold': [],
   'Fog': [],
-  'Hail': [],
   'Precipitation': [],
   'Rain': [],
   'Snow': [],
