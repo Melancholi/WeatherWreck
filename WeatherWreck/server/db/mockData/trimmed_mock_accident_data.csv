@@ -1,0 +1,7 @@
+ID,State,City,Severity,Start_Time,End_Time,Start_Lat,Start_Lng,Description,Street,End_lat,End_Lng,Distance(mi),Weather_Condition
+A-512230,IL,Bartlett,1,2022-09-08 05:49:30,2022-09-08 06:34:53,41.946796,-88.208092,Crash on CR-11 Army Trail Rd at IL-59.,Army Trail Rd,,,0.0,Cloudy
+A-512231,CA,Littlerock,1,2022-02-15 22:10:00,2022-02-16 00:00:00,34.521172,-117.958076,Crash on CA-138 Pearblossom Hwy at 96th St.,Pearblossom Hwy,,,0.0,Cloudy
+A-512232,VA,Richmond,1,2022-09-08 05:14:12,2022-09-08 07:38:17,37.542839,-77.441780,Crash on 2nd St Northbound at Franklin St.,N 2nd St,,,0.0,Cloudy
+A-512233,OH,Alliance,1,2022-09-08 06:22:57,2022-09-08 06:52:42,40.896629,-81.178452,Crash on US-62 Atlantic Blvd Westbound after OH-173 State St.,Atlantic Blvd NE,,,0.0,Cloudy
+A-512236,WA,Seattle,3,2022-11-20 10:30:00,2022-11-20 11:15:00,47.6062,-122.3321,Collision on I-5 Northbound near Madison St.,I-5 N,,,0.0,Cloudy
+A-512238,FL,Orlando,2,2022-02-28 13:00:00,2022-02-28 14:00:00,28.5383,-81.3792,Crash on I-4 Westbound near Exit 83.,I-4 W,,,0.0,Cloudy
