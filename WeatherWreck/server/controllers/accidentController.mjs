@@ -66,6 +66,7 @@ export async function getAccidentsByState(req, res, next){
     next(res.status(500).json({ error: error.message }));
   }
 }
+
 /**
  * Retrieve, based on a specific date, all events of accidents and weather that were a 
  * match, from the database, and returns them in the response.
@@ -98,6 +99,7 @@ export async function getAccidentsByDate(req, res, next){
     next(res.status(500).json({ error: error.message}));
   }
 }
+
 /**
  * Retrieve, based on a specific weather severity, all events of accidents and weather that 
  * were a match, from the database, and returns them in the response.
