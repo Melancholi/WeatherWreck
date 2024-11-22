@@ -1,6 +1,5 @@
 import express from 'express';
 import accidentRouter from './routers/accident.mjs';
-import weatherRouter from './routers/weather.mjs';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 
@@ -33,9 +32,6 @@ app.use(express.static('./../client/dist'));
 
 // Route for accident-related API endpoints
 app.use('/api/accidents', accidentRouter);
-
-// Route for weather-related API endpoints
-app.use('/api/weather', weatherRouter);
 
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
