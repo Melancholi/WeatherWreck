@@ -345,8 +345,8 @@ class DB{
         $skip: randomValue
       },
       {
-        //do this search 10 times
-        $limit:10
+        //do this search 2 times
+        $limit:2
       }
     ]).toArray();
 
