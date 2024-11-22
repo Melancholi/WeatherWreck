@@ -69,9 +69,12 @@ router.get('/', accidentController.getAccidents);
  * @swagger
  * /api/accidents/state/{state}:
  *   get:
- *     summary: Retrieve a list of all events, for a specific state, of accidents and weather that were a match
+ *     summary: |
+ *      Retrieve a list of all events, for a specific state, of accidents and weather 
+ *      that were a match
  *     description: |
- *       Retrieve a list of all events, for a specific state, of accidents and weather that were a match from MongoDb.<br>
+ *       Retrieve a list of all events, for a specific state, of accidents and weather that
+ *       were a match from MongoDb.<br>
  *       Can be used to populate a list of fake events when prototyping or testing an API.
  *     parameters:
  *       - in: path
@@ -83,7 +86,9 @@ router.get('/', accidentController.getAccidents);
  *           example: "IL"
  *     responses:
  *       200:
- *         description: A list of all events, for a specific state, of accidents and weather that were a match
+ *         description: |
+ *           A list of all events, for a specific state, of accidents and weather that 
+ *           were a match
  *         content:
  *           application/json:
  *             schema:
@@ -129,9 +134,12 @@ router.get('/state/:state', accidentController.getAccidentsByState);
  * @swagger
  * /api/accidents/date/{date}:
  *   get:
- *     summary: Retrieve a list of all events, for a specific date, of accidents and weather that were a match
+ *     summary: |
+ *       Retrieve a list of all events, for a specific date, of accidents and weather that 
+ *       were a match
  *     description: |
- *       Retrieve a list of all events, for a specific date, of accidents and weather that were a match from MongoDb.<br>
+ *       Retrieve a list of all events, for a specific date, of accidents and weather that were 
+ *       a match from MongoDb.<br>
  *       Can be used to populate a list of fake events when prototyping or testing an API.
  *     parameters:
  *       - in: path
@@ -142,7 +150,8 @@ router.get('/state/:state', accidentController.getAccidentsByState);
  *         description: The date of the weather event in YYYY-MM-DD format
  *     responses:
  *       200:
- *         description: A list of all events, for a specific date, of accidents and weather that were a match
+ *         description: |
+ *           A list of all events, for a specific date, of accidents and weather that were a match
  *         content:
  *           application/json:
  *             schema:
@@ -188,9 +197,12 @@ router.get('/date/:date', accidentController.getAccidentsByDate);
  * @swagger
  * /api/accidents/severity/{severity}:
  *   get:
- *     summary: Retrieve a list of all events, for a specific weather severity, of accidents and weather that were a match
+ *     summary: |
+ *       Retrieve a list of all events, for a specific weather severity, of accidents and 
+ *       weather that were a match
  *     description: |
- *       Retrieve a list of all events, for a specific weather severity, of accidents and weather that were a match from MongoDb.<br>
+ *       Retrieve a list of all events, for a specific weather severity, of accidents and 
+ *       weather that were a match from MongoDb.<br>
  *       Can be used to populate a list of fake events when prototyping or testing an API.
  *     parameters:
  *       - in: path
@@ -198,7 +210,8 @@ router.get('/date/:date', accidentController.getAccidentsByDate);
  *         required: true
  *         schema:
  *           type: string
- *         description: The severity of the weather (e.g., Severe, Heavy, Moderate, Light, Other, UNK)
+ *         description: |
+ *           The severity of the weather (e.g., Severe, Heavy, Moderate, Light, Other, UNK)
  *     responses:
  *       200:
  *         description: A list of events for the specified severity of the weather
@@ -247,9 +260,12 @@ router.get('/severity/:severity', accidentController.getAccidentsBySeverity);
  * @swagger
  * /api/accidents/type/{type}:
  *   get:
- *     summary: Retrieve a list of all events, for a specific type, of accidents and weather that were a match
+ *     summary: |
+ *       Retrieve a list of all events, for a specific type, of accidents and weather that 
+ *       were a match
  *     description: |
- *       Retrieve a list of all events, for a specific date, of accidents and weather that were a match from MongoDb.<br> 
+ *       Retrieve a list of all events, for a specific date, of accidents and weather that 
+ *       were a match from MongoDb.<br> 
  *       Can be used to populate a list of fake events when prototyping or testing an API.
  *     parameters:
  *       - in: path
@@ -257,7 +273,8 @@ router.get('/severity/:severity', accidentController.getAccidentsBySeverity);
  *         required: true
  *         schema:
  *           type: string
- *         description: The severity of the weather (e.g., Severe, Heavy, Moderate, Light, Other, UNK)
+ *         description: |
+ *           The severity of the weather (e.g., Severe, Heavy, Moderate, Light, Other, UNK)
  *     responses:
  *       200:
  *         description: A list of accidents for the specified severity
@@ -304,8 +321,10 @@ router.get('/type/:type', accidentController.getAccidentsByType);
  *   get:
  *     summary: Retrieve detailed information about a specific accident
  *     description: |
- *       Retrieves detailed information about a specific accident event based on the provided `accident_id` and `weather_id`.<br> 
- *       This includes weather conditions, accident severity, and other relevant details (e.g., description, state, city, and date).
+ *       Retrieves detailed information about a specific accident event based on the 
+ *       provided `accident_id` and `weather_id`.<br> 
+ *       This includes weather conditions, accident severity, and other relevant 
+ *       details (e.g., description, state, city, and date).
  *     parameters:
  *       - in: path
  *         name: accident_id
