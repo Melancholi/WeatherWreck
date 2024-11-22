@@ -57,7 +57,7 @@ const router = express.Router();
  *                         description: The severity level of the accident.
  *                         example: "3"
  *       404:
- *         description: No events found
+ *         description: No accidents found
  *       500:
  *         description: Internal server error
  *     tags:
