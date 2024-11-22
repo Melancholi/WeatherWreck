@@ -9,7 +9,7 @@ const router = express.Router();
  *   get:
  *     summary: Retrieve a list of all events of accidents and weather that were a match
  *     description: |
- *       Retrieve a list of all events of accidents and weather that were a match from MongoDb. 
+ *       Retrieve a list of all events of accidents and weather that were a match from MongoDb.<br> 
  *       Can be used to populate a list of fake events when prototyping or testing an API.
  *     responses:
  *       200:
@@ -57,7 +57,7 @@ const router = express.Router();
  *                         description: The severity level of the accident.
  *                         example: "3"
  *       404:
- *         description: No events found
+ *         description: No accidents found
  *       500:
  *         description: Internal server error
  *     tags:
@@ -71,7 +71,7 @@ router.get('/', accidentController.getAccidents);
  *   get:
  *     summary: Retrieve a list of all events, for a specific state, of accidents and weather that were a match
  *     description: |
- *       Retrieve a list of all events, for a specific state, of accidents and weather that were a match from MongoDb. 
+ *       Retrieve a list of all events, for a specific state, of accidents and weather that were a match from MongoDb.<br>
  *       Can be used to populate a list of fake events when prototyping or testing an API.
  *     parameters:
  *       - in: path
@@ -117,7 +117,7 @@ router.get('/', accidentController.getAccidents);
  *                         description: The state where the accident occurred.
  *                         example: "IL"
  *       404:
- *         description: No events found for the state {state}
+ *         description: No accidents found for `state`
  *       500:
  *         description: Internal server error
  *     tags:
@@ -131,7 +131,7 @@ router.get('/state/:state', accidentController.getAccidentsByState);
  *   get:
  *     summary: Retrieve a list of all events, for a specific date, of accidents and weather that were a match
  *     description: |
- *       Retrieve a list of all events, for a specific date, of accidents and weather that were a match from MongoDb. 
+ *       Retrieve a list of all events, for a specific date, of accidents and weather that were a match from MongoDb.<br>
  *       Can be used to populate a list of fake events when prototyping or testing an API.
  *     parameters:
  *       - in: path
@@ -176,7 +176,7 @@ router.get('/state/:state', accidentController.getAccidentsByState);
  *                         description: The date when the accident occurred.
  *                         example: "2022-01-04"
  *       404:
- *         description: No events found for the date {date}
+ *         description: No accidents found for `date`
  *       500:
  *         description: Internal server error
  *     tags:
@@ -190,7 +190,7 @@ router.get('/date/:date', accidentController.getAccidentsByDate);
  *   get:
  *     summary: Retrieve a list of all events, for a specific weather severity, of accidents and weather that were a match
  *     description: |
- *       Retrieve a list of all events, for a specific weather severity, of accidents and weather that were a match from MongoDb. 
+ *       Retrieve a list of all events, for a specific weather severity, of accidents and weather that were a match from MongoDb.<br>
  *       Can be used to populate a list of fake events when prototyping or testing an API.
  *     parameters:
  *       - in: path
@@ -235,7 +235,7 @@ router.get('/date/:date', accidentController.getAccidentsByDate);
  *                         description: The severity of the weather when the accident occurred.
  *                         example: "Light"
  *       404:
- *         description: No events found for the severity {severity}
+ *         description: No accidents found for severity `severity`
  *       500:
  *         description: Internal server error
  *     tags:
@@ -249,7 +249,7 @@ router.get('/severity/:severity', accidentController.getAccidentsBySeverity);
  *   get:
  *     summary: Retrieve a list of all events, for a specific type, of accidents and weather that were a match
  *     description: |
- *       Retrieve a list of all events, for a specific date, of accidents and weather that were a match from MongoDb. 
+ *       Retrieve a list of all events, for a specific date, of accidents and weather that were a match from MongoDb.<br> 
  *       Can be used to populate a list of fake events when prototyping or testing an API.
  *     parameters:
  *       - in: path
@@ -290,7 +290,7 @@ router.get('/severity/:severity', accidentController.getAccidentsBySeverity);
  *                         description: The coordinates where the accident occurred.
  *                         example: [-85.95401, 39.225426]
  *       404:
- *         description: No events found for the type `type`
+ *         description: No accidents found for the type `type`
  *       500:
  *         description: Internal server error
  *     tags:
@@ -304,10 +304,8 @@ router.get('/type/:type', accidentController.getAccidentsByType);
  *   get:
  *     summary: Retrieve detailed information about a specific accident
  *     description: |
- *       Retrieves detailed information about a specific accident event based on the provided 
- *       `accident_id` and `weather_id`. This includes weather conditions, accident severity, 
- *       and other relevant details (e.g., description, state, city, and date).
- *       If no matching event is found, it returns a 404 error with an appropriate message.
+ *       Retrieves detailed information about a specific accident event based on the provided `accident_id` and `weather_id`.<br> 
+ *       This includes weather conditions, accident severity, and other relevant details (e.g., description, state, city, and date).
  *     parameters:
  *       - in: path
  *         name: accident_id
@@ -359,8 +357,8 @@ router.get('/type/:type', accidentController.getAccidentsByType);
  *                   example: "2022-01-04"
  *       404:
  *         description: |
- *           If `weather_id` is wrong: No details found for ${weather_id}
- *           If `accidnet_id` is wrong: Oupsy something went wrong for ${accidnet_id}
+ *           If `weather_id` is wrong: No details found for `weather_id`<br>
+ *           If `accidnet_id` is wrong: Oupsy something went wrong for `accidnet_id`
  *       500:
  *         description: Internal server error.
  *     tags:
