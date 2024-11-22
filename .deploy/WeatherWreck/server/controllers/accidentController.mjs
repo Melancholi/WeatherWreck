@@ -1,14 +1,15 @@
 import {db} from '../db/db.mjs';
 
 /**
- * Retrieves all car accidents from the database and returns them in the response.
- * If no accidents are found, it responds with a 404 status and an error message.
+ * Retrieve all events of accidents and weather that were a match, from the database, 
+ * and returns them in the response.
+ * If no event is found, it responds with a 404 status and an error message.
  * @async
  * @function
  * @param {Object} req - The request object.
  * @param {Object} res - The response object.
  * @param {Function} next - The next middleware function.
- * @returns {Promise} - Returns a JSON response with the accidents data or an error message.
+ * @returns {Promise} - Returns a JSON response with the events data or an error message.
  */
 export async function getAccidents(req, res, next){
   try {
@@ -18,7 +19,7 @@ export async function getAccidents(req, res, next){
     }
     const simplifiedData = data.map(accident => ({
       AccidentID: accident.AccidentID,
-      WeatheID: accident.WeatherID,
+      WeatherID: accident.WeatherID,
       WeatherCondition: accident.Weather_Condition,
       Coordinates: accident.Coordinates,
       Date: accident.Date,
@@ -33,15 +34,15 @@ export async function getAccidents(req, res, next){
 }
 
 /**
- * Retrieves car accidents by a specific U.S. state and returns them in the response.
- * If no accidents are found for the given state, it responds with a 404 status 
- * and an error message.
+ * Retrieve, based on a specific U.S. state, all events of accidents and weather that were a 
+ * match, from the database, and returns them in the response.
+ * If no event is found for the given state, it responds with a 404 status and an error message.
  * @async
  * @function
- * @param {Object} req - The request object containing a state parameter in the URL.
+ * @param {Object} req - The request object.
  * @param {Object} res - The response object.
  * @param {Function} next - The next middleware function.
- * @returns {Promise} - Returns a JSON response with the accidents data or an error message.
+ * @returns {Promise} - Returns a JSON response with the events data or an error message.
  */
 export async function getAccidentsByState(req, res, next){
   try {
@@ -53,7 +54,7 @@ export async function getAccidentsByState(req, res, next){
     // Map each accident to include only AccidentID, Weather_Condition, and coordinates
     const simplifiedData = data.map(accident => ({
       AccidentID: accident.AccidentID,
-      WeatheID: accident.WeatherID,
+      WeatherID: accident.WeatherID,
       WeatherCondition: accident.Weather_Condition,
       Coordinates: accident.Coordinates,
       State: accident.State
@@ -65,15 +66,17 @@ export async function getAccidentsByState(req, res, next){
     next(res.status(500).json({ error: error.message }));
   }
 }
+
 /**
- * Retrieves car accidents by a specific date and returns them in the response.
- * If no accidents are found for the given date, it responds with a 404 status and an error message.
+ * Retrieve, based on a specific date, all events of accidents and weather that were a 
+ * match, from the database, and returns them in the response.
+ * If no event is found for the given date, it responds with a 404 status and an error message.
  * @async
  * @function
- * @param {Object} req - The request object containing a date parameter in the URL.
+ * @param {Object} req - The request object.
  * @param {Object} res - The response object.
  * @param {Function} next - The next middleware function.
- * @returns {Promise} - Returns a JSON response with the accidents data or an error message.
+ * @returns {Promise} - Returns a JSON response with the events data or an error message.
  */
 export async function getAccidentsByDate(req, res, next){
   try {
@@ -85,7 +88,7 @@ export async function getAccidentsByDate(req, res, next){
     // Map each accident to include only AccidentID, Weather_Condition, and coordinates
     const simplifiedData = data.map(accident => ({
       AccidentID: accident.AccidentID,
-      WeatheID: accident.WeatherID,
+      WeatherID: accident.WeatherID,
       WeatherCondition: accident.Weather_Condition,
       Coordinates: accident.Coordinates,
       Date: accident.Date
@@ -96,16 +99,18 @@ export async function getAccidentsByDate(req, res, next){
     next(res.status(500).json({ error: error.message}));
   }
 }
+
 /**
- * Retrieves car accidents by severity level and returns them in the response.
- * If no accidents are found for the given severity, it responds with a 404 status 
- * and an error message.
+ * Retrieve, based on a specific weather severity, all events of accidents and weather that 
+ * were a match, from the database, and returns them in the response.
+ * If no event is found for the given weather severity, it responds with a 404 status and an 
+ * error message.
  * @async
  * @function
- * @param {Object} req - The request object containing a severity parameter in the URL.
+ * @param {Object} req - The request object.
  * @param {Object} res - The response object.
  * @param {Function} next - The next middleware function.
- * @returns {Promise} - Returns a JSON response with the accidents data or an error message.
+ * @returns {Promise} - Returns a JSON response with the events data or an error message.
  */
 export async function getAccidentsBySeverity(req, res, next){
   try {
@@ -119,7 +124,7 @@ export async function getAccidentsBySeverity(req, res, next){
     // Map each accident to include only AccidentID, Weather_Condition, and coordinates
     const simplifiedData = data.map(accident => ({
       AccidentID: accident.AccidentID,
-      WeatheID: accident.WeatherID,
+      WeatherID: accident.WeatherID,
       WeatherCondition: accident.Weather_Condition,
       Coordinates: accident.Coordinates,
       WeatherSeverity: accident.Weather_Severity
@@ -131,6 +136,18 @@ export async function getAccidentsBySeverity(req, res, next){
   }
 }
 
+/**
+ * Retrieve, based on a specific type of weather, all events of accidents and weather that 
+ * were a match, from the database, and returns them in the response.
+ * If no event is found for the given type of weather, it responds with a 404 status and an 
+ * error message.
+ * @async
+ * @function
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @param {Function} next - The next middleware function.
+ * @returns {Promise} - Returns a JSON response with the events data or an error message.
+ */
 export async function getAccidentsByType(req, res, next){
   try {
     const type = req.params.type;
@@ -143,7 +160,7 @@ export async function getAccidentsByType(req, res, next){
     // Map each accident to include only AccidentID, Weather_Condition, and coordinates
     const simplifiedData = data.map(accident => ({
       AccidentID: accident.AccidentID,
-      WeatheID: accident.WeatherID,
+      WeatherID: accident.WeatherID,
       WeatherCondition: accident.Weather_Condition,
       Coordinates: accident.Coordinates,
     }));
@@ -154,6 +171,21 @@ export async function getAccidentsByType(req, res, next){
   }
 }
 
+/**
+ * Retrieve detailed information about a sepcific accident, based on an accident_id and 
+ * weather_id, from the database, and returns them in the response.
+ * If no weather event is found for the given id, it responds with a 404 status and an 
+ * error message.
+ * If no accident is found for the given id, it responds with a 404 status and an error 
+ * message.
+ * 
+ * @async
+ * @function
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @param {Function} next - The next middleware function.
+ * @returns {Promise} - Returns a JSON response with the events data or an error message.
+ */
 export async function getAccidentDetails(req, res, next){
   try {
     const accidentId = req.params.accident_id; 
