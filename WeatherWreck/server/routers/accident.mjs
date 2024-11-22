@@ -7,13 +7,15 @@ const router = express.Router();
  * @swagger
  * /api/accidents:
  *   get:
- *     summary: Retrieve a list of all car accidents
+ *     summary: Retrieve a list of all events of accidents and weather that were a match
  *     description: |
- *       Retrieve a list of car accidents from MongoDb. 
- *       Can be used to populate a list of fake car accidents when prototyping or testing an API.
+ *       Retrieve a list of all events of accidents and weather that were a match from MongoDb. 
+ *       Can be used to populate a list of fake events when prototyping or testing an API.
  *     responses:
  *       200:
- *         description: A list of car accidents
+ *         description: |
+ *           A list of events of accidents and weather that were a match.
+ *           Here is an example of one event:
  *         content:
  *           application/json:
  *             schema:
@@ -55,7 +57,7 @@ const router = express.Router();
  *                         description: The severity level of the accident.
  *                         example: "3"
  *       404:
- *         description: No accidents found
+ *         description: No events found
  *       500:
  *         description: Internal server error
  */
@@ -65,10 +67,10 @@ router.get('/', accidentController.getAccidents);
  * @swagger
  * /api/accidents/state/{state}:
  *   get:
- *     summary: Retrieve car accidents for a specific state
+ *     summary: Retrieve a list of all events, for a specific state, of accidents and weather that were a match
  *     description: |
- *       Retrieve a list of car accidents, for a specific state, from MongoDb. 
- *       Can be used to populate a list of fake car accidents when prototyping or testing an API
+ *       Retrieve a list of all events, for a specific state, of accidents and weather that were a match from MongoDb. 
+ *       Can be used to populate a list of fake events when prototyping or testing an API.
  *     parameters:
  *       - in: path
  *         name: state
@@ -79,9 +81,41 @@ router.get('/', accidentController.getAccidents);
  *           example: "IL"
  *     responses:
  *       200:
- *         description: A list of accidents for the specified state
+ *         description: A list of all events, for a specific state, of accidents and weather that were a match
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       AccidentID:
+ *                         type: string
+ *                         description: The accident ID.
+ *                         example: "A-757778"
+ *                       WeatherID:
+ *                         type: string
+ *                         description: The weather ID associated with the accident.
+ *                         example: "W-291755"
+ *                       WeatherCondition:
+ *                         type: string
+ *                         description: The weather condition at the time of the accident.
+ *                         example: "Rain"
+ *                       Coordinates:
+ *                         type: array
+ *                         items:
+ *                           type: number
+ *                         description: The coordinates where the accident occurred.
+ *                         example: [-85.95401, 39.225426]
+ *                       State:
+ *                         type: string
+ *                         description: The state where the accident occurred.
+ *                         example: "IL"
  *       404:
- *         description: No accidents found for the state
+ *         description: No events found for the state {state}
  *       500:
  *         description: Internal server error
  */
@@ -91,10 +125,10 @@ router.get('/state/:state', accidentController.getAccidentsByState);
  * @swagger
  * /api/accidents/date/{date}:
  *   get:
- *     summary: Retrieve car accidents for a specific date
+ *     summary: Retrieve a list of all events, for a specific date, of accidents and weather that were a match
  *     description: |
- *       Retrieve a list of car accidents, for a specific date, from MongoDb. 
- *       Can be used to populate a list of fake car accidents when prototyping or testing an API
+ *       Retrieve a list of all events, for a specific date, of accidents and weather that were a match from MongoDb. 
+ *       Can be used to populate a list of fake events when prototyping or testing an API.
  *     parameters:
  *       - in: path
  *         name: date
@@ -104,9 +138,41 @@ router.get('/state/:state', accidentController.getAccidentsByState);
  *         description: The date of the weather event in YYYY-MM-DD format
  *     responses:
  *       200:
- *         description: A list of accidents for the specified date
+ *         description: A list of all events, for a specific date, of accidents and weather that were a match
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       AccidentID:
+ *                         type: string
+ *                         description: The accident ID.
+ *                         example: "A-757778"
+ *                       WeatherID:
+ *                         type: string
+ *                         description: The weather ID associated with the accident.
+ *                         example: "W-291755"
+ *                       WeatherCondition:
+ *                         type: string
+ *                         description: The weather condition at the time of the accident.
+ *                         example: "Rain"
+ *                       Coordinates:
+ *                         type: array
+ *                         items:
+ *                           type: number
+ *                         description: The coordinates where the accident occurred.
+ *                         example: [-85.95401, 39.225426]
+ *                       Date:
+ *                         type: string
+ *                         description: The date when the accident occurred.
+ *                         example: "2022-01-04"
  *       404:
- *         description: No accidents found for the date
+ *         description: No events found for the date {date}
  *       500:
  *         description: Internal server error
  */
@@ -116,29 +182,111 @@ router.get('/date/:date', accidentController.getAccidentsByDate);
  * @swagger
  * /api/accidents/severity/{severity}:
  *   get:
- *     summary: Retrieve car accidents for a specific severity
+ *     summary: Retrieve a list of all events, for a specific weather severity, of accidents and weather that were a match
  *     description: |
- *       Retrieve a list of car accidents, for a specific severity, from MongoDb. 
- *       Can be used to populate a list of fake car accidents when prototyping or testing an API
+ *       Retrieve a list of all events, for a specific weather severity, of accidents and weather that were a match from MongoDb. 
+ *       Can be used to populate a list of fake events when prototyping or testing an API.
  *     parameters:
  *       - in: path
  *         name: severity
  *         required: true
  *         schema:
  *           type: string
- *         description: The severity of the accident (e.g., 1, 2, 3 and 4)
+ *         description: The severity of the weather (e.g., Severe, Heavy, Moderate, Light, Other, UNK)
  *     responses:
  *       200:
- *         description: A list of accidents for the specified severity
+ *         description: A list of events for the specified severity of the weather
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       AccidentID:
+ *                         type: string
+ *                         description: The accident ID.
+ *                         example: "A-757778"
+ *                       WeatherID:
+ *                         type: string
+ *                         description: The weather ID associated with the accident.
+ *                         example: "W-291755"
+ *                       WeatherCondition:
+ *                         type: string
+ *                         description: The weather condition at the time of the accident.
+ *                         example: "Rain"
+ *                       Coordinates:
+ *                         type: array
+ *                         items:
+ *                           type: number
+ *                         description: The coordinates where the accident occurred.
+ *                         example: [-85.95401, 39.225426]
+ *                       WeatherSeverity:
+ *                         type: string
+ *                         description: The severity of the weather when the accident occurred.
+ *                         example: "Light"
  *       404:
- *         description: No accidents found for the severity
+ *         description: No events found for the severity {severity}
  *       500:
  *         description: Internal server error
  */
-
-router.get('/type/:type', accidentController.getAccidentsByType);
-
 router.get('/severity/:severity', accidentController.getAccidentsBySeverity);
+
+/**
+ * @swagger
+ * /api/accidents/type/{type}:
+ *   get:
+ *     summary: Retrieve a list of all events, for a specific type, of accidents and weather that were a match
+ *     description: |
+ *       Retrieve a list of all events, for a specific date, of accidents and weather that were a match from MongoDb. 
+ *       Can be used to populate a list of fake events when prototyping or testing an API.
+ *     parameters:
+ *       - in: path
+ *         name: severity
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The severity of the weather (e.g., Severe, Heavy, Moderate, Light, Other, UNK)
+ *     responses:
+ *       200:
+ *         description: A list of accidents for the specified severity
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       AccidentID:
+ *                         type: string
+ *                         description: The accident ID.
+ *                         example: "A-757778"
+ *                       WeatherID:
+ *                         type: string
+ *                         description: The weather ID associated with the accident.
+ *                         example: "W-291755"
+ *                       WeatherCondition:
+ *                         type: string
+ *                         description: The weather condition at the time of the accident.
+ *                         example: "Rain"
+ *                       Coordinates:
+ *                         type: array
+ *                         items:
+ *                           type: number
+ *                         description: The coordinates where the accident occurred.
+ *                         example: [-85.95401, 39.225426]
+ *       404:
+ *         description: No events found for the type {type}
+ *       500:
+ *         description: Internal server error
+ */
+router.get('/type/:type', accidentController.getAccidentsByType);
 
 router.get('/details/:accident_id/:weather_id', accidentController.getAccidentDetails);
 
