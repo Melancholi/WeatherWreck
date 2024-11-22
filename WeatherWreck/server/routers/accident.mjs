@@ -60,6 +60,8 @@ const router = express.Router();
  *         description: No events found
  *       500:
  *         description: Internal server error
+ *     tags:
+ *       - Events for matched accidents and weather
  */
 router.get('/', accidentController.getAccidents);
 
@@ -118,6 +120,8 @@ router.get('/', accidentController.getAccidents);
  *         description: No events found for the state {state}
  *       500:
  *         description: Internal server error
+ *     tags:
+ *       - Events for matched accidents and weather
  */
 router.get('/state/:state', accidentController.getAccidentsByState);
 
@@ -175,6 +179,8 @@ router.get('/state/:state', accidentController.getAccidentsByState);
  *         description: No events found for the date {date}
  *       500:
  *         description: Internal server error
+ *     tags:
+ *       - Events for matched accidents and weather
  */
 router.get('/date/:date', accidentController.getAccidentsByDate);
 
@@ -232,6 +238,8 @@ router.get('/date/:date', accidentController.getAccidentsByDate);
  *         description: No events found for the severity {severity}
  *       500:
  *         description: Internal server error
+ *     tags:
+ *       - Events for matched accidents and weather
  */
 router.get('/severity/:severity', accidentController.getAccidentsBySeverity);
 
@@ -245,7 +253,7 @@ router.get('/severity/:severity', accidentController.getAccidentsBySeverity);
  *       Can be used to populate a list of fake events when prototyping or testing an API.
  *     parameters:
  *       - in: path
- *         name: severity
+ *         name: type
  *         required: true
  *         schema:
  *           type: string
@@ -282,12 +290,82 @@ router.get('/severity/:severity', accidentController.getAccidentsBySeverity);
  *                         description: The coordinates where the accident occurred.
  *                         example: [-85.95401, 39.225426]
  *       404:
- *         description: No events found for the type {type}
+ *         description: No events found for the type `type`
  *       500:
  *         description: Internal server error
+ *     tags:
+ *       - Events for matched accidents and weather
  */
 router.get('/type/:type', accidentController.getAccidentsByType);
 
+/**
+ * @swagger
+ * /api/accidents/details/{accident_id}/{weather_id}:
+ *   get:
+ *     summary: Retrieve detailed information about a specific accident
+ *     description: |
+ *       Retrieves detailed information about a specific accident event based on the provided 
+ *       `accident_id` and `weather_id`. This includes weather conditions, accident severity, 
+ *       and other relevant details (e.g., description, state, city, and date).
+ *       If no matching event is found, it returns a 404 error with an appropriate message.
+ *     parameters:
+ *       - in: path
+ *         name: accident_id
+ *         required: true
+ *         description: The unique identifier of the accident.
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: weather_id
+ *         required: true
+ *         description: The unique identifier of the weather event associated with the accident.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: A detailed object containing the accident information.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 WeatherCondition:
+*                    type: string
+*                    description: The weather condition at the time of the accident.
+*                    example: "Rain"
+ *                 WeatherSeverity:
+ *                   type: string
+ *                   description: The severity of the weather when the accident occurred.
+ *                   example: "Light"
+ *                 AccidentSeverity:
+ *                   type: string
+ *                   description: The severity level of the accident.
+ *                   example: "3"
+ *                 Description:
+ *                   type: string
+ *                   description: A description of the accident.
+ *                   example: "The accident was bad!"
+ *                 State:
+ *                   type: string
+ *                   description: The state where the accident occurred.
+ *                   example: "IL"
+ *                 City:
+ *                   type: string
+ *                   description: The city where the accident occurred.
+ *                   example: "Chicago"
+ *                 Date:
+ *                   type: string
+ *                   description: The date when the accident occurred.
+ *                   example: "2022-01-04"
+ *       404:
+ *         description: |
+ *           If `weather_id` is wrong: No details found for ${weather_id}
+ *           If `accidnet_id` is wrong: Oupsy something went wrong for ${accidnet_id}
+ *       500:
+ *         description: Internal server error.
+ *     tags:
+ *       - Events for matched accidents and weather
+ */
 router.get('/details/:accident_id/:weather_id', accidentController.getAccidentDetails);
 
 export default router;

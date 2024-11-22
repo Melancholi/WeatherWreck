@@ -56,6 +56,8 @@ const router = express.Router();
  *         description: No weather events found
  *       500:
  *         description: Internal server error
+ *     tags:
+ *       - Weather
  */
 router.get('/', weatherController.getWeatherEvents);
 
@@ -82,6 +84,8 @@ router.get('/', weatherController.getWeatherEvents);
  *         description: No weather evemts found for the state
  *       500:
  *         description: Internal server error
+ *     tags:
+ *       - Weather
  */
 router.get('/state/:state', weatherController.getWeatherEventsByState);
 
@@ -107,6 +111,8 @@ router.get('/state/:state', weatherController.getWeatherEventsByState);
  *         description: No weather evemts found for the date
  *       500:
  *         description: Internal server error
+ *     tags:
+ *       - Weather
  */
 router.get('/date/:date', weatherController.getWeatherEventsByDate);
 
@@ -132,6 +138,8 @@ router.get('/date/:date', weatherController.getWeatherEventsByDate);
  *         description: No weather events found for the type
  *       500:
  *         description: Internal server error
+ *     tags:
+ *       - Weather
  */
 router.get('/type/:type', weatherController.getWeatherEventsByType);
 
