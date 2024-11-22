@@ -13,14 +13,14 @@ const port = process.env.PORT || 3001;
     await db.open('WeatherForecast');
 
     // Start the server once the database is ready
-    app.listen(port, () => {
+    const server = app.listen(port, () => {
       console.log(`Server listening on port ${port}!`);
     });
 
     // Handle graceful shutdown on SIGINT
     process.on('SIGINT', ()=>{
       console.debug('Signal received, closing HTTP server');
-      app.close(() =>{
+      server.close(() =>{
         db.close();
         console.debug('HTTP server has been closed');
       });
