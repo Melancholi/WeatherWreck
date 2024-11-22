@@ -261,11 +261,11 @@ router.get('/severity/:severity', accidentController.getAccidentsBySeverity);
  * /api/accidents/type/{type}:
  *   get:
  *     summary: |
- *       Retrieve a list of all events, for a specific type, of accidents and weather that 
- *       were a match
+ *       Retrieve a list of all events, for a specific type of weather, of accidents and 
+ *       weather that were a match
  *     description: |
- *       Retrieve a list of all events, for a specific date, of accidents and weather that 
- *       were a match from MongoDb.<br> 
+ *       Retrieve a list of all events, for a specific type of weather, of accidents and 
+ *       weather that were a match from MongoDb.<br> 
  *       Can be used to populate a list of fake events when prototyping or testing an API.
  *     parameters:
  *       - in: path
@@ -274,10 +274,12 @@ router.get('/severity/:severity', accidentController.getAccidentsBySeverity);
  *         schema:
  *           type: string
  *         description: |
- *           The severity of the weather (e.g., Severe, Heavy, Moderate, Light, Other, UNK)
+ *           The type of the weather (e.g., Cold, Fog, Precipitation, Rain, Snow, Storm)
  *     responses:
  *       200:
- *         description: A list of accidents for the specified severity
+ *         description: |
+ *           A list of all events, for a specific type of weather, of accidents and 
+ *           weather that were a match
  *         content:
  *           application/json:
  *             schema:
@@ -319,7 +321,9 @@ router.get('/type/:type', accidentController.getAccidentsByType);
  * @swagger
  * /api/accidents/details/{accident_id}/{weather_id}:
  *   get:
- *     summary: Retrieve detailed information about a specific accident
+ *     summary: |
+ *       Retrieves detailed information about a specific accident event based on the 
+ *       provided `accident_id` and `weather_id`.
  *     description: |
  *       Retrieves detailed information about a specific accident event based on the 
  *       provided `accident_id` and `weather_id`.<br> 
@@ -347,9 +351,9 @@ router.get('/type/:type', accidentController.getAccidentsByType);
  *               type: object
  *               properties:
  *                 WeatherCondition:
-*                    type: string
-*                    description: The weather condition at the time of the accident.
-*                    example: "Rain"
+ *                   type: string
+ *                   description: The weather condition at the time of the accident.
+ *                   example: "Rain"
  *                 WeatherSeverity:
  *                   type: string
  *                   description: The severity of the weather when the accident occurred.
