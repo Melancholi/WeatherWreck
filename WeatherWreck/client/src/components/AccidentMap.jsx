@@ -102,8 +102,7 @@ export default function AccidentMap() {
       console.error('Error fetching accident details:', error);
     }
   }
-
-
+  
   function AccidentMarker(){
     return (
       <>
