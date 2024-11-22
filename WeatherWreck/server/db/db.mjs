@@ -286,11 +286,18 @@ class DB{
  * Fetches events and matching accidents based on query filter direclty from db.
  * More effecient than readByConditionMatch
  * @param {Object} query - The query filter to be applied, e.g., { State: { $eq: "New York" } }
+ * @param {Boolean} skip - Determines weather a certain amount of results should be skipped or not
+ * for data variety 
  * @note if no parameters are passed to the method, it will search for all cases
  * and return the matching data
  */
-  async fetchEventsAndAccidents(query = { _id : {$exists:true}}) {
-    const randomValue = Math.floor(Math.random() * 10000);
+  async fetchEventsAndAccidents(query = { _id : {$exists:true}}, skip = true) {
+    let randomValue;
+    if(skip){
+      randomValue = Math.floor(Math.random() * 10000);
+    }else{
+      randomValue = 0;
+    }
     // Step 1: Fetch events matching the query filter
     const events = await instance.collections['WeatherForecast'].aggregate([
       {
