@@ -190,7 +190,8 @@ export async function getAccidentDetails(req, res, next){
   try {
     const accidentId = req.params.accident_id; 
     const weatherId = req.params.weather_id;
-    const data = await db.fetchEventsAndAccidents({ WeatherId: { $eq : weatherId} });
+    const data = await db.fetchEventsAndAccidents({ 'Weather_Key': { $eq : weatherId} },
+      false);
     if( data.length === 0){
       return res.status(404).json({error: `No details found for ${weatherId}`});
     }
