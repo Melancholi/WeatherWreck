@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import BarChart from './BarChart.jsx';
 import PieChart from './PieChart.jsx';
 import bobLoadingImage from '../assets/bob.png';
-import '../ChartsPage.css';
+import './ChartsPage.css';
 
 /**
  * List of valid weather conditions for filtering accident data.
