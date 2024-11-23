@@ -125,25 +125,23 @@ class DB{
  * Fetches random matching events from all 50 states 
  */
   async generalFetchEventsAndAccidents(){
-    const statesToProcess = [
-      'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 
-      'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 
-      'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 
-      'VA', 'WA', 'WV', 'WI', 'WY'
-    ];
-    const states = await Promise.all(statesToProcess.map(async state =>{
+    const states = await instance.collections['WeatherForecast'].aggregate([
+      {
+        $group: {
+          _id: '$State' 
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          State: '$_id' 
+        }
+      }
+    ]).toArray();
+    const events = await Promise.all(states.map(async (state) =>{
       return await instance.collections['WeatherForecast'].aggregate([
         {
-          $match: { State: state }
-        },
-        {
-        // Group by state and date, retaining other fields
-          $group: {
-            _id: { State: '$State', Date: '$Date' },
-            // eslint-disable-next-line camelcase
-            weatherEvents: { $push: { Weather_Key: '$Weather_Key', Type: '$Type', 
-              Severity: '$Severity' } }
-          }
+          $match : {State: {$eq: state.State}}
         },
         {
           $lookup:{
@@ -162,40 +160,39 @@ class DB{
                 }
               },
               {
-                $limit:5,
+                $limit:2,
               },
             ],
             as: 'matchingAccidents'
           }
         },
         {
-          // Unwind weather events to align each event with matching accidents
-          $unwind: '$weatherEvents'
-        },
-        {
           //what the document to return will look like
           $project: {
             _id: 0,
             // eslint-disable-next-line camelcase
-            Weather_Key: '$weatherEvents.Weather_Key',
-            Type: '$weatherEvents.Type',
-            Severity: '$weatherEvents.Severity',
-            State: '$_id.State',
-            Date: '$_id.Date',
+            Weather_Key: 1,
+            Type: 1,
+            Severity: 1,
+            City: 1,
+            State: 1,
+            Date: 1,
             //array of matched data
             matchingAccidents: 1
           }
         },
         {
           //do this search 5 times
-          $limit:5
+          $limit:1
         }
-      ], {allowDiskUse: true }).toArray();
+      ]).toArray();
     }));
   
-    return states.flatMap(event =>
-      event.matchingAccidents.map(accident => formatData(event, accident))
-    );
+    return events.flat().map(event => {
+      return event.matchingAccidents.map(accident => {
+        return formatData(event, accident);
+      });
+    }).flat();
   }
 
   /**
