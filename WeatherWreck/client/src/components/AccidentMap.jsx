@@ -146,10 +146,14 @@ export default function AccidentMap() {
             {/* Error message display */}
             <div id="panel">
               <div id="filters">
-                <FilterControl setFilter={onOptionChange}/>
+                <Suspense fallback={<div>Loading Filters...</div>}>
+                  <FilterControl setFilter={onOptionChange}/>
+                </Suspense>
               </div>
               <div id="legend">
-                <Legend />
+                <Suspense fallback={<div>Loading legend...</div>}>
+                  <Legend />
+                </Suspense>
               </div>
             </div>
             {/* See leaflet-container CSS class */}
