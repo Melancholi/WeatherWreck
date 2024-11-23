@@ -132,35 +132,33 @@ export default function AccidentMap() {
       </div>);
   }else{
     return (
-      <div id="main">
-        {/* Error message display */}
-        {error && <div id="error-message">{error}</div>}
-        <div className="ui-container">
-          <div id="filters">
-            <FilterControl setFilter={onOptionChange}/>
-          </div>
-          {/* See leaflet-container CSS class */}
-          <div id="map">
-            <MapContainer
-              center={[39.8283, -98.5795]}
-              zoom={4}
-              zoomControl={true}
-              updateWhenZooming={false}
-              updateWhenIdle={true}
-              preferCanvas={true}
-              minZoom={3}
-              maxZoom={16}
-            >
-              <TileLayer
-                attribution={attribution}
-                url={tileUrl}
-              />
-              {data.length > 0 ? <AccidentMarker /> : null}
-            </MapContainer>
-          </div>
+      <div id="ui-contrlos">
+        <div id="ui-container">
+          {/* Error message display */}
           <div id="legend">
             <Legend />
           </div>
+          <div id="filters">
+            {error && <div id="error-message">{error}</div>}
+            <FilterControl setFilter={onOptionChange}/>
+          </div>
+          {/* See leaflet-container CSS class */}
+          <MapContainer
+            center={[39.8283, -98.5795]}
+            zoom={5}
+            zoomControl={true}
+            updateWhenZooming={false}
+            updateWhenIdle={true}
+            preferCanvas={true}
+            minZoom={3}
+            maxZoom={16}
+          >
+            <TileLayer
+              attribution={attribution}
+              url={tileUrl}
+            />
+            {data.length > 0 ? <AccidentMarker /> : null}
+          </MapContainer>
         </div>
         <div id="info-box">
           <AccidentInfoBox details={selectedAccident} onClose={() => setSelectedAccident(null)} />
