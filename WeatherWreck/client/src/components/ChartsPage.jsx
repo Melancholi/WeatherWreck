@@ -132,6 +132,7 @@ export default function ChartsPage() {
             <BarChart 
               events={acc}
               validWeatherType={validWeatherType}
+              Plotly={window.Plotly}
             />
           }
 
