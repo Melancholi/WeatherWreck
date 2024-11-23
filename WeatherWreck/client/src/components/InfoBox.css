@@ -58,21 +58,17 @@
 }
 
 @media (max-width: 900px) {
-  .info-box {
-    width: 95%;
-    padding: 15px;
-  }
 
   .info-box h3 {
     font-size: 25px;
   }
 
   .info-box p {
-    font-size: 17px;
+    font-size: 15px;
   }
 
   .close-btn {
     font-size: 17px;
-    padding: 4px 8px;
+    padding: 10px 15px;
   }
 }

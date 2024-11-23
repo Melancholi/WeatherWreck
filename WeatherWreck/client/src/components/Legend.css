@@ -36,23 +36,26 @@
   height: 40px;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1200px) {
   .legend {
-    flex-direction: row; /* Arrange items in a row */
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     gap: 5px;
     max-width: 100%;
+    flex-wrap: wrap;
   }
 
   .legend-item {
-    gap: 5px; /* Reduce spacing */
-    font-size: 14px; /* Adjust font size for smaller screens */
+    gap: 5px;
+    font-size: 14px;
     padding: 5px;
+    margin: 0;
+    width: 45%;
   }
 
   .legend-icon {
-    width: 30px; /* Adjust icon size */
+    width: 30px;
     height: 30px;
   }
 }

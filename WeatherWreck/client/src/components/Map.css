@@ -80,7 +80,7 @@
 }
 
 
-@media (max-width: 900px) {
+@media (max-width: 1200px) {
   .ui-container {
     flex-direction: column;
     width: auto;
@@ -97,16 +97,24 @@
     width: 100%;
   }
 
-  #filters {
-    flex: 1;
-    min-width: 100%;
-    height: 100px;
-    margin-bottom: 10px;
+  #panel {
+    width: 100%;
   }
 
-  #filters .leaflet-container {
+  #panel .leaflet-container {
+    height: auto;
+    width: 100%;
     display: flex;
     flex-direction: row;
+  }
+
+  #filter {
+    height: auto;
+    width: auto;
+  }
+
+  #legend {
+    margin-bottom: 10px;
   }
 
   .loading-image {
