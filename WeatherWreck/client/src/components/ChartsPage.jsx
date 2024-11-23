@@ -129,13 +129,14 @@ export default function ChartsPage() {
         <Loading />
         : 
         <section id="dataCharts">
-          {checked === 'bar' &&
-            <BarChart 
-              events={acc}
-              validWeatherType={validWeatherType}
-              Plotly={window.Plotly}
-            />
-          }
+          <Suspense fallback={<div>Loading Chart...</div>}>
+            {checked === 'bar' &&
+              <BarChart 
+                events={acc}
+                validWeatherType={validWeatherType}
+                Plotly={window.Plotly}
+              />
+            }
 
           {checked === 'pie' && 
             // Lazy loading the PieChart 
