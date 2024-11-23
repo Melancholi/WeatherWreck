@@ -204,8 +204,8 @@ export default function BarChart({ events, validWeatherType }) {
     Learned from here
     https://stackoverflow.com/questions/48798507/change-the-background-color-of-a-plot
     */
-    plot_bgcolor: '#e3f2fc',
-    paper_bgcolor: '#e3f2fc'
+    'plot_bgcolor': '#e3f2fc',
+    'paper_bgcolor': '#e3f2fc'
   };
 
   return (
@@ -216,7 +216,7 @@ export default function BarChart({ events, validWeatherType }) {
           data={data}
           layout={layout}
         />
-    </div>
+      </div>
     </figure>
   );
 }

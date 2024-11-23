@@ -116,7 +116,7 @@ export default function PieChart({weatherOfAccidents}) {
       '#636EFA', '#EF553B', '#00CC96', '#AB63FA', '#FFA15A'
     ],
     title: 'Accident Severity by Weather Condition',
-    paper_bgcolor: '#e3f2fc'
+    'paper_bgcolor': '#e3f2fc'
   };
 
   return (

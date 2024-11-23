@@ -5,7 +5,7 @@ export default function AccidentInfoBox({ details, onClose }) {
 
   return (
     <div className="info-box">
-      <div id='titleButton'>
+      <div id="titleButton">
         <h3>Accident Details</h3>
         <button onClick={onClose} className="close-btn">Close</button>
       </div>
