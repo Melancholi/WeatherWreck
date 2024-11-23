@@ -1,19 +1,13 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+#ui-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
 }
 
 #ui-contrlos {
   display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 100%;
-}
-
-#ui-container {
-  display: flex;
-  height: 92.5vh;
+  height: 98vh;
   width: 100%;
 }
 

@@ -132,8 +132,8 @@ export default function AccidentMap() {
       </div>);
   }else{
     return (
-      <div id="ui-contrlos">
-        <div id="ui-container">
+      <div id="ui-container">
+        <div id="ui-contrlos">
           {/* Error message display */}
           <div id="filters">
             {error && <div id="error-message">{error}</div>}
