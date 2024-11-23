@@ -1,5 +1,37 @@
+import { useState, useEffect } from 'react';
 import Plot from 'react-plotly.js';
 
+/**
+ * Function to dynamically get the chart size based on the screen width.
+ * It adjusts the chart size for small, medium, and large screen widths.
+ * 
+ * @returns {number} width - The width of the chart.
+ * @returns {number} height - The height of the chart.
+ */ 
+const getChartSize = () => {
+  let width; 
+  let height;
+
+  /* Adjusts the size of the chart based on screen width 
+    (for smaller, medium, large screens)
+    Learned about innerHeight property from here
+    https://developer.mozilla.org/en-US/docs/Web/API/Window/innerHeight
+    Learned about innerWidth property from here
+    https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth
+  */
+  if (window.innerWidth < 600) {  
+    width = window.innerWidth - 90;
+    height = 300;
+  } else if (window.innerWidth >= 600 && window.innerWidth < 1200) {
+    width = window.innerWidth - 150;
+    height = 400;
+  } else {
+    width = 900;
+    height = 500;
+  }
+
+  return { width, height };
+};
 
 /**
  * Pie chart Component that displays the correllation bewteen the severity of car accidents and
@@ -10,6 +42,32 @@ import Plot from 'react-plotly.js';
  * weather
  */
 export default function PieChart({weatherOfAccidents}) {
+  // State to store the width and height for the chart
+  const [chartSize, setChartSize] = useState(getChartSize());
+
+  /**
+   * Handles resizing of the window by updating the chart size.
+   */
+  const handleResize = () => {
+    setChartSize(getChartSize());
+  };
+
+  // Update chart size on window resize
+  useEffect(() => {
+    /* Used an example from here
+      https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth
+    */ 
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup event listener
+    return () => {
+      /* Used an example from here
+      https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/removeEventListener
+      */
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   /*
     Based from https://plotly.com/javascript/sunburst-charts/
   */
@@ -51,13 +109,14 @@ export default function PieChart({weatherOfAccidents}) {
   }];
 
   const layout = {
-    height: 500,
-    width: 500,
+    height: chartSize.height,
+    width: chartSize.width,
     margin: { t: 70, l: 0, r: 0, b: 20 },
     sunburstcolorway:[
       '#636EFA', '#EF553B', '#00CC96', '#AB63FA', '#FFA15A'
     ],
-    title: 'Accident Severity by Weather Condition'
+    title: 'Accident Severity by Weather Condition',
+    paper_bgcolor: '#e3f2fc'
   };
 
   return (
