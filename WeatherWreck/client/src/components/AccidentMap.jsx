@@ -139,17 +139,17 @@ export default function AccidentMap() {
       <div id="ui-contrlos">
         <div id="ui-container">
           {/* Error message display */}
-          <div id="legend">
-            <Legend />
-          </div>
           <div id="filters">
             {error && <div id="error-message">{error}</div>}
             <FilterControl setFilter={onOptionChange}/>
+            <div id="legend">
+              <Legend />
+            </div>
           </div>
           {/* See leaflet-container CSS class */}
           <MapContainer
-            center={[39.8283, -98.5795]}
-            zoom={5}
+            center={[39.8183, -98.5795]}
+            zoom={4.5}
             zoomControl={true}
             updateWhenZooming={false}
             updateWhenIdle={true}

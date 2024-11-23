@@ -1,11 +1,17 @@
 .legend {
+  height: 70%;
+  padding: 20px;
+  background-color: #f4f9fc;
+  border: 1px solid #dcdde1;
+  border-radius: 8px;
+  max-width: 400px;
+  margin: 0;
+  text-align: center;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 10px;
   justify-content: center;
   align-items: center;
-  padding: 10px 15px;
-  max-width: 300px;
   width: auto;
 }
 
@@ -14,18 +20,19 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
-  font-size: 0.8rem;
+  font-size: 17px;
   color: #34495e;
   background-color: #ecf8ff;
   padding: 5px 8px;
   margin: 0 5px;
   border-radius: 5px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
 }
 
 .legend-icon {
-  width: 30px;
-  height: 30px;
+  width: 40px;
+  height: 40px;
 }
 
 @media (max-width: 768px) {
