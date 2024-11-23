@@ -75,7 +75,9 @@ export default function AboutUs() {
             </dl>
           </div>
         </div>
+      </section>
 
+      <section id="aboutUs">
         <div id="howToUse">
           <h2>How to Use Our Page</h2>
 
