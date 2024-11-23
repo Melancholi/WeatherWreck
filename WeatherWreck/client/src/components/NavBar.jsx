@@ -1,4 +1,5 @@
 import favicon from '../../public/favicon.ico';
+import './NavBar.css';
 export default function NavBar({ setCurrentPage }) {
   return (
     <header>
@@ -11,8 +12,11 @@ export default function NavBar({ setCurrentPage }) {
         <nav>
           <ul id="navUl">
             {/* Use onClick to switch pages */}
+            <li className="nav-link" onClick={() => setCurrentPage('AboutUs')}>
+              About Us
+            </li>
             <li className="nav-link" onClick={() => setCurrentPage('AccidentMap')}>
-              View Accidents
+              View Accidents Map
             </li>
             <li className="nav-link" onClick={() => setCurrentPage('ChartsPage')}>
               View Charts
