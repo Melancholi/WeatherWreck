@@ -14,6 +14,14 @@ import cache from 'memory-cache';
  */
 export async function getAccidents(req, res, next){
   try {
+    const cacheKey = 'all_accidents';
+    const cachedData = cache.get(cacheKey);
+
+    if (cachedData) {
+      console.log('Cache was hit for all accidents');
+      return res.status(200).json(cachedData);
+    }
+
     const data = await db.generalFetchEventsAndAccidents();
     if (data.length === 0){
       return res.status(404).json({error: 'No accidents found'});
@@ -27,6 +35,9 @@ export async function getAccidents(req, res, next){
       WeatherSeverity: accident.Weather_Severity,
       AccidentSeverity: accident.Accident_Severity
     }));
+
+    cache.put(cacheKey, simplifiedData);
+    res.set({'Cache-Control': 'max-age=31536000'}); 
     res.status(200).json(simplifiedData);
   } catch (error) {
     console.error(error.message);
@@ -48,6 +59,14 @@ export async function getAccidents(req, res, next){
 export async function getAccidentsByState(req, res, next){
   try {
     const state = req.params.state.toUpperCase();
+    const cacheKey = `state_accidents_${state}`; 
+    const cachedData = cache.get(cacheKey);
+
+    if (cachedData) {
+      console.log(`Cache was hit for state ${state}`);
+      return res.status(200).json(cachedData); 
+    }
+
     const data = await db.fetchEventsAndAccidents({ State: {$eq : state} });
     if( data.length === 0){
       return res.status(404).json({error: `No accidents found for ${state}`});
@@ -61,6 +80,8 @@ export async function getAccidentsByState(req, res, next){
       State: accident.State
     }));
 
+    cache.put(cacheKey, simplifiedData);
+    res.set({'Cache-Control': 'max-age=31536000'}); 
     res.status(200).json(simplifiedData);
   } catch (error) {
     console.error(error.message);
@@ -82,6 +103,14 @@ export async function getAccidentsByState(req, res, next){
 export async function getAccidentsByDate(req, res, next){
   try {
     const date = req.params.date;
+    const cacheKey = `state_accidents_${date}`; 
+    const cachedData = cache.get(cacheKey);
+
+    if (cachedData) {
+      console.log(`Cache was hit for date ${date}`);
+      return res.status(200).json(cachedData); 
+    }
+
     const data = await db.fetchEventsAndAccidents({ Date: {$eq : date} });
     if( data.length === 0){
       return res.status(404).json({error: `No accidents found for ${date}`});
@@ -94,6 +123,9 @@ export async function getAccidentsByDate(req, res, next){
       Coordinates: accident.Coordinates,
       Date: accident.Date
     }));
+
+    cache.put(cacheKey, simplifiedData);
+    res.set({'Cache-Control': 'max-age=31536000'}); 
     res.status(200).json(simplifiedData);
   } catch (error) {
     console.error(error.message);
@@ -117,8 +149,16 @@ export async function getAccidentsBySeverity(req, res, next){
   try {
     const severity = req.params.severity;
     //Capitalize first letter
-    const camelCaseType = severity[0].toUpperCase() + severity.slice(1);
-    const data = await db.fetchEventsAndAccidents({ Severity: { $eq : camelCaseType} });
+    const camelCaseSeverity = severity[0].toUpperCase() + severity.slice(1);
+    const cacheKey = `state_accidents_${camelCaseSeverity}`; 
+    const cachedData = cache.get(cacheKey);
+
+    if (cachedData) {
+      console.log(`Cache was hit for severity ${camelCaseSeverity}`);
+      return res.status(200).json(cachedData); 
+    }
+
+    const data = await db.fetchEventsAndAccidents({ Severity: { $eq : camelCaseSeverity} });
     if( data.length === 0){
       return res.status(404).json({error: `No accidents found for severity ${severity}`});
     }
@@ -130,6 +170,9 @@ export async function getAccidentsBySeverity(req, res, next){
       Coordinates: accident.Coordinates,
       WeatherSeverity: accident.Weather_Severity
     }));
+
+    cache.put(cacheKey, simplifiedData);
+    res.set({'Cache-Control': 'max-age=31536000'}); 
     res.status(200).json(simplifiedData);
   } catch (error) {
     console.error(error.message);
@@ -154,6 +197,13 @@ export async function getAccidentsByType(req, res, next){
     const type = req.params.type;
     //Capitalize first letter
     const camelCaseType = type[0].toUpperCase() + type.slice(1);
+    const cacheKey = `state_accidents_${camelCaseType}`; 
+    const cachedData = cache.get(cacheKey);
+
+    if (cachedData) {
+      console.log(`Cache was hit for weather type ${camelCaseType}`);
+      return res.status(200).json(cachedData); 
+    }
     const data = await db.fetchEventsAndAccidents({ Type: { $eq : camelCaseType} });
     if( data.length === 0){
       return res.status(404).json({error: `No accidents found for type ${type}`});
@@ -165,6 +215,9 @@ export async function getAccidentsByType(req, res, next){
       WeatherCondition: accident.Weather_Condition,
       Coordinates: accident.Coordinates,
     }));
+
+    cache.put(cacheKey, simplifiedData);
+    res.set({'Cache-Control': 'max-age=31536000'}); 
     res.status(200).json(simplifiedData);
   } catch (error) {
     console.error(error.message);
@@ -191,6 +244,14 @@ export async function getAccidentDetails(req, res, next){
   try {
     const accidentId = req.params.accident_id; 
     const weatherId = req.params.weather_id;
+    const cacheKey = `state_accidents_${accidentId}_${weatherId}`; 
+    const cachedData = cache.get(cacheKey);
+
+    if (cachedData) {
+      console.log(`Cache was hit for accident ${accidentId}`);
+      return res.status(200).json(cachedData); 
+    }
+
     const data = await db.fetchEventsAndAccidents({ 'Weather_Key': { $eq : weatherId} },
       false);
     if( data.length === 0){
@@ -202,9 +263,7 @@ export async function getAccidentDetails(req, res, next){
     if(!filteredAccident){
       return res.status(404).json({error: `Oupsy something went wrong for ${accidentId} `});
     }
-    
-    // Return the found accident
-    res.status(200).json({
+    const accident = {
       WeatherCondition: filteredAccident.Weather_Condition,
       WeatherSeverity: filteredAccident.Weather_Severity,
       AccidentSeverity: filteredAccident.Accident_Severity,
@@ -212,7 +271,12 @@ export async function getAccidentDetails(req, res, next){
       State: filteredAccident.State,
       City: filteredAccident.City,
       Date: filteredAccident.Date
-    });
+    };
+
+    cache.put(cacheKey, accident);
+    res.set({'Cache-Control': 'max-age=31536000'}); 
+    // Return the found accident
+    res.status(200).json(accident);
 
   } catch (error) {
     console.error(error.message);
