@@ -7,6 +7,9 @@ import compression from 'compression';
 //Create APP
 const app = express();
 
+// Enable Gzip compression
+app.use(compression());
+
 const swaggerDefinition = {
   openapi: '3.0.0',
   info: {
@@ -37,9 +40,6 @@ app.use(express.static('./../client/dist', {
   },
   maxAge: '1y', 
 }));
-
-//Use compression
-app.use(compression());
 
 // Route for accident-related API endpoints
 app.use('/api/accidents', accidentRouter);
