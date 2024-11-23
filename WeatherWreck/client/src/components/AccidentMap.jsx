@@ -3,7 +3,6 @@ import 'leaflet/dist/leaflet.css';
 import './Map.css';
 import Legend from './Legend.jsx';
 import { Icon  } from 'leaflet';
-import { Helmet } from 'react-helmet';
 import { useState, useEffect} from 'react';
 import FilterControl  from './FilterControl.jsx';
 import { 
@@ -12,13 +11,13 @@ import {
   Marker,
   Popup
 } from 'react-leaflet';
-import IconSnow from '../assets/IconSnow.png';
-import IconCold from '../assets/IconCold.png';
-import IconFog from '../assets/IconFog.png';
-import IconRain from '../assets/IconRain.png';
-import IconPrecipitation from '../assets/IconPrecip.png';
-import IconStorm from '../assets/IconStorm.png';
-import bobLoadingImage from '../assets/bob.png';
+import IconSnow from '../assets/IconSnow.webp';
+import IconCold from '../assets/IconCold.webp';
+import IconFog from '../assets/IconFog.webp';
+import IconRain from '../assets/IconRain.webp';
+import IconPrecipitation from '../assets/IconPrecip.webp';
+import IconStorm from '../assets/IconStorm.webp';
+import bobLoadingImage from '../assets/bob.webp';
 import AccidentInfoBox from './AccidentInfoBox';
 
 /**
@@ -128,11 +127,8 @@ export default function AccidentMap() {
   if(loading){
     return (
       <>
-        <Helmet>
-          <link rel="preload" href={bobLoadingImage} as="image" />
-        </Helmet>
         <div className="loading-container"> 
-          <img rel="preload" src={bobLoadingImage} alt="Please wait" 
+          <img src={bobLoadingImage} alt="Please wait" 
             className="loading-image" />
           <p>I know, I know... Wait patiently... It&apos;s loading ...</p>
         </div>

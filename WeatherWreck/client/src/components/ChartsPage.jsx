@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import BarChart from './BarChart.jsx';
 import PieChart from './PieChart.jsx';
-import bobLoadingImage from '../assets/bob.png';
+import bobLoadingImage from '../assets/bob.webp';
 import '../ChartsPage.css';
 
 /**
