@@ -54,7 +54,7 @@ p {
 
 dl {
     margin-top: 10px;
-    font-size: 0.95rem;
+    font-size: 15px;
 }
 
 dt {
@@ -80,36 +80,21 @@ a.info:hover {
     color: #1abc9c;
 }
 
-button {
-    background-color: #1abc9c;
-    color: #ffffff;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #16a085;
-}
-
 @media (max-width: 900px) {
     #aboutUs {
       padding: 15px;
     }
   
     h2 {
-      font-size: 1.8rem;
+      font-size: 25px;
     }
   
     h3 {
-      font-size: 1.3rem;
+      font-size: 20px;
     }
   
     p {
-      font-size: 0.95rem;
+      font-size: 15px;
     }
 }
   
