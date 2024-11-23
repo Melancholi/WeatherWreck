@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import Plot from 'react-plotly.js';
-
+import createPlotlyComponent from 'react-plotly.js/factory';
 /**
  * Function to dynamically get the chart size based on the screen width.
  * It adjusts the chart size for small, medium, and large screen widths.
@@ -38,10 +37,13 @@ const getChartSize = () => {
  *  weather events
  * @param {ArrayObject} weatherOfAccidents - Array containing list of weather events 
  * and their accidents
+ * @param {Object} Plotly  - The imported plotly library
  * @returns {JSX.Element} A sunburst chart displaying accident severity depending on the 
  * weather
  */
-export default function PieChart({weatherOfAccidents}) {
+export default function PieChart({weatherOfAccidents, Plotly}) {
+  //Transform plotly object into react component
+  const Plot = createPlotlyComponent(Plotly);
   // State to store the width and height for the chart
   const [chartSize, setChartSize] = useState(getChartSize());
 
