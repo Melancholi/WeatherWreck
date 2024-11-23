@@ -12,6 +12,7 @@
   padding: 20px;
   background-color: #ecf8ff;
   border: 1px solid #ddd;
+  border-top: 1px solid #bdc3c7;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
 }
@@ -41,6 +42,7 @@
   padding: 20px;
   background-color: #ecf8ff;
   border: 1px solid #ddd;
+  border-top: 1px solid #bdc3c7;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   padding: 50px;
@@ -50,6 +52,32 @@
   font-size: 35px;
   padding-bottom: 15px;
   color: #1abc9c;
+}
+
+.loading-container-charts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  
+  color: #1abc9c;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+
+  background-color: #ecf8ff;
+  border: 1px solid #ddd;
+  border-top: 1px solid #bdc3c7;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  padding-bottom: 50px;
+}
+
+.loading-image-charts {
+  width: 50%; 
+  height:50%;
+  margin-bottom: 10px;
 }
 
 @media (max-width: 900px) {
@@ -80,5 +108,10 @@
 
   #dataCharts {
     padding: 15px;
+  }
+
+  .loading-image-charts {
+    width: 70%; 
+    height: auto;
   }
 }

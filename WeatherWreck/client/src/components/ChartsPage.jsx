@@ -28,8 +28,8 @@ const accidents = {
 
 function Loading() {
   return (
-    <div className="loading-container"> 
-      <img src={bobLoadingImage} alt="Please wait" className="loading-image" />
+    <div className="loading-container-charts"> 
+      <img src={bobLoadingImage} alt="Please wait" className="loading-image-charts" />
       <p>I know, I know... Wait patiently... It&apos;s loading ...</p>
     </div>);
 }
