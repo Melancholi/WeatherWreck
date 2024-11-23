@@ -2,6 +2,7 @@ import express from 'express';
 import accidentRouter from './routers/accident.mjs';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
+import compression from 'compression';
 
 //Create APP
 const app = express();
@@ -29,6 +30,9 @@ const swaggerSpec = swaggerJSDoc(options);
 
 //Serve the static files from the React app
 app.use(express.static('./../client/dist'));
+
+//Use compression
+app.use(compression());
 
 // Route for accident-related API endpoints
 app.use('/api/accidents', accidentRouter);
