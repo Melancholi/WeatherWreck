@@ -2,12 +2,13 @@
   height: 100%;
   width: 100%;
   display: flex;
+  gap: 5px;
 }
 #filters{
   flex:1;
 }
 #map, .leaflet-container {
-  flex:3;
+  flex:4;
   width: 100%;
   height: 100vh; 
   position:relative;
