@@ -10,8 +10,8 @@ export default function AboutUs() {
           <div className="story-section">
             <h3>Who are we?</h3>
             <p>
-              We are Iana Feniuc, Youry Nelson, and Maara Purici, final year students at Dawson College, 
-              Montreal, QC, in the Computer Science program.
+              We are Iana Feniuc, Youry Nelson, and Maara Purici, final year students at Dawson  
+              College, Montreal, QC, in the Computer Science program.
             </p>
             <p>
               For our final project for our Web Development V class, we were required to make a 
@@ -53,9 +53,10 @@ export default function AboutUs() {
                 </a>
               </dt>
               <dd>
-                Provides detailed information about accidents in the USA during the years 2016 - 2023. 
+                Provides detailed information about accidents in the USA during the years 
+                2016 - 2023. 
               </dd>
-              <dd>We used only accident events from 2022 due to the dataset's size.</dd>
+              <dd>We used only accident events from 2022 due to the size of the dataset.</dd>
 
               <dt>
                 <a
@@ -67,9 +68,10 @@ export default function AboutUs() {
                 </a>
               </dt>
               <dd>
-                Provides detailed information about weather events in the USA during the years 2016 - 2022. 
+                Provides detailed information about weather events in the USA during the years 
+                2016 - 2022. 
               </dd>
-              <dd>We used only weather events from 2022 due to the dataset's size.</dd>
+              <dd>We used only weather events from 2022 due to the size of the dataset.</dd>
             </dl>
           </div>
         </div>
@@ -79,9 +81,12 @@ export default function AboutUs() {
 
           <div className="usage-section">
             <h3>For the Accidents Map Page</h3>
-            <p>To view the map with all accidents, press the button "View Accidents Map."</p>
             <p>
-              You will be presented with a map with markers across the USA representing different accidents.
+              To view the map with all accidents, press the button &quot;View Accidents Map.&quot;
+            </p>
+            <p>
+              You will be presented with a map with markers across the USA representing different 
+              accidents.
             </p>
             <p>A panel on the left side provides several search options:</p>
             <dl>
@@ -105,7 +110,7 @@ export default function AboutUs() {
 
           <div className="usage-section">
             <h3>For the Charts Page</h3>
-            <p>To view charts, press the button "View Charts."</p>
+            <p>To view charts, press the button &quot;View Charts.&quot;</p>
             <p>
               You will see a panel allowing you to select either the bar chart or the pie chart. 
               By default, the bar chart is displayed.
