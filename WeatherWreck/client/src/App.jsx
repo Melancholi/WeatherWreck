@@ -1,5 +1,6 @@
 import ChartsPage from './components/ChartsPage.jsx';
 import AccidentMap from './components/AccidentMap.jsx';
+import AboutUs from './components/AboutUs.jsx';
 import NavBar from './components/NavBar.jsx';
 import Footer from './components/Footer.jsx';
 import './App.css';
@@ -16,7 +17,7 @@ function App() {
     case 'ChartsPage':
       return <ChartsPage />;
     default:
-      return <AccidentMap />;
+      return <AboutUs />;
     }
   };
 
