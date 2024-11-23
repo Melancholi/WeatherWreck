@@ -16,6 +16,8 @@ function App() {
       return <AccidentMap />;
     case 'ChartsPage':
       return <ChartsPage />;
+    case 'AboutUs':
+      return <AboutUs />;
     default:
       return <AboutUs />;
     }
