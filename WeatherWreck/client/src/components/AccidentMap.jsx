@@ -93,16 +93,16 @@ export default function AccidentMap() {
     fetchData();
   }, [filterOption]);
 
-  async function fetchAccidentDetails() {
+  async function fetchAccidentDetails(accidentId, weatherId) {
     try {
-      const response = await fetch(`/api/accidents/severity/Light`);
+      const response = await fetch(`/api/accidents/details/${accidentId}/${weatherId}`);
       const details = await response.json();
       setSelectedAccident(details);
     } catch (error) {
       console.error('Error fetching accident details:', error);
     }
   }
-
+  
   function AccidentMarker(){
     return (
       <>
@@ -112,7 +112,7 @@ export default function AccidentMap() {
             position={[accident.Coordinates[1], accident.Coordinates[0]]} 
             icon={customIcon(accident.WeatherCondition)}
             eventHandlers={{
-              click: () => fetchAccidentDetails(),
+              click: () => fetchAccidentDetails(accident.AccidentID, accident.WeatherID),
             }}>
             <Popup>
               <p> Weather:{accident.WeatherCondition} </p>
