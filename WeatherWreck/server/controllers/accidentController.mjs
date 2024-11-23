@@ -1,4 +1,5 @@
 import {db} from '../db/db.mjs';
+import cache from 'memory-cache';
 
 /**
  * Retrieve all events of accidents and weather that were a match, from the database, 
