@@ -3,6 +3,7 @@ import 'leaflet/dist/leaflet.css';
 import './Map.css';
 import Legend from './Legend.jsx';
 import { Icon  } from 'leaflet';
+import { Helmet } from 'react-helmet';
 import { useState, useEffect} from 'react';
 import FilterControl  from './FilterControl.jsx';
 import { 
@@ -126,10 +127,16 @@ export default function AccidentMap() {
   
   if(loading){
     return (
-      <div className="loading-container"> 
-        <img src={bobLoadingImage} alt="Please wait" className="loading-image" />
-        <p>I know, I know... Wait patiently... It&apos;s loading ...</p>
-      </div>);
+      <>
+        <Helmet>
+          <link rel="preload" href={bobLoadingImage} as="image" />
+        </Helmet>
+        <div className="loading-container"> 
+          <img rel="preload" src={bobLoadingImage} alt="Please wait" 
+            className="loading-image" />
+          <p>I know, I know... Wait patiently... It&apos;s loading ...</p>
+        </div>
+      </>);
   }else{
     return (
       <div id="main">
