@@ -136,35 +136,39 @@ export default function AccidentMap() {
       </>);
   }else{
     return (
-      <div id="ui-container">
-        <div id="ui-contrlos">
-          {/* Error message display */}
-          <div id="filters">
-            {error && <div id="error-message">{error}</div>}
-            <FilterControl setFilter={onOptionChange}/>
-            <div id="legend">
-              <Legend />
+      <div id='displayMap'>
+        {error && <div id="error-message">{error}</div>}
+        <div id="ui-container">
+          <div id="ui-contrlos">
+            {/* Error message display */}
+            <div id="panel">
+              <div id="filters">
+                <FilterControl setFilter={onOptionChange}/>
+              </div>
+              <div id="legend">
+                <Legend />
+              </div>
             </div>
+            {/* See leaflet-container CSS class */}
+            <MapContainer
+              center={[39.8183, -98.5795]}
+              zoom={4.5}
+              zoomControl={true}
+              updateWhenZooming={false}
+              updateWhenIdle={true}
+              preferCanvas={true}
+              minZoom={3}
+              maxZoom={16}
+            >
+              <TileLayer
+                attribution={attribution}
+                url={tileUrl}
+              />
+              {data.length > 0 ? <AccidentMarker /> : null}
+            </MapContainer>
           </div>
-          {/* See leaflet-container CSS class */}
-          <MapContainer
-            center={[39.8183, -98.5795]}
-            zoom={4.5}
-            zoomControl={true}
-            updateWhenZooming={false}
-            updateWhenIdle={true}
-            preferCanvas={true}
-            minZoom={3}
-            maxZoom={16}
-          >
-            <TileLayer
-              attribution={attribution}
-              url={tileUrl}
-            />
-            {data.length > 0 ? <AccidentMarker /> : null}
-          </MapContainer>
         </div>
-        <div id="info-box">
+        <div id="info-box-map">
           <AccidentInfoBox details={selectedAccident} onClose={() => setSelectedAccident(null)} />
         </div>
       </div>

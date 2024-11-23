@@ -1,74 +1,78 @@
 .info-box {
-  position: fixed;
-  top: 20%;
-  left: 50%;
-  transform: translate(-50%, -20%);
-  width: 90%;
-  max-width: 400px;
-  background-color: #ffffff;
-  border: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  border-top: 1px solid #bdc3c7;
+  border-left: 4px solid #3498db;
+  background-color: #ecf8ff;
   border-radius: 8px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  z-index: 1000;
-  overflow-y: auto;
+  margin: 5px 15px 15px 15px;
 }
 
 .info-box h3 {
-  margin: 0 0 15px 0;
-  font-size: 1.5rem;
+  margin: 0;
+  font-size: 30px;
   color: #34495e;
-  text-align: center;
+  border-bottom: none;
 }
 
 .info-box p {
   margin: 8px 0;
-  font-size: 1rem;
+  font-size: 17px;
   color: #555555;
-  line-height: 1.4;
+  padding: 5px;
+  margin: 0;
 }
 
 .info-box p strong {
   color: #2c3e50;
 }
 
+#titleButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-bottom: 2px solid #bdc3c7;
+}
+
 .close-btn {
-  position: absolute;
-  top: 10px;
-  right: 10px;
   background-color: #e74c3c;
   color: #ffffff;
   border: none;
   border-radius: 5px;
-  padding: 5px 10px;
-  font-size: 0.9rem;
+  padding: 15px 35px 15px 35px;
+  font-size: 15px;
+  font-weight: bold;
   cursor: pointer;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-bottom: 5px
 }
 
 .close-btn:hover {
   background-color: #c0392b;
-  transform: scale(1.1);
 }
 
 @media (max-width: 900px) {
   .info-box {
     width: 95%;
-    top: 15%;
     padding: 15px;
   }
 
   .info-box h3 {
-    font-size: 1.25rem;
+    font-size: 25px;
   }
 
   .info-box p {
-    font-size: 0.9rem;
+    font-size: 17px;
   }
 
   .close-btn {
-    font-size: 0.8rem;
+    font-size: 17px;
     padding: 4px 8px;
   }
 }

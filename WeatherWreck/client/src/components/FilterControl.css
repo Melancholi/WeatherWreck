@@ -1,8 +1,9 @@
 #FilterControlSection {
-  height: 50%;
+  height: 50vh;
   padding: 20px;
-  background-color: #f4f9fc;
-  border: 1px solid #dcdde1;
+  background-color: #ecf8ff;
+  border-top: 1px solid #bdc3c7;
+  border-left: 4px solid #3498db;
   border-radius: 8px;
   max-width: 400px;
   margin: 0;
