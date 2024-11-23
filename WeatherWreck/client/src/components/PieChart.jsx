@@ -122,10 +122,12 @@ export default function PieChart({weatherOfAccidents}) {
   return (
     <figure>
       <h1 className="chartsH1">Accident Severity by Weather Condition</h1>
-      <Plot
-        data={data}
-        layout={layout}
-      />
+      <div className="chart-container">
+        <Plot
+          data={data}
+          layout={layout}
+        />
+      </div>
     </figure>
   );
 }
