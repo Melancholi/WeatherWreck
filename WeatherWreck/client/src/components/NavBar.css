@@ -49,14 +49,11 @@ h1 {
     border-radius: 5px;
 }
 
-.nav-link:hover {
+.nav-link:hover, .nav-link.active {
     background-color: #1abc9c;
+    font-weight: bold;
     color: #ffffff;
     transform: scale(1.05);
-}
-
-.nav-link:active {
-    background-color: #16a085;
 }
 
 @media (max-width: 900px) {
