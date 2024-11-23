@@ -1,7 +1,6 @@
 
 import 'leaflet/dist/leaflet.css';
 import './Map.css';
-import Legend from './Legend.jsx';
 import { Icon  } from 'leaflet';
 import { useState, useEffect, lazy, Suspense} from 'react';
 import FilterControl  from './FilterControl.jsx';
@@ -24,6 +23,7 @@ const AccidentInfoBox = lazy(
   () => import('./AccidentInfoBox.jsx')
 );
 
+const Legend = lazy(() => import( './Legend.jsx'));
 /**
  * Custom icons for map markers.
  */
