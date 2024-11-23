@@ -1,9 +1,9 @@
-import IconSnow from '../assets/IconSnow.png';
-import IconCold from '../assets/IconCold.png';
-import IconFog from '../assets/IconFog.png';
-import IconRain from '../assets/IconRain.png';
-import IconPrecipitation from '../assets/IconPrecip.png';
-import IconStorm from '../assets/IconStorm.png';
+import IconSnow from '../assets/IconSnow.webp';
+import IconCold from '../assets/IconCold.webp';
+import IconFog from '../assets/IconFog.webp';
+import IconRain from '../assets/IconRain.webp';
+import IconPrecipitation from '../assets/IconPrecip.webp';
+import IconStorm from '../assets/IconStorm.webp';
 import './Legend.css';
 
 // Legend component

@@ -2,9 +2,13 @@ import express from 'express';
 import accidentRouter from './routers/accident.mjs';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
+import compression from 'compression';
 
 //Create APP
 const app = express();
+
+// Enable Gzip compression
+app.use(compression());
 
 const swaggerDefinition = {
   openapi: '3.0.0',
@@ -28,7 +32,14 @@ const options = {
 const swaggerSpec = swaggerJSDoc(options);
 
 //Serve the static files from the React app
-app.use(express.static('./../client/dist'));
+app.use(express.static('./../client/dist', {
+  setHeaders: (res, path) => {
+    if (path.endsWith('.html')) {
+      res.setHeader('Cache-Control', 'no-cache'); 
+    }
+  },
+  maxAge: '1y', 
+}));
 
 // Route for accident-related API endpoints
 app.use('/api/accidents', accidentRouter);
