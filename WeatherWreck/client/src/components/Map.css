@@ -13,9 +13,8 @@
 
 #ui-container {
   display: flex;
-  height: 100vh;
+  height: 92.5vh;
   width: 100%;
-  position: relative;
 }
 
 #filters {
@@ -25,7 +24,6 @@
   background-color: #f4f4f4;
   border-right: 2px solid #ccc;
   padding: 10px;
-  position: relative;
 }
 
 #filters .leaflet-container {
@@ -69,18 +67,7 @@
 }
 
 #legend {
-  position: absolute;
-  top: 10px; 
-  left: 60%;
-  transform: translateX(-50%);
-  z-index: 1000; 
-  padding: 10px 15px;
-  max-width: 300px; 
-  width: auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
+  margin-top: 10px;
 }
 
 #info-box {
