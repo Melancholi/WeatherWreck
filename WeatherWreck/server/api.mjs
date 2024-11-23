@@ -29,7 +29,7 @@ const options = {
 const swaggerSpec = swaggerJSDoc(options);
 
 //Serve the static files from the React app
-app.use(express.static('./../client/dist'));
+app.use(express.static('./../client/dist',  {maxAge: '1y'}));
 
 //Use compression
 app.use(compression());
