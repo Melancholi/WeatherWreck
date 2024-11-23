@@ -1,4 +1,5 @@
 import favicon from './../assets/favicon.ico';
+import './NavBar.css';
 export default function NavBar({ setCurrentPage }) {
   return (
     <header>
