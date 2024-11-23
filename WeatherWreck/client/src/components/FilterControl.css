@@ -10,7 +10,7 @@
 }
 
 #SearchHeader {
-  font-size: 1.5rem;
+  font-size: 25px;
   font-weight: bold;
   color: #2c3e50;
   margin-bottom: 15px;
@@ -31,13 +31,12 @@
 #filterValue {
   width: 100%;
   padding: 8px 10px;
-  font-size: 1rem;
+  font-size: 17px;
   color: #34495e;
   background-color: #ecf0f1;
   border: 1px solid #bdc3c7;
   border-radius: 5px;
   outline: none;
-  transition: border-color 0.3s ease;
 }
 
 #FilterChoice:focus,
@@ -51,23 +50,17 @@
 
 #ApplyFilterButton {
   padding: 10px 15px;
-  font-size: 1rem;
+  font-size: 17px;
   color: #ecf0f1;
   background-color: #3498db;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 #ApplyFilterButton:hover {
-  background-color: #2980b9;
-  transform: translateY(-2px);
-}
-
-#ApplyFilterButton:active {
-  background-color: #1f6396;
-  transform: translateY(1px);
+  background-color: #1abc9c;
+  padding: 13px 18px;
 }
 
 @media (max-width: 900px) {
@@ -78,15 +71,15 @@
   }
 
   #SearchHeader {
-    font-size: 1.25rem;
+    font-size: 20px;
   }
 
   #FilterChoice,
   #filterValue {
-    font-size: 0.9rem;
+    font-size: 17px;
   }
 
   #ApplyFilterButton {
-    font-size: 0.9rem;
+    font-size: 17px;
   }
 }
