@@ -1,9 +1,6 @@
 #root {
-  /* max-width: 1280px; */
   height: 100%;
   width: 100%;
-  margin: 0 auto;
-  /* padding: 2rem; */
   text-align: center;
 }
 
@@ -20,60 +17,16 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
-header {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-#appTitle {
-  display: flex;
-  justify-content: center;
-}
-#logo {
-  padding-top: 20px;
-  padding-right: 20px;
-  height: 80px;
-}
-
-#navUl {
-  list-style: none;
-  display: flex;
-  justify-content: space-evenly;
-
-}
-button {
-  width: 150px;
-  height: auto;
-}
-
-.teammates {
-  display: flex;
-  justify-content: space-evenly;
-}
-
-.accidentsAttribution, .weatherAttribution {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-}
-
-#dataInfo {
-  width: auto;
-  padding: 0;
+body {
   margin: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f9fc; 
+  color: #333;
 }
 
-#accidenInfo, #weatherInfo {
-  font-size: 15px;
-  padding: 10px;
-}
-#weatherInfo {
-  margin-top: 8px;
-}
-.info {
-  padding: 0;
+h1 {
   margin: 0;
+  font-size: 1.8rem;
 }
 
 
