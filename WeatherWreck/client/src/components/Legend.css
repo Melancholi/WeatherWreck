@@ -1,8 +1,9 @@
 .legend {
   height: 70%;
   padding: 20px;
-  background-color: #f4f9fc;
-  border: 1px solid #dcdde1;
+  background-color: #ecf8ff;
+  border-top: 1px solid #bdc3c7;
+  border-left: 4px solid #3498db;
   border-radius: 8px;
   max-width: 400px;
   margin: 0;
@@ -22,7 +23,7 @@
   gap: 10px;
   font-size: 17px;
   color: #34495e;
-  background-color: #ecf8ff;
+  background-color: #f4f9fc;
   padding: 5px 8px;
   margin: 0 5px;
   border-radius: 5px;
@@ -37,14 +38,21 @@
 
 @media (max-width: 900px) {
   .legend {
-    flex-direction: column;
-    max-width: 200px;
-    margin: 0 auto;
+    flex-direction: row; /* Arrange items in a row */
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+    max-width: 100%;
   }
 
   .legend-item {
-    width: 100%;
-    justify-content: flex-start;
-    padding: 5px 10px;
+    gap: 5px; /* Reduce spacing */
+    font-size: 14px; /* Adjust font size for smaller screens */
+    padding: 5px;
+  }
+
+  .legend-icon {
+    width: 30px; /* Adjust icon size */
+    height: 30px;
   }
 }
