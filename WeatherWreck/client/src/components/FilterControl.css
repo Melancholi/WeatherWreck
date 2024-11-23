@@ -70,7 +70,7 @@
   transform: translateY(1px);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   #FilterControlSection {
     max-width: 300px;
     padding: 15px;

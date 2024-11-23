@@ -94,7 +94,7 @@ button:hover {
     background-color: #16a085;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     #aboutUs {
       padding: 15px;
     }
