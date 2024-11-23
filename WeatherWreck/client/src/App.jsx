@@ -7,7 +7,7 @@ import './App.css';
 import { useState } from 'react';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('AccidentMap');
+  const [currentPage, setCurrentPage] = useState('AboutUs');
 
   // Function to render the selected component
   const renderPage = () => {
