@@ -106,8 +106,7 @@ export default function AccidentMap() {
   
   function AccidentMarker(){
     return (
-      <MarkerClusterGroup
-      >
+      <MarkerClusterGroup>
         {data.map((accident, index) => 
           <Marker 
             key={index} 
