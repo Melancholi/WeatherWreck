@@ -11,6 +11,7 @@ import {
   Marker,
   Popup
 } from 'react-leaflet';
+import MarkerClusterGroup from 'react-leaflet-cluster';
 import IconSnow from '../assets/IconSnow.webp';
 import IconCold from '../assets/IconCold.webp';
 import IconFog from '../assets/IconFog.webp';
@@ -105,7 +106,8 @@ export default function AccidentMap() {
   
   function AccidentMarker(){
     return (
-      <>
+      <MarkerClusterGroup
+      >
         {data.map((accident, index) => 
           <Marker 
             key={index} 
@@ -119,7 +121,7 @@ export default function AccidentMap() {
             </Popup>
           </Marker>
         )}
-      </>
+      </MarkerClusterGroup>
     );
   }
 
