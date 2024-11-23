@@ -7,6 +7,7 @@ const PieChart = lazy(
   () => import('./PieChart.jsx')
 );
 
+
 /**
  * List of valid weather conditions for filtering accident data.
  * @constant {string[]}
