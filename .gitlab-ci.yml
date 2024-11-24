@@ -99,15 +99,19 @@ build-frontend:
   dependencies:
     - build-frontend
   rules:
-  - if: $CI_COMMIT_TAG  # Run only when a tag is pushed
+  - if: $CI_COMMIT_TAG 
   before_script:
-  
+    - cd WeatherWreck/server
+    - npm ci --omit=dev
+    - cd ../client
+    - npm ci --omit=dev
+    - cd ..
   script:
     - tar -zcvf $RELEASE_FILE ...
   artifacts:
-    ...
+    expire_in: 7 days
     paths:
-      - ...
+      - $RELEASE_FILE
 
 bundlesize-check:
   stage: build
