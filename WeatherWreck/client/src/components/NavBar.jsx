@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import favicon from './../assets/favicon.ico';
 import './NavBar.css';
 
@@ -11,7 +10,7 @@ export default function NavBar({ currentPage, setCurrentPage }) {
       </div>
 
       <div id="navBar">
-        <nav>
+        <nav>cd client
           <ul id="navUl">
             <li
               className={`nav-link ${currentPage === 'AboutUs' ? 'active' : ''}`}
