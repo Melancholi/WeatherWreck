@@ -2,18 +2,7 @@ import { useState } from 'react';
 import favicon from './../assets/favicon.ico';
 import './NavBar.css';
 
-export default function NavBar({ setCurrentPage }) {
-  // Tracking the current active page
-  const [activePage, setActivePage] = useState('AboutUs');
-
-  // Handling navigation clicks
-  const handleNavClick = (page) => {
-    // Setting the active page
-    setActivePage(page);
-    // Setting the current page
-    setCurrentPage(page);
-  };
-
+export default function NavBar({ currentPage, setCurrentPage }) {
   return (
     <header>
       <div id="appTitle">
@@ -25,24 +14,24 @@ export default function NavBar({ setCurrentPage }) {
         <nav>
           <ul id="navUl">
             <li
-              className={`nav-link ${activePage === 'AboutUs' ? 'active' : ''}`}
-              onClick={() => handleNavClick('AboutUs')}
+              className={`nav-link ${currentPage === 'AboutUs' ? 'active' : ''}`}
+              onClick={() => setCurrentPage('AboutUs')}
             >
               About Us
             </li>
             <li
               className={`nav-link ${
-                activePage === 'AccidentMap' ? 'active' : ''
+                currentPage === 'AccidentMap' ? 'active' : ''
               }`}
-              onClick={() => handleNavClick('AccidentMap')}
+              onClick={() => setCurrentPage('AccidentMap')}
             >
               View Accidents Map
             </li>
             <li
               className={`nav-link ${
-                activePage === 'ChartsPage' ? 'active' : ''
+                currentPage === 'ChartsPage' ? 'active' : ''
               }`}
-              onClick={() => handleNavClick('ChartsPage')}
+              onClick={() => setCurrentPage('ChartsPage')}
             >
               View Charts
             </li>
