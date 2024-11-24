@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import createPlotlyComponent from 'react-plotly.js/factory';
 
+// eslint-disable-next-line no-undef
+const Plot = createPlotlyComponent(Plotly);
 /**
  * Function to dynamically get the chart size based on the screen width.
  * It adjusts the chart size for small, medium, and large screen widths.
@@ -47,9 +49,7 @@ const getChartSize = () => {
 export default function BarChart({ events, validWeatherType}) {
   // State to store the width and height for the chart
   const [chartSize, setChartSize] = useState(getChartSize());
-  //Gets the global Plotly library
-  // eslint-disable-next-line no-undef
-  const Plot = createPlotlyComponent(Plotly);
+  //Transform plotly object into react component
   /**
    * Handles resizing of the window by updating the chart size.
    */

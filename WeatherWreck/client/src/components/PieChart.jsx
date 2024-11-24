@@ -31,21 +31,18 @@ const getChartSize = () => {
 
   return { width, height };
 };
-
+//Transforms plotly object into react component
+// eslint-disable-next-line no-undef
+const Plot = createPlotlyComponent(Plotly);
 /**
  * Pie chart Component that displays the correllation bewteen the severity of car accidents and
  *  weather events
  * @param {ArrayObject} weatherOfAccidents - Array containing list of weather events 
  * and their accidents
- * @param {Object} Plotly  - The imported plotly library
  * @returns {JSX.Element} A sunburst chart displaying accident severity depending on the 
  * weather
  */
 export default function PieChart({weatherOfAccidents}) {
-  //Transform plotly object into react component
-  //Gets the global Plotly library
-  // eslint-disable-next-line no-undef
-  const Plot = createPlotlyComponent(Plotly);
   // State to store the width and height for the chart
   const [chartSize, setChartSize] = useState(getChartSize());
 
@@ -99,6 +96,7 @@ export default function PieChart({weatherOfAccidents}) {
 
   });
 
+  //Setup the data to display
   const data = [{
     labels: labels,
     parents: parents,
@@ -111,7 +109,7 @@ export default function PieChart({weatherOfAccidents}) {
     textinfo:'label+value+percent parent',
     textfont: { size: 14 }, 
   }];
-
+  //set the layout, how the chart should be displayed
   const layout = {
     height: chartSize.height,
     width: chartSize.width,
