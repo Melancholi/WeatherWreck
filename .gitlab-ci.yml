@@ -6,6 +6,7 @@ workflow:
     - if: $CI_COMMIT_TAG
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
     - if: $CI_COMMIT_BRANCH == "staging"
+    - if: $CI_COMMIT_BRANCH == "GitlabCiArtifactAWS"
     
 stages:
   - lint
@@ -79,6 +80,8 @@ server-test:
 
 build-frontend:
   stage: build
+  rules:
+    - if: $CI_COMMIT_BRANCH == "GitlabCiArtifactAWS"
   script:
     - cd client && npm run build
     - ls -la client/build 
