@@ -23,7 +23,9 @@ const AccidentInfoBox = lazy(
   () => import('./AccidentInfoBox.jsx')
 );
 
-const Legend = lazy(() => import( './Legend.jsx'));
+const Legend = lazy(
+  () => import( './Legend.jsx')
+);
 /**
  * Custom icons for map markers.
  */
