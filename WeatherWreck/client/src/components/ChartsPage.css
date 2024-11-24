@@ -1,0 +1,128 @@
+#chartComponent {
+  font-family: Arial, sans-serif;
+  color: #333;
+  width: auto;
+  margin: 15px;
+}
+
+#dataPanel {
+  display: flex;
+  justify-content: space-evenly;
+  margin-bottom: 15px;
+  padding: 20px;
+  background-color: #ecf8ff;
+  border: 1px solid #ddd;
+  border-top: 1px solid #bdc3c7;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+#dataPanel div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#dataPanel label {
+  cursor: pointer;
+  font-size: 20px;
+}
+
+#dataPanel input {
+  cursor: pointer;
+  /* 
+    Learned from here 
+    https://www.geeksforgeeks.org/how-to-set-checkbox-size-in-html-css/ 
+  */
+  transform: scale(1.5);
+  margin-right: 5px;
+}
+
+#dataCharts {
+  padding: 20px;
+  background-color: #ecf8ff;
+  border: 1px solid #ddd;
+  border-top: 1px solid #bdc3c7;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  padding: 50px;
+  margin-bottom: 10px;
+  height: 100vh;
+}
+
+.chartsH1 {
+  font-size: 35px;
+  padding-bottom: 15px;
+  color: #1abc9c;
+}
+
+.loading-container-charts {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  color: #1abc9c;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 600;
+
+  background-color: #ecf8ff;
+  border: 1px solid #ddd;
+  border-top: 1px solid #bdc3c7;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  padding-bottom: 50px;
+}
+
+.loading-image-charts {
+  width: 50%; 
+  height:50%;
+  margin-bottom: 10px;
+}
+
+.chart-container {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #e3f2fc;
+  display: inline-block;
+  margin: 20px auto;
+}
+
+
+@media (max-width: 900px) {
+  #chartComponent {
+    padding: 15px;
+    margin: 0;
+  }
+
+  #dataPanel {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  #dataPanel div {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  #dataPanel label {
+    cursor: pointer;
+    font-size: 18px;
+  }
+  
+  #dataPanel input {
+    transform: scale(1.2);
+  }
+
+  #dataCharts {
+    padding: 15px;
+  }
+
+  .loading-image-charts {
+    width: 70%; 
+    height: auto;
+  }
+}

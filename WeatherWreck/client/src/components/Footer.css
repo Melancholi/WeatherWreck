@@ -1,27 +1,31 @@
 #dataInfo {
+    margin: 0 15px 0 15px;
     padding: 20px;
-    background-color: #ecf0f1;
-    color: #34495e;
+    background-color: #ecf8ff;
     border-top: 1px solid #bdc3c7;
+    border-radius: 4px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
   
 #dataInfo section {
     margin-bottom: 15px;
 }
-  
-.info {
-    font-size: 0.9rem;
-    line-height: 1.5;
-    color: #2c3e50;
-}
-  
-.info a {
-    color: #3498db;
+
+.infoP {
     text-decoration: none;
-    margin-right: 10px;
+    font-size: 18px;
+    font-weight: 900;
 }
   
-.info a:hover {
+.infoA {
+    color: #1abc9c;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+}
+  
+.infoA:hover {
+    color: #e67e22;
     text-decoration: underline;
 }
   
@@ -34,7 +38,6 @@ footer {
     color: #ecf0f1;
     padding: 15px 10px;
     border-top: 1px solid #bdc3c7;
-    font-size: 0.9rem;
 }
 
 .teammates {
@@ -45,12 +48,17 @@ footer {
 
 .teammates p {
     margin: 0;
-    font-size: 1rem;
+    font-size: 16px;
     font-weight: 600;
     color: #ffffff;
 }
 
-@media (max-width: 768px) {
+.weatherAttribution {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 900px) {
     footer {
       flex-direction: column;
       text-align: center;

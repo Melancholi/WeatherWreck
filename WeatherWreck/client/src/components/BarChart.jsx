@@ -20,13 +20,13 @@ const getChartSize = () => {
     https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth
   */
   if (window.innerWidth < 600) {  
-    width = window.innerWidth - 20;
+    width = window.innerWidth - 90;
     height = 300;
   } else if (window.innerWidth >= 600 && window.innerWidth < 1200) {
-    width = window.innerWidth - 50;
+    width = window.innerWidth - 150;
     height = 400;
   } else {
-    width = 800;
+    width = 900;
     height = 500;
   }
 
@@ -188,24 +188,35 @@ export default function BarChart({ events, validWeatherType }) {
     legend: {
       title: {
         text: 'Condtion & Severity',
+        side:'top center'
       },
       font: {
         size: 12
       },
-      traceorder: 'normal',
       itemclick: 'toggleothers',
+      bgcolor: '#ecf8ff',
+      bordercolor: '#d7ecf8',
+      borderwidth: 2,
     },
     // Makes the bars round at the top
-    barcornerradius: 15
+    barcornerradius: 15,
+    /* 
+    Learned from here
+    https://stackoverflow.com/questions/48798507/change-the-background-color-of-a-plot
+    */
+    'plot_bgcolor': '#e3f2fc',
+    'paper_bgcolor': '#e3f2fc'
   };
 
   return (
     <figure>
       <h1 className="chartsH1">Accident Percent by Weather Condition and Severity</h1>
-      <Plot
-        data={data}
-        layout={layout}
-      />
+      <div className="chart-container">
+        <Plot
+          data={data}
+          layout={layout}
+        />
+      </div>
     </figure>
   );
 }

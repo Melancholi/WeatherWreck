@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import BarChart from './BarChart.jsx';
 import PieChart from './PieChart.jsx';
 import bobLoadingImage from '../assets/bob.webp';
-import '../ChartsPage.css';
+import './ChartsPage.css';
 
 /**
  * List of valid weather conditions for filtering accident data.
@@ -28,8 +28,8 @@ const accidents = {
 
 function Loading() {
   return (
-    <div className="loading-container"> 
-      <img src={bobLoadingImage} alt="Please wait" className="loading-image" />
+    <div className="loading-container-charts"> 
+      <img src={bobLoadingImage} alt="Please wait" className="loading-image-charts" />
       <p>I know, I know... Wait patiently... It&apos;s loading ...</p>
     </div>);
 }

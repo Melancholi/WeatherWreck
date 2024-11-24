@@ -5,8 +5,10 @@ export default function AccidentInfoBox({ details, onClose }) {
 
   return (
     <div className="info-box">
-      <button onClick={onClose} className="close-btn">Close</button>
-      <h3>Accident Details</h3>
+      <div id="titleButton">
+        <h3>Accident Details</h3>
+        <button onClick={onClose} className="close-btn">Close</button>
+      </div>
       <p><strong>Weather Condition:</strong> {details.WeatherCondition}</p>
       <p><strong>Weather Severity:</strong> {details.WeatherSeverity}</p>
       <p><strong>Accident Severity:</strong> {details.AccidentSeverity}</p>

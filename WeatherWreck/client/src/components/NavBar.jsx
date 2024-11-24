@@ -1,6 +1,7 @@
 import favicon from './../assets/favicon.ico';
 import './NavBar.css';
-export default function NavBar({ setCurrentPage }) {
+
+export default function NavBar({ currentPage, setCurrentPage }) {
   return (
     <header>
       <div id="appTitle">
@@ -9,16 +10,28 @@ export default function NavBar({ setCurrentPage }) {
       </div>
 
       <div id="navBar">
-        <nav>
+        <nav>cd client
           <ul id="navUl">
-            {/* Use onClick to switch pages */}
-            <li className="nav-link" onClick={() => setCurrentPage('AboutUs')}>
+            <li
+              className={`nav-link ${currentPage === 'AboutUs' ? 'active' : ''}`}
+              onClick={() => setCurrentPage('AboutUs')}
+            >
               About Us
             </li>
-            <li className="nav-link" onClick={() => setCurrentPage('AccidentMap')}>
+            <li
+              className={`nav-link ${
+                currentPage === 'AccidentMap' ? 'active' : ''
+              }`}
+              onClick={() => setCurrentPage('AccidentMap')}
+            >
               View Accidents Map
             </li>
-            <li className="nav-link" onClick={() => setCurrentPage('ChartsPage')}>
+            <li
+              className={`nav-link ${
+                currentPage === 'ChartsPage' ? 'active' : ''
+              }`}
+              onClick={() => setCurrentPage('ChartsPage')}
+            >
               View Charts
             </li>
           </ul>

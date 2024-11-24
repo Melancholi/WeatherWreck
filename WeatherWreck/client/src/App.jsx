@@ -25,7 +25,10 @@ function App() {
 
   return (
     <div>
-      <NavBar setCurrentPage={setCurrentPage} />
+      <NavBar 
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage} 
+      />
       {renderPage()}
       <Footer />
     </div>
