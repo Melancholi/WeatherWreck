@@ -108,7 +108,7 @@ build-app-archive:
     - cd ..
   script:
     - ls -al
-    - tar -zcvf $RELEASE_FILE server/bin/www.js server/controllers/ server/db/ server/routers/ server/api.mjs server/.env client/build/ server/package.json server/package-lock.json'
+    - tar -zcvf $RELEASE_FILE server/bin/www.js server/controllers/ server/db/ server/routers/ server/api.mjs server/.env client/build/ server/package.json server/package-lock.json
   artifacts:
     expire_in: 7 days
     paths:
