@@ -173,7 +173,11 @@ export default function AccidentMap() {
         </div>
         <div id="info-box-map">
           {/* Lazy loading the AccidentInfoBox  */}
-          <Suspense fallback={<div className="loading"><p>Loading Accident Information...</p></div>}>
+          <Suspense fallback={
+            <div className="loading">
+              <p>Loading Accident Information...</p>
+            </div>
+          }>
             <AccidentInfoBox details={selectedAccident} onClose={() => setSelectedAccident(null)} />
           </Suspense>
         </div>
