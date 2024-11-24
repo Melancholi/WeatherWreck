@@ -146,9 +146,7 @@ export default function AccidentMap() {
             {/* Error message display */}
             <div id="panel">
               <div id="filters">
-                <Suspense fallback={<div>Loading Filters...</div>}>
-                  <FilterControl setFilter={onOptionChange}/>
-                </Suspense>
+                <FilterControl setFilter={onOptionChange}/>
               </div>
               <div id="legend">
                 <Suspense fallback={<div>Loading legend...</div>}>
