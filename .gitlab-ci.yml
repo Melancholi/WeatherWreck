@@ -11,6 +11,7 @@ stages:
   - lint
   - build
   - test
+  - release
   - deploy
 
 default:
