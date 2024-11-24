@@ -92,7 +92,7 @@ build-frontend:
     paths:
       - client/build
   
-  build-app-archive:
+build-app-archive:
   stage: release
   variables:
     RELEASE_FILE: release-$CI_PROJECT_NAME-$CI_COMMIT_TAG-$CI_COMMIT_SHORT_SHA.tar.gz
