@@ -1,8 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, lazy, Suspense } from 'react';
 import BarChart from './BarChart.jsx';
-import PieChart from './PieChart.jsx';
 import bobLoadingImage from '../assets/bob.webp';
 import './ChartsPage.css';
+
+const PieChart = lazy(
+  () => import('./PieChart.jsx')
+);
 
 /**
  * List of valid weather conditions for filtering accident data.
@@ -132,8 +135,11 @@ export default function ChartsPage() {
             />
           }
 
-          {checked === 'pie' &&
-            <PieChart weatherOfAccidents={acc} />
+          {checked === 'pie' && 
+            // Lazy loading the PieChart 
+            <Suspense fallback={<div className="loading"><p>Loading Pie Chart...</p></div>}>
+              <PieChart weatherOfAccidents={acc} />
+            </Suspense>
           }
         </section>
       }

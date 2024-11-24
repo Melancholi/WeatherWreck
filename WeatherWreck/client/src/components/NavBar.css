@@ -47,13 +47,12 @@ h1 {
     cursor: pointer;
     padding: 10px 15px;
     border-radius: 5px;
+    font-weight: bold;
 }
 
 .nav-link:hover, .nav-link.active {
     background-color: #1abc9c;
-    font-weight: bold;
     color: #ffffff;
-    transform: scale(1.05);
 }
 
 @media (max-width: 900px) {

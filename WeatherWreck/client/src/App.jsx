@@ -22,14 +22,14 @@ function App() {
     case 'AccidentMap':
       {/* Lazy-loaded AccidentMap */}
       return (
-        <Suspense fallback={<div>Loading Accident Map...</div>}>
+        <Suspense fallback={<div className="loading"><p>Loading Accident Map...</p></div>}>
           <AccidentMap />
         </Suspense>
       );
     case 'ChartsPage':
       {/* Lazy-loaded ChartsPage */}
       return (
-        <Suspense fallback={<div>Loading Charts...</div>}>
+        <Suspense fallback={<div className="loading"><p>Loading Charts...</p></div>}>
           <ChartsPage />
         </Suspense>
       );
@@ -48,7 +48,7 @@ function App() {
       />
       {renderPage()}
       {/* Lazy-loaded Footer */}
-      <Suspense fallback={<div>Loading footer...</div>}>
+      <Suspense fallback={<div className="loading"><p>Loading footer...</p></div>}>
         <Footer />
       </Suspense>
     </div>
