@@ -1,10 +1,17 @@
-import ChartsPage from './components/ChartsPage.jsx';
-import AccidentMap from './components/AccidentMap.jsx';
 import AboutUs from './components/AboutUs.jsx';
 import NavBar from './components/NavBar.jsx';
-import Footer from './components/Footer.jsx';
 import './App.css';
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
+
+const Footer = lazy(
+  () => import('./components/Footer.jsx')
+);
+const AccidentMap = lazy(
+  () => import('./components/AccidentMap.jsx')
+);
+const ChartsPage = lazy(
+  () => import('./components/ChartsPage.jsx')
+);
 
 function App() {
   const [currentPage, setCurrentPage] = useState('AboutUs');
@@ -13,9 +20,19 @@ function App() {
   const renderPage = () => {
     switch (currentPage) {
     case 'AccidentMap':
-      return <AccidentMap />;
+      // Lazy-loaded AccidentMap
+      return (
+        <Suspense fallback={<div className="loading"><p>Loading Accident Map...</p></div>}>
+          <AccidentMap />
+        </Suspense>
+      );
     case 'ChartsPage':
-      return <ChartsPage />;
+      // Lazy-loaded ChartsPage
+      return (
+        <Suspense fallback={<div className="loading"><p>Loading Charts...</p></div>}>
+          <ChartsPage />
+        </Suspense>
+      );
     case 'AboutUs':
       return <AboutUs />;
     default:
@@ -30,7 +47,10 @@ function App() {
         setCurrentPage={setCurrentPage} 
       />
       {renderPage()}
-      <Footer />
+      {/* Lazy-loaded Footer */}
+      <Suspense fallback={<div className="loading"><p>Loading footer...</p></div>}>
+        <Footer />
+      </Suspense>
     </div>
   );
 }

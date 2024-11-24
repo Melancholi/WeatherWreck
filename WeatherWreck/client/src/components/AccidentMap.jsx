@@ -3,7 +3,7 @@ import 'leaflet/dist/leaflet.css';
 import './Map.css';
 import Legend from './Legend.jsx';
 import { Icon  } from 'leaflet';
-import { useState, useEffect} from 'react';
+import { useState, useEffect, lazy, Suspense} from 'react';
 import FilterControl  from './FilterControl.jsx';
 import { 
   MapContainer, 
@@ -19,7 +19,10 @@ import IconRain from '../assets/IconRain.webp';
 import IconPrecipitation from '../assets/IconPrecip.webp';
 import IconStorm from '../assets/IconStorm.webp';
 import bobLoadingImage from '../assets/bob.webp';
-import AccidentInfoBox from './AccidentInfoBox';
+
+const AccidentInfoBox = lazy(
+  () => import('./AccidentInfoBox.jsx')
+);
 
 /**
  * Custom icons for map markers.
@@ -169,7 +172,14 @@ export default function AccidentMap() {
           </div>
         </div>
         <div id="info-box-map">
-          <AccidentInfoBox details={selectedAccident} onClose={() => setSelectedAccident(null)} />
+          {/* Lazy loading the AccidentInfoBox  */}
+          <Suspense fallback={
+            <div className="loading">
+              <p>Loading Accident Information...</p>
+            </div>
+          }>
+            <AccidentInfoBox details={selectedAccident} onClose={() => setSelectedAccident(null)} />
+          </Suspense>
         </div>
       </div>
     );

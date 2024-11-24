@@ -10,7 +10,7 @@ export default function NavBar({ currentPage, setCurrentPage }) {
       </div>
 
       <div id="navBar">
-        <nav>cd client
+        <nav>
           <ul id="navUl">
             <li
               className={`nav-link ${currentPage === 'AboutUs' ? 'active' : ''}`}
