@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import Plot from 'react-plotly.js';
-
+import createPlotlyComponent from 'react-plotly.js/factory';
 /**
  * Function to dynamically get the chart size based on the screen width.
  * It adjusts the chart size for small, medium, and large screen widths.
@@ -32,7 +31,9 @@ const getChartSize = () => {
 
   return { width, height };
 };
-
+//Transforms plotly object into react component
+// eslint-disable-next-line no-undef
+const Plot = createPlotlyComponent(Plotly);
 /**
  * Pie chart Component that displays the correllation bewteen the severity of car accidents and
  *  weather events
@@ -95,6 +96,7 @@ export default function PieChart({weatherOfAccidents}) {
 
   });
 
+  //Setup the data to display
   const data = [{
     labels: labels,
     parents: parents,
@@ -107,7 +109,7 @@ export default function PieChart({weatherOfAccidents}) {
     textinfo:'label+value+percent parent',
     textfont: { size: 14 }, 
   }];
-
+  //set the layout, how the chart should be displayed
   const layout = {
     height: chartSize.height,
     width: chartSize.width,

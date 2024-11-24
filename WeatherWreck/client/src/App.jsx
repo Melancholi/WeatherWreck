@@ -3,6 +3,7 @@ import NavBar from './components/NavBar.jsx';
 import './App.css';
 import { useState, lazy, Suspense } from 'react';
 
+//Lazy imports, allows the app to not have to install all of the views
 const Footer = lazy(
   () => import('./components/Footer.jsx')
 );
