@@ -1,6 +1,6 @@
 export default function Usage() {
   return (
-    <section id="aboutUs">
+    <section id="aboutUsUsage">
       <div id="howToUse">
         <h2>How to Use Our Page</h2>
 
