@@ -20,9 +20,19 @@ function App() {
   const renderPage = () => {
     switch (currentPage) {
     case 'AccidentMap':
-      return <AccidentMap />;
+      {/* Lazy-loaded AccidentMap */}
+      return (
+        <Suspense fallback={<div>Loading Accident Map...</div>}>
+          <AccidentMap />
+        </Suspense>
+      );
     case 'ChartsPage':
-      return <ChartsPage />;
+      {/* Lazy-loaded ChartsPage */}
+      return (
+        <Suspense fallback={<div>Loading Charts...</div>}>
+          <ChartsPage />
+        </Suspense>
+      );
     case 'AboutUs':
       return <AboutUs />;
     default:
