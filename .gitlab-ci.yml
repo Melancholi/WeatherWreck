@@ -107,6 +107,7 @@ build-app-archive:
     - npm ci --omit=dev
     - cd ..
   script:
+    - ls -al
     - tar -zcvf $RELEASE_FILE \
         server/bin/www.js \
         server/controllers/ \
