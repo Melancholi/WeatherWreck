@@ -107,8 +107,8 @@ build-app-archive:
     - npm ci --omit=dev
     - cd ..
   script:
-    - ls -al
-    - tar -zcvf $RELEASE_FILE server/bin/www.js server/controllers/ server/db/ server/routers/ server/api.mjs server/.env client/build/ server/package.json server/package-lock.json
+    - ls -la client/build
+    - tar -zcvf $RELEASE_FILE server/bin/www.js server/controllers/ server/db/db.mjs server/routers/ server/api.mjs server/.env client/build/ server/package.json server/package-lock.json
   artifacts:
     expire_in: 7 days
     paths:
