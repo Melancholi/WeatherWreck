@@ -85,12 +85,12 @@ build-frontend:
   script:
     - cd client && npm run build
     - ls -la client/build 
-  only:
-    refs:
-      - main
-      - master
-      - staging
-      - GitlabCiArtifactAWS
+  # only:
+  #   refs:
+  #     - main
+  #     - master
+  #     - staging
+  #     - GitlabCiArtifactAWS
   artifacts:
     expire_in: 1 days
     when: on_success
