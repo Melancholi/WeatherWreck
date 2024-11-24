@@ -2,9 +2,12 @@ import ChartsPage from './components/ChartsPage.jsx';
 import AccidentMap from './components/AccidentMap.jsx';
 import AboutUs from './components/AboutUs.jsx';
 import NavBar from './components/NavBar.jsx';
-import Footer from './components/Footer.jsx';
 import './App.css';
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
+
+const Footer = lazy(
+  () => import('./components/Footer.jsx')
+);
 
 function App() {
   const [currentPage, setCurrentPage] = useState('AboutUs');
@@ -30,7 +33,10 @@ function App() {
         setCurrentPage={setCurrentPage} 
       />
       {renderPage()}
-      <Footer />
+      {/* Lazy-loaded Footer */}
+      <Suspense fallback={<div>Loading footer...</div>}>
+        <Footer />
+      </Suspense>
     </div>
   );
 }
