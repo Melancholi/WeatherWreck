@@ -8,7 +8,7 @@ const Usage = lazy(
 export default function AboutUs() {
   return (
     <>
-      <section id="aboutUs">
+      <section id="aboutUsStory">
         <div id="story">
           <h2>Our Story</h2>
 
