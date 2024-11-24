@@ -5,10 +5,9 @@ body {
     background-color: #f4f8fb;
 }
 
-#aboutUs {
+#aboutUsStory, #aboutUsUsage {
     text-align: start;
     padding: 20px;
-    width: auto;
     margin: 10px 15px 10px 15px;
     background-color: #ffffff;
     border-radius: 8px;
