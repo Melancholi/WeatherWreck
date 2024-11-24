@@ -92,37 +92,22 @@ build-frontend:
     paths:
       - client/build
   
-build-app-archive:
+  build-app-archive:
   stage: release
   variables:
     RELEASE_FILE: release-$CI_PROJECT_NAME-$CI_COMMIT_TAG-$CI_COMMIT_SHORT_SHA.tar.gz
   dependencies:
     - build-frontend
-  # rules:
-  # - if: $CI_COMMIT_TAG 
+  rules:
+  - if: $CI_COMMIT_TAG  # Run only when a tag is pushed
   before_script:
-    - cd WeatherWreck/server
-    - npm ci --omit=dev
-    - cd ../client
-    - npm ci --omit=dev
-    - cd ..
+  
   script:
-    - ls -al
-    - tar -zcvf $RELEASE_FILE \
-        server/bin/www.js \
-        server/controllers/ \
-        server/db/ \
-        server/routers/ \
-        server/api.mjs \
-        server/.env \
-        client/build/ \
-        package.json \
-        package-lock.json
-    
+    - tar -zcvf $RELEASE_FILE ...
   artifacts:
-    expire_in: 7 days
+    ...
     paths:
-      - $RELEASE_FILE
+      - ...
 
 bundlesize-check:
   stage: build
