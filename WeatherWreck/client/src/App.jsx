@@ -1,5 +1,3 @@
-import ChartsPage from './components/ChartsPage.jsx';
-import AccidentMap from './components/AccidentMap.jsx';
 import AboutUs from './components/AboutUs.jsx';
 import NavBar from './components/NavBar.jsx';
 import './App.css';
@@ -7,6 +5,12 @@ import { useState, lazy, Suspense } from 'react';
 
 const Footer = lazy(
   () => import('./components/Footer.jsx')
+);
+const AccidentMap = lazy(
+  () => import('./components/AccidentMap.jsx')
+);
+const ChartsPage = lazy(
+  () => import('./components/ChartsPage.jsx')
 );
 
 function App() {
