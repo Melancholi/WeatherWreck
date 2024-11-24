@@ -1,8 +1,10 @@
 import { useEffect, useState, lazy, Suspense } from 'react';
-import BarChart from './BarChart.jsx';
 import bobLoadingImage from '../assets/bob.webp';
 import './ChartsPage.css';
 
+const BarChart = lazy(
+  () => import('./BarChart.jsx')
+);
 const PieChart = lazy(
   () => import('./PieChart.jsx')
 );
@@ -129,10 +131,13 @@ export default function ChartsPage() {
         : 
         <section id="dataCharts">
           {checked === 'bar' &&
-            <BarChart 
-              events={acc}
-              validWeatherType={validWeatherType}
-            />
+            // Lazy loading the BarChart 
+            <Suspense fallback={<div className="loading"><p>Loading Bar Chart...</p></div>}>
+              <BarChart 
+                events={acc}
+                validWeatherType={validWeatherType}
+              />
+            </Suspense>
           }
 
           {checked === 'pie' && 
