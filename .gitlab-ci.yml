@@ -53,7 +53,7 @@ install:
     expire_in: 1 days
     when: on_success
     paths:
-      - server/node_modules/
+      - node_modules/
 
 lint-server:
   stage: lint 
@@ -81,6 +81,7 @@ build-frontend:
   stage: build
   script:
     - cd client && npm run build
+    - ls -la client/build 
   only:
     refs:
       - main
@@ -107,8 +108,7 @@ build-app-archive:
     - npm ci --omit=dev
     - cd ..
   script:
-    - ls -la client/build
-    - tar -zcvf $RELEASE_FILE server/bin/www.js server/controllers/ server/db/db.mjs server/routers/ server/api.mjs server/.env client/build/ server/package.json server/package-lock.json
+    - tar -zcvf $RELEASE_FILE server/node_modules server/bin/www.js server/controllers/ server/db/db.mjs server/routers/ server/api.mjs client/build server/package.json server/package-lock.json
   artifacts:
     expire_in: 7 days
     paths:
