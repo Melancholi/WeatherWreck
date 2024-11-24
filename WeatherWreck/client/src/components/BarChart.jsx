@@ -44,10 +44,11 @@ const getChartSize = () => {
  * @param {string[]} validWeatherType - An array of valid weather conditions 
  * used to filter and display the accident data.
  */
-export default function BarChart({ events, validWeatherType, Plotly }) {
+export default function BarChart({ events, validWeatherType}) {
   // State to store the width and height for the chart
   const [chartSize, setChartSize] = useState(getChartSize());
-  //Transform plotly object into react component
+  //Gets the global Plotly library
+  // eslint-disable-next-line no-undef
   const Plot = createPlotlyComponent(Plotly);
   /**
    * Handles resizing of the window by updating the chart size.

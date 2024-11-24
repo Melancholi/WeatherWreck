@@ -41,8 +41,10 @@ const getChartSize = () => {
  * @returns {JSX.Element} A sunburst chart displaying accident severity depending on the 
  * weather
  */
-export default function PieChart({weatherOfAccidents, Plotly}) {
+export default function PieChart({weatherOfAccidents}) {
   //Transform plotly object into react component
+  //Gets the global Plotly library
+  // eslint-disable-next-line no-undef
   const Plot = createPlotlyComponent(Plotly);
   // State to store the width and height for the chart
   const [chartSize, setChartSize] = useState(getChartSize());
