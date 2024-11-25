@@ -81,7 +81,6 @@ build-frontend:
   stage: build
   script:
     - cd client && npm run build
-    - ls -la client/build 
   only:
     refs:
       - main
@@ -91,7 +90,7 @@ build-frontend:
     expire_in: 1 days
     when: on_success
     paths:
-      - client/build
+      - client/dist
   
 build-app-archive:
   stage: release
@@ -108,7 +107,7 @@ build-app-archive:
     - npm ci --omit=dev
     - cd ..
   script:
-    - tar -zcvf $RELEASE_FILE server/node_modules server/bin/www.js server/controllers/ server/db/db.mjs server/routers/ server/api.mjs client/build server/package.json server/package-lock.json
+    - tar -zcvf $RELEASE_FILE server/node_modules server/bin/www.js server/controllers/ server/db/db.mjs server/routers/ server/api.mjs client/dist server/package.json server/package-lock.json
   artifacts:
     expire_in: 7 days
     paths:
