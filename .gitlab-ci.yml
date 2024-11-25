@@ -92,7 +92,7 @@ build-frontend:
     expire_in: 1 days
     when: on_success
     paths:
-      - ./520-project-purici-feniuc-nelsonclient/WeatherWreck/client/dist
+      - ./520-project-purici-feniuc-nelson/WeatherWreck/client/dist
   
 build-app-archive:
   stage: release
