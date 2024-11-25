@@ -80,8 +80,7 @@ server-test:
 build-frontend:
   stage: build
   script:
-    - mkdir client/dist
-    - cd client && npm run build
+    - cd client && npm run build 
     - cd ..
     - ls -al
   only:
@@ -93,7 +92,7 @@ build-frontend:
     expire_in: 1 days
     when: on_success
     paths:
-      - ./client/dist
+      - client/dist
   
 build-app-archive:
   stage: release
@@ -101,14 +100,12 @@ build-app-archive:
     RELEASE_FILE: release-$CI_PROJECT_NAME-$CI_COMMIT_TAG-$CI_COMMIT_SHORT_SHA.tar.gz
   dependencies:
     - build-frontend
-  rules:
-  - if: $CI_COMMIT_TAG 
+  # rules:
+  # - if: $CI_COMMIT_TAG && CI_COMMIT_REF_NAME="staging"
   before_script:
+    - echo $CI_COMMIT_REF_NAME
     - cd WeatherWreck/server
     - npm ci --omit=dev
-    - cd ../client
-    - npm ci --omit=dev
-    - cd ..
   script:
     - tar -zcvf $RELEASE_FILE server/node_modules server/bin/www.js server/controllers/ server/db/db.mjs server/routers/ server/api.mjs client/dist server/package.json server/package-lock.json
   artifacts:
@@ -119,7 +116,7 @@ build-app-archive:
 bundlesize-check:
   stage: build
   dependencies:
-    - install
+    - build-frontend
   script:
-    - cd client && npm run build
+    - cd client/dist
     - npm run bundlesize
