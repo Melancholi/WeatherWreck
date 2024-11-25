@@ -30,7 +30,7 @@ h1 {
 .loading {
   text-align: center;
   padding: 10px;
-  width: 100%;
+  width: auto;
   margin: 5px 10px 5px 10px;
   font-size: 15px;
   background-color: #ecf8ff;

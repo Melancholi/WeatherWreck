@@ -1,6 +1,6 @@
 #FilterControlSection {
-  height: 50vh;
-  padding: 20px;
+  height: auto;
+  padding: 10px;
   background-color: #ecf8ff;
   border-top: 1px solid #bdc3c7;
   border-left: 4px solid #3498db;
@@ -11,16 +11,16 @@
 }
 
 #SearchHeader {
-  font-size: 25px;
+  font-size: 20px;
   font-weight: bold;
   color: #2c3e50;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
 }
 
 #SearchSection {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 10px;
   padding: 20px;
   display: flex;
   justify-content: center;
@@ -31,7 +31,7 @@
 #FilterChoice,
 #filterValue {
   width: 100%;
-  padding: 8px 10px;
+  padding: 5px 10px;
   font-size: 17px;
   color: #34495e;
   background-color: #ecf0f1;
@@ -50,7 +50,7 @@
 }
 
 #ApplyFilterButton {
-  padding: 10px 15px;
+  padding: 5px 10px;
   font-size: 17px;
   color: #ecf0f1;
   background-color: #3498db;
@@ -61,7 +61,7 @@
 
 #ApplyFilterButton:hover {
   background-color: #1abc9c;
-  padding: 13px 18px;
+  padding: 8px 10px;
 }
 
 @media (max-width: 1200px) {
