@@ -1,11 +1,11 @@
 image: node:lts-bullseye-slim
 
-workflow:
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-    - if: $CI_COMMIT_TAG
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH == "staging"
+# workflow:
+#   rules:
+#     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+#     - if: $CI_COMMIT_TAG
+#     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+#     - if: $CI_COMMIT_BRANCH == "staging"
     
 stages:
   - lint
@@ -83,11 +83,11 @@ build-frontend:
     - cd client && npm run build 
     - cd ..
     - ls client/
-  only:
-    refs:
-      - main
-      - master
-      - staging
+  # only:
+  #   refs:
+  #     - main
+  #     - master
+  #     - staging
   artifacts:
     expire_in: 1 days
     when: on_success
@@ -122,8 +122,3 @@ bundlesize-check:
   script:
     - ls -al client/
     - npm run bundlesize client/dist
-  only:
-    refs:
-      - main
-      - master
-      - staging
