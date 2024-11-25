@@ -28,10 +28,13 @@
 }
 
 #filters {
+  flex: 1;
   height: auto;
 }
 
 #legend {
+  flex: 1;
+  height: auto;
   margin-top: 10px;
 }
 
