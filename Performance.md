@@ -1,13 +1,21 @@
 # Performance of WeatherWreck
 
 ## Introduction and Methodology
-**TO DO**
 <!-- Briefly state how you gathered data about app performance, and in what environment 
 (which browsers, what browser versions, what kind of device, OS,
 width and height of viewport as reported in the console with `window.screen`) -->
 
 <!-- Also report overall impact on whatdoesmysitecost results before and after all your changes -->
+1. We first ran the lighthouse on the server side webpage (in Chrome) and checked the performance for each view on the desktop device.
+2. We also ran the lighthouse on the AWS and Render deployments so like that we can see the differences on the desktop device.  
+3. Then we put the URL of the 2 deployments on the WebPageTests to see the results from there as well.
 
+### Impact on [whatdoesmysitecost](https://whatdoesmysitecost.com/)
+For the _AWS_ the result **before** our changes, for Canada was 0.29 USD Dollars.  
+**TO DO AWS results after**
+
+Unfortuanlly we forgot to check the results for the _Render_ deployments before our changes, so we don't have it the prices before it.  
+**TO DO Render results after** 
 
 ## Baseline Performance
 **TO DO**
@@ -15,10 +23,28 @@ width and height of viewport as reported in the console with `window.screen`) --
 detect all the performance issues you see as a user? -->
 
 ## Areas to Improve
-**TO DO**
+* Fix Database Performance:
+  * Make it so that loading time takes less time.
+* Render Less Markers
+  * Render less markers on the map so we can have a better LCP
+* Change Image Format (PNG)
+  * Transform images into the webp format so we can improve the load speed and LCP metrics
+* Compress Text Resources
+  * Compress text-based resources so we can have the better payload size and faster load time
+* Cache Endpoint Responses
+  * Cache the data fetched by API endpoints so like that we can improve the speed of the response time
+* Prefetch Critical Resources
+  * Preload resources like the favicon and the loading image (bob.webp) so like this we can fix the network latecy
+* Cache Static Files 
+  * This causes unnecessary network requests which increses the load time
+* Unused Libraries
+  * Fix the bundle size by getting rid of any unused JavaScript code but it's still being included in the vite bundler
+* Largest Contentful Paint
+  * Lazy-Load any components that are not needed right away
+* Large Layout Shift
+  * Modify the css and fix any mistakes in the components that could cause this issue
 
 ## Summary of Changes 
-**TO DO**
 <!-- Briefly describe each change and the impact it had on performance (be specific). If there
 was no performance improvement, explain why that might be the case -->
 
@@ -87,6 +113,12 @@ Additionally, I made the following optimizations to address potential render-blo
 2. Removed unnecessary font-family styles:
     1. I also removed unnecessary styles related to font-family that were previously defined through out our CSS files.
     2. These styles were contributing to the render blocking which wich could have unecessarily delayed text rendering and therefore increase the LCP time.
+
+### Change 10 - Large Layout Shift
+Lead: Maara Purici.  
+In this update, I've fixed a tiny mistakes, which is modifying the code so that the 2 sections in the About Us page does not use the same id.  
+This little mistake was causing the Large Layout Shift performance issue everytime the page was changed from the About Us View to either Accidents Map or the Charts Page.  
+So by modifying the code so each section has its own id, this issue should no longer happen.
 
 ## Conclusion
 **TO DO**
