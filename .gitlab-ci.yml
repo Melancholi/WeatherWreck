@@ -82,6 +82,7 @@ build-frontend:
   script:
     - cd client && npm run build 
     - cd ..
+    - ls client/
   only:
     refs:
       - main
@@ -119,9 +120,8 @@ bundlesize-check:
   dependencies:
     - build-frontend
   script:
-    - ls 
-    - cd WeatherWreck/client/dist
-    - npm run bundlesize
+    - ls -al client/
+    - npm run bundlesize client/dist
   only:
     refs:
       - main
