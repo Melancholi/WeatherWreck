@@ -122,3 +122,8 @@ bundlesize-check:
     - ls 
     - cd WeatherWreck/client/dist
     - npm run bundlesize
+  only:
+    refs:
+      - main
+      - master
+      - staging
