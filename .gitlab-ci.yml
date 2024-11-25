@@ -117,10 +117,10 @@ build-app-archive:
 bundlesize-check:
   stage: build
   dependencies:
-    - build-frontend
+    - build-frontend 
   script:
     - ls 
-    - cd 520-project-purici-feniuc-nelson/WeatherWreck/client/dist
+    - cd WeatherWreck/client/
     - npm run bundlesize
   only:
     refs:
