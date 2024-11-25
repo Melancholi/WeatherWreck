@@ -82,7 +82,6 @@ build-frontend:
   script:
     - cd client && npm run build 
     - cd ..
-    - ls -al
   only:
     refs:
       - main
@@ -121,7 +120,7 @@ bundlesize-check:
     - build-frontend
   script:
     - ls 
-    - cd WeatherWreck/client/dist
+    - cd 520-project-purici-feniuc-nelson/WeatherWreck/client/dist
     - npm run bundlesize
   only:
     refs:
