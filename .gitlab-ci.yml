@@ -82,6 +82,7 @@ build-frontend:
   script:
     - mkdir client/dist
     - cd client && npm run build
+    - cd ..
     - ls -al
   only:
     refs:
