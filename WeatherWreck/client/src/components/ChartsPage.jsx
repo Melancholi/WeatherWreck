@@ -2,10 +2,10 @@ import { useEffect, useState, lazy, Suspense } from 'react';
 import bobLoadingImage from '../assets/bob.webp';
 import './ChartsPage.css';
 
-//Lazy imports, allows the app to not have to install all of the views
 const BarChart = lazy(
   () => import('./BarChart.jsx')
 );
+
 const PieChart = lazy(
   () => import('./PieChart.jsx')
 );
