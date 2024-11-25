@@ -129,13 +129,10 @@ export default function ChartsPage() {
         : 
         <section id="dataCharts">
           {checked === 'bar' &&
-            // Lazy loading the BarChart 
-            <Suspense fallback={<div className="loading"><p>Loading Bar Chart...</p></div>}>
-              <BarChart 
-                events={acc}
-                validWeatherType={validWeatherType}
-              />
-            </Suspense>
+            <BarChart 
+              events={acc}
+              validWeatherType={validWeatherType}
+            />
           }
 
           {checked === 'pie' && 
