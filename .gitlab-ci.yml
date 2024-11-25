@@ -82,6 +82,7 @@ build-frontend:
   script:
     - cd client && npm run build
     - cd ..
+    - ls -al
   only:
     refs:
       - main
@@ -91,7 +92,7 @@ build-frontend:
     expire_in: 1 days
     when: on_success
     paths:
-      - client/dist
+      - ./520-project-purici-feniuc-nelsonclient/WeatherWreck/client/dist
   
 build-app-archive:
   stage: release
