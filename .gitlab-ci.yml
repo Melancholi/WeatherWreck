@@ -117,13 +117,8 @@ build-app-archive:
 bundlesize-check:
   stage: build
   dependencies:
-    - build-frontend 
+    - build-frontend
   script:
     - ls 
-    - cd client
+    - cd WeatherWreck/client/dist
     - npm run bundlesize
-  only:
-    refs:
-      - main
-      - master
-      - staging
