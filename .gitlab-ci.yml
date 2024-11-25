@@ -121,7 +121,7 @@ bundlesize-check:
     - build-frontend
   script:
     - ls 
-    - cd client/dist
+    - cd WeatherWreck/client/dist
     - npm run bundlesize
   only:
     refs:
