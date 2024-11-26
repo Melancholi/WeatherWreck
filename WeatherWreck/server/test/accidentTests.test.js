@@ -9,102 +9,147 @@ const expect = chai.expect;
 // Mock data for accident records
 const mockListAccidents = [
   {
-    ID: 'A-512230',
-    State: 'IL',
-    City: 'Bartlett',
-    Severity: 1,
-    Start_Time: '2022-09-08 05:49:30',
-    End_Time: '2022-09-08 06:34:53',
-    Start_Lat: 41.946796,
-    Start_Lng: -88.208092,
-    Description: 'Crash on CR-11 Army Trail Rd at IL-59.',
-    Street: 'Army Trail Rd',
-    End_Lat: null,
-    End_Lng: null,
-    Distance_mi: 0.0,
-    Weather_Condition: 'Cloudy'
+    'AccidentID': 'A-756216',
+    'WeatherID': 'W-105145',
+    'Weather_Condition': 'Rain',
+    'Coordinates': [
+      '-118.58980600000001',
+      '45.581501'
+    ],
+    'Date': '2022-01-03',
+    'Weather_Severity': 'Moderate',
+    'Accident_Severity': '3'
   },
   {
-    ID: 'A-512231',
-    State: 'CA',
-    City: 'Littlerock',
-    Severity: 1,
-    Start_Time: '2022-09-08 02:02:05',
-    End_Time: '2022-09-08 04:31:32',
-    Start_Lat: 34.521172,
-    Start_Lng: -117.958076,
-    Description: 'Crash on CA-138 Pearblossom Hwy at 96th St.',
-    Street: 'Pearblossom Hwy',
-    End_Lat: null,
-    End_Lng: null,
-    Distance_mi: 0.0,
-    Weather_Condition: 'Cloudy'
+    'AccidentID': 'A-756542',
+    'WeatherID': 'W-105145',
+    'Weather_Condition': 'Rain',
+    'Coordinates': [
+      '-122.676643',
+      '45.543568'
+    ],
+    'Date': '2022-01-03',
+    'Weather_Severity': 'Moderate',
+    'Accident_Severity': '3'
+  },
+];
+//Format for data returned from fetches of state, date
+const mockAccidentsState = [
+  {
+    AccidentID: 'A-3709602',
+    WeatherID: 'W-537411',
+    Weather_Condition: 'Fog',
+    Coordinates: ['-120.110109', '36.938262'],
+    State: 'CA'
   },
   {
-    ID: 'A-512232',
-    State: 'VA',
-    City: 'Richmond',
-    Severity: 1,
-    Start_Time: '2022-09-08 05:14:12',
-    End_Time: '2022-09-08 07:38:17',
-    Start_Lat: 37.542839,
-    Start_Lng: -77.441780,
-    Description: 'Crash on 2nd St Northbound at Franklin St.',
-    Street: 'N 2nd St',
-    End_Lat: null,
-    End_Lng: null,
-    Distance_mi: 0.0,
-    Weather_Condition: 'Cloudy'
-  },
-  {
-    ID: 'A-512233',
-    State: 'OH',
-    City: 'Alliance',
-    Severity: 1,
-    Start_Time: '2022-09-08 06:22:57',
-    End_Time: '2022-09-08 06:52:42',
-    Start_Lat: 40.896629,
-    Start_Lng: -81.178452,
-    Description: 'Crash on US-62 Atlantic Blvd Westbound after OH-173 State St.',
-    Street: 'Atlantic Blvd NE',
-    End_Lat: null,
-    End_Lng: null,
-    Distance_mi: 0.0,
-    Weather_Condition: 'Cloudy'
-  },
-  {
-    ID: 'A-512236',
-    State: 'WA',
-    City: 'Seattle',
-    Severity: 3,
-    Start_Time: '2022-11-20 10:30:00',
-    End_Time: '2022-11-20 11:15:00',
-    Start_Lat: 47.6062,
-    Start_Lng: -122.3321,
-    Description: 'Collision on I-5 Northbound near Madison St.',
-    Street: 'I-5 N',
-    End_Lat: null,
-    End_Lng: null,
-    Distance_mi: 0.0,
-    Weather_Condition: 'Cloudy'
-  },
-  {
-    ID: 'A-512238',
-    State: 'FL',
-    City: 'Orlando',
-    Severity: 2,
-    Start_Time: '2022-02-28 13:00:00',
-    End_Time: '2022-02-28 14:00:00',
-    Start_Lat: 28.5383,
-    Start_Lng: -81.3792,
-    Description: 'Crash on I-4 Westbound near Exit 83.',
-    Street: 'I-4 W',
-    End_Lat: null,
-    End_Lng: null,
-    Distance_mi: 0.0,
-    Weather_Condition: 'Cloudy'
+    AccidentID: 'A-3711976',
+    WeatherID: 'W-537411',
+    Weather_Condition: 'Fog',
+    Coordinates: ['-121.991661', '37.389788'],
+    State: 'CA'
   }
 ];
+const mockAccidentsDate = [
+  {
+    AccidentID: 'A-756216',
+    WeatherID: 'W-105145',
+    Weather_Condition: 'Rain',
+    Coordinates: ['-118.58980600000001', '45.581501'],
+    'Date': '2022-01-03',
+  },
+  {
+    AccidentID: 'A-756542',
+    WeatherID: 'W-105145',
+    Weather_Condition: 'Rain',
+    Coordinates: ['-122.676643', '45.543568'],
+    'Date': '2022-01-03',
+  }
+];
+const mockAccidentsSeverity = [
+  {
+    AccidentID: 'A-756216',
+    WeatherID: 'W-105145',
+    Weather_Condition: 'Rain',
+    Coordinates: ['-118.58980600000001', '45.581501'],
+    'Weather_Severity': 'High',
+  },
+  {
+    AccidentID: 'A-756542',
+    WeatherID: 'W-105145',
+    Weather_Condition: 'Rain',
+    Coordinates: ['-122.676643', '45.543568'],
+    'Weather_Severity': 'Moderate',
+  }
+];
+const mockListDetails = [
+  {
+    'AccidentID': 'A-756216',
+    'WeatherID': 'W-105145',
+    'Weather_Condition': 'Rain',
+    'Coordinates': [
+      '-118.58980600000001',
+      '45.581501'
+    ],
+    'Date': '2022-01-03',
+    'Weather_Severity': 'Moderate',
+    'Accident_Severity': '3',
+    'State': 'NY',
+    'City': 'New York',
+    'Description': 'A minor fender bender'
+  },
+  {
+    'AccidentID': 'A-756542',
+    'WeatherID': 'W-105145',
+    'Weather_Condition': 'Rain',
+    'Coordinates': [
+      '-122.676643',
+      '45.543568'
+    ],
+    'Date': '2022-01-03',
+    'Weather_Severity': 'Moderate',
+    'Accident_Severity': '3',
+    'State': 'NY',
+    'City': 'New York',
+    'Description': 'A minor fender bender'
+  },
+];
+const formatData = (accidents) =>{ 
+  return accidents.map((accident) =>{
+    const formattedAccident = {};
+    Object.entries(accident).map(([key, value]) => {
+      formattedAccident[key.replace('_', '')] = value;
+    });
+    return formattedAccident;
+  });
+};
+const formattedGeneralAccidents = formatData(mockListAccidents);
+const formattedStateAccidents = formatData(mockAccidentsState);
+const formattedDateAccidents = formatData(mockAccidentsDate);
+const formattedSeverityAccidents = formatData(mockAccidentsSeverity);
+const formattedTypeAccidents = [
+  {
+    AccidentID: 'A-756216',
+    WeatherID: 'W-105145',
+    WeatherCondition: 'Rain',
+    Coordinates: ['-118.58980600000001', '45.581501']
+  },
+  {
+    AccidentID: 'A-756542',
+    WeatherID: 'W-105145',
+    WeatherCondition: 'Rain',
+    Coordinates: ['-122.676643', '45.543568']
+  }
+];
+const formattedDetailAccident =  {
+  'WeatherCondition': 'Rain',
+  'Date': '2022-01-03',
+  'WeatherSeverity': 'Moderate',
+  'AccidentSeverity': '3',
+  'State': 'NY',
+  'City': 'New York',
+  'Description': 'A minor fender bender'
+};
 
 // Test retrieving all accidents
 describe.skip('GET /accidents', () => {
