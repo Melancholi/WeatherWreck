@@ -230,33 +230,35 @@ describe('GET /accidents/state/:state - invalid state', () => {
   });
 });
 
-// Test retrieving accidents by state
-describe.skip('GET /accidents/date/:date', () => {
+// Test retrieving accidents by date
+describe('GET /accidents/date/:date', () => {
   after(()=>{
     sinon.restore();
   });
   before(()=>{
-    const stubDB = sinon.stub(db, 'readByCondition');
+    sinon.stub(cache, 'get').returns(null);
+    const stubDB = sinon.stub(db, 'fetchEventsAndAccidents');
     // Resolving to an empty array to simulate no results
-    stubDB.resolves(mockListAccidents.slice(0, 3));
+    stubDB.resolves(mockListAccidents);
   });
   it('should retrieve accidents by date', async () => {
-    const res = await request(app).get('/api/accidents/date/2022-09-08');
-    expect(res.body).to.deep.equal(mockListAccidents.slice(0, 3));
+    const res = await request(app).get('/api/accidents/date/2022-01-03');
+    expect(res.body).to.deep.equal(formattedDateAccidents);
   });
   it('should respond with status code 200', async () => {
-    const response = await request(app).get('/api/accidents/date/2022-09-08');
+    const response = await request(app).get('/api/accidents/date/2022-01-03');
     expect(response.statusCode).to.equal(200);
   });
 });
 
 // Test error handling for retriving accidents by an invalid date
-describe.skip('GET /accidents/date/:date - invalid date', () => {
+describe('GET /accidents/date/:date - invalid date', () => {
   after(()=>{
     sinon.restore();
   });
   before(()=>{
-    const stubDB = sinon.stub(db, 'readByCondition');
+    sinon.stub(cache, 'get').returns(null);
+    const stubDB = sinon.stub(db, 'fetchEventsAndAccidents');
     // Resolving to an empty array to simulate no results
     stubDB.resolves([]);
   });
