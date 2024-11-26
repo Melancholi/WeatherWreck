@@ -120,5 +120,7 @@ bundlesize-check:
   dependencies:
     - build-frontend
   script:
+    - cd ..
+    - find -name *dist* -type d
     - cd client/dist
     - npm run bundlesize 
