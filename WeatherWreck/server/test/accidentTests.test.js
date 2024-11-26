@@ -270,24 +270,37 @@ describe('GET /accidents/date/:date - invalid date', () => {
 });
 
 // Test retrieving accidents by severity
-describe.skip('GET /accidents/severity/:severity', () => {
-  it.skip('should retrieve accidents by severity', async () => {
-    const res = await request(app).get('/api/accidents/severity/high');
-    expect(res.body).to.deep.equal(mockListAccidents);
+describe('GET /accidents/severity/:severity', () => {
+  after(()=>{
+    sinon.restore();
   });
-  it.skip('should respond with status code 200', async () => {
+  before(()=>{
+    sinon.stub(cache, 'get').returns(null);
+    const stubDB = sinon.stub(db, 'fetchEventsAndAccidents');
+    //filter to get only the result with high severity
+    stubDB.resolves(mockAccidentsSeverity.filter((accident) => 
+      accident['Weather_Severity'] === 'High'));
+  });
+  it('should retrieve accidents by severity', async () => {
+    const res = await request(app).get('/api/accidents/severity/high');
+    //filter to get only the result with high severity
+    expect(res.body).to.deep.equal(formattedSeverityAccidents.
+      filter((accident) => accident['WeatherSeverity'] === 'High'));
+  });
+  it('should respond with status code 200', async () => {
     const response = await request(app).get('/api/accidents/severity/high');
     expect(response.statusCode).to.equal(200);
   });
 });
 
 // Test error handling for retriving accidents by an invalid severity
-describe.skip('GET /accidents/severity/:severity - invalid severity', () => {
+describe('GET /accidents/severity/:severity - invalid severity', () => {
   after(()=>{
     sinon.restore();
   });
   before(()=>{
-    const stubDB = sinon.stub(db, 'readByCondition');
+    sinon.stub(cache, 'get').returns(null);
+    const stubDB = sinon.stub(db, 'fetchEventsAndAccidents');
     // Resolving to an empty array to simulate no results
     stubDB.resolves([]);
   });
