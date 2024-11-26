@@ -8,7 +8,7 @@ width and height of viewport as reported in the console with `window.screen`) --
 <!-- Also report overall impact on whatdoesmysitecost results before and after all your changes -->
 1. We first ran the lighthouse on the server side webpage (in Chrome) and checked the performance for each view on the desktop device.
 2. We also ran the lighthouse on the AWS and Render deployments so like that we can see the differences on the desktop device.  
-3. Then we put the URL of the 2 deployments on the WebPageTests to see the results from there as well.
+3. We mostly used the lighthouse but we also put the URL of the 2 deployments on the [WebPageTests](https://www.webpagetest.org) to see the results from there as well.
 
 ### Impact on [whatdoesmysitecost](https://whatdoesmysitecost.com/)
 For the _AWS_ the result **before** our changes, for Canada was 0.29 USD Dollars.  
@@ -18,9 +18,18 @@ Unfortuanlly we forgot to check the results for the _Render_ deployments before 
 **TO DO Render results after** 
 
 ## Baseline Performance
-**TO DO**
+**TO DO - Possibly forgot to add something in here?**
 <!-- Summarize initial results for each tool that you used. Did the tools
 detect all the performance issues you see as a user? -->
+### For the AWS - Lighthouse
+For the Accidents Map Page the initial results was a 32 on mobile device (I don't think we initially run it for the desktop device).  
+For the Charts Page the initial results was a 31 on mobile device (I don't think we initially run it for the desktop device).  
+We think that the results from the lighthouse were accurate because it was mostly about how slow our website was.  
+
+### For the Render - Lighthouse
+For the Accidents Map Page the initial results was a 31 on mobile device (I don't think we initially run it for the desktop device).  
+For the Charts Page the initial results was a 3o on mobile device (I don't think we initially run it for the desktop device).  
+We think that the results from the lighthouse were accurate because it was mostly about how slow our website was.  
 
 ## Areas to Improve
 * Fix Database Performance:
@@ -47,7 +56,6 @@ detect all the performance issues you see as a user? -->
 ## Summary of Changes 
 <!-- Briefly describe each change and the impact it had on performance (be specific). If there
 was no performance improvement, explain why that might be the case -->
-
 ### Change 1 - Fix Database Performance
 Lead: Iana Feniuc.  
 Our database performance is very slow. It fetches too much data which makes it too slow for the first loading operation.  
@@ -124,3 +132,6 @@ So by modifying the code so each section has its own id, this issue should no lo
 **TO DO**
 <!-- Summarize which changes had the greatest impact, note any surprising results and list 2-3 main 
 things you learned from this experience. -->
+I think one of the biggest impacts was the lazy loading components.
+  * Once we done this, after the changes Iana did, we hade pages that got around 10-20 extra point in performance.  
+Fixing the bundle size was also one of the changes that had a great impact and made our performace better.
