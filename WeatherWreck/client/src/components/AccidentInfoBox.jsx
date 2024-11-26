@@ -1,8 +1,19 @@
 import './InfoBox.css';
 
+/**
+ * Displays detailed information about a selected accident.
+ *
+ * @component
+ * @param {Object} props - Component properties.
+ * @param {Object|null} props.details - The details of the selected accident. 
+ * If null, the component renders nothing.
+ * @param {Function} props.onClose - Callback function to close the info box.
+ * @returns {JSX.Element|null} A styled info box with accident details or null 
+ * if no details are available.
+ */
 export default function AccidentInfoBox({ details, onClose }) {
+  // If no details are passed, return null (do not render the component).
   if (!details) return null;
-
   return (
     <div className="info-box">
       <div id="titleButton">
