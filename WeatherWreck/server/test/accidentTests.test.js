@@ -311,3 +311,40 @@ describe('GET /accidents/severity/:severity - invalid severity', () => {
   });
 });
 
+// Test retrieving accidents by weather type
+describe('GET /accidents/type/:type', () => {
+  after(()=>{
+    sinon.restore();
+  });
+  before(()=>{
+    sinon.stub(cache, 'get').returns(null);
+    const stubDB = sinon.stub(db, 'fetchEventsAndAccidents');
+    stubDB.resolves(mockListAccidents);
+  });
+  it('should retrieve accidents by severity', async () => {
+    const res = await request(app).get('/api/accidents/type/rain');
+    expect(res.body).to.deep.equal(formattedTypeAccidents);
+  });
+  it('should respond with status code 200', async () => {
+    const response = await request(app).get('/api/accidents/type/rain');
+    expect(response.statusCode).to.equal(200);
+  });
+});
+
+// Test error handling for retriving accidents by an invalid type
+describe('GET /accidents/type/:type - No accidents found', ()=>{
+  after(() => {
+    sinon.restore();
+  });
+
+  before(() => {
+    sinon.stub(cache, 'get').returns(null);
+    const stubDB = sinon.stub(db, 'fetchEventsAndAccidents');
+    stubDB.resolves([]);
+  });
+  it('should handle error when no result is found', async () => {
+    const res = await request(app).get('/api/accidents/type/snow');
+    expect(res.status).to.equal(404);
+    expect(res.body.error).to.equal('No accidents found for type snow');
+  });
+});
