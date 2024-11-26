@@ -155,31 +155,34 @@ const formattedDetailAccident =  {
 };
 
 // Test retrieving all accidents
-describe.skip('GET /accidents', () => {
-  after(()=>{
+describe('GET /accidents', () => {
+  after(()=>{ 
     sinon.restore();
   });
   before(()=>{
-    const stubDB = sinon.stub(db, 'readAll');
+    //ensure that the cache cannot return a value
+    sinon.stub(cache, 'get').returns(null);
+    const stubDB = sinon.stub(db, 'generalFetchEventsAndAccidents');
     stubDB.resolves(mockListAccidents);
   });
   it('should retrive all accidents', async()=>{
     const response = await request(app).get('/api/accidents');
-    expect(response.body).to.deep.equal(mockListAccidents);
+    expect(response.body).to.deep.equal(formattedGeneralAccidents);
   });
   it('should respond with status code 200', async () => {
     const response = await request(app).get('/api/accidents');
-    expect(response.status).to.equal(200);
+    expect(response.statusCode).to.equal(200);
   });
 });
 
 // Test error handling for retrieving all accidents
-describe.skip('Error Handling for Accidents', () => {
+describe('Error Handling for Accidents', () => {
   after(()=>{
     sinon.restore();
   });
   before(()=>{
-    const stubDB = sinon.stub(db, 'readAll');
+    sinon.stub(cache, 'get').returns(null);
+    const stubDB = sinon.stub(db, 'generalFetchEventsAndAccidents');
     stubDB.rejects(new Error('error'));
   });
   it('should handle errors when error thrown', async () => {
