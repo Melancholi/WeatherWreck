@@ -112,6 +112,9 @@ build-app-archive:
     paths:
       - WeatherWreck/$RELEASE_FILE
 
+# Infortunetly we had to put bundlesize-check into Release stage because by putting it in the build stage it was executing before the 
+# build-frontend job, thus preventing us from using it's artifact (client/dist). We had to move it into Release stage then to ensure, 
+# the artifact will be present before this job runs !
 bundlesize-check:
   stage: release
   rules:
