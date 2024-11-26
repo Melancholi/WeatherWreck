@@ -97,7 +97,8 @@ build-frontend:
 build-app-archive:
   stage: release
   variables:
-    RELEASE_FILE: release-$CI_PROJECT_NAME-$CI_COMMIT_TAG-$CI_COMMIT_SHORT_SHA.tar.gz
+    # RELEASE_FILE: release-$CI_PROJECT_NAME-$CI_COMMIT_TAG-$CI_COMMIT_SHORT_SHA.tar.gz
+    RELEASE_FILE: release-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA.tar.gz
   dependencies:
     - build-frontend
   # rules:
@@ -120,7 +121,6 @@ bundlesize-check:
   dependencies:
     - build-frontend
   script:
-    - cd ..
     # - find -name *dist* -type d
     - cd client/dist
     - npm run bundlesize 
