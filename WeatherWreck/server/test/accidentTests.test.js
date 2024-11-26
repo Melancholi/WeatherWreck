@@ -4,7 +4,10 @@ import sinon from 'sinon';
 import { db } from '../db/db.mjs';
 import app from '../api.mjs';
 import * as chai from 'chai';
+import chaiAsPromised from 'chai-as-promised';
+import cache from 'memory-cache';
 
+chai.use(chaiAsPromised);
 const expect = chai.expect;
 // Mock data for accident records
 const mockListAccidents = [
