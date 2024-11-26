@@ -1,3 +1,13 @@
+/**
+ * Usage Component
+ * 
+ * This component provides a guide on how to use the application's key features,
+ * including navigating the Accidents Map page and the Charts page. It explains
+ * the available functionalities and how users can interact with different UI elements.
+ * 
+ * @component
+ * @returns {JSX.Element} JSX markup describing the usage of the application.
+ */
 export default function Usage() {
   return (
     <section id="aboutUsUsage">
