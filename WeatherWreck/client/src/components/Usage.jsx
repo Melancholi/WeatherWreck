@@ -9,6 +9,12 @@
  * @returns {JSX.Element} JSX markup describing the usage of the application.
  */
 export default function Usage() {
+  /**
+   * The main container for the usage instructions.
+   * Divided into two sections:
+   * 1. "For the Accidents Map Page"
+   * 2. "For the Charts Page"
+   */
   return (
     <section id="aboutUsUsage">
       <div id="howToUse">
