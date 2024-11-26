@@ -14,15 +14,4 @@ export default defineConfig({
       },
     },
   },
-  build: {
-    rollupOptions: {
-      output: {
-        globals: {
-          // Treat Plotly as a global variable
-          'js/plotly.min.js': 'Plotly',
-        },
-      },
-      external :['js/plotly.min.js']
-    },
-  },
 });

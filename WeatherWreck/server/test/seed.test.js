@@ -1,4 +1,4 @@
-import { getFilePaths, formatFile } from '../util/seed.js';
+import { getFilePaths, formatFile } from '../util/utils.js';
 import fs from 'fs/promises';
 import * as chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
