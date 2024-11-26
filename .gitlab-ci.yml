@@ -79,8 +79,6 @@ server-test:
 
 build-frontend:
   stage: build
-  rules:
-    - if: $CI_COMMIT_BRANCH=='staging'
   script:
     - cd client && npm run build 
     - cd ..
@@ -97,9 +95,10 @@ build-app-archive:
   dependencies:
     - build-frontend
   rules:
-    - if: $CI_COMMIT_TAG && $CI_COMMIT_BRANCH=='staging'
+    - if: $CI_COMMIT_TAG 
   before_script:
     - echo $CI_COMMIT_REF_NAME
+    - echo $CI_COMMIT_BRANCH
     - cd WeatherWreck/server
     - npm ci --omit=dev
   script:
@@ -116,8 +115,6 @@ build-app-archive:
 # the artifact will be present before this job runs !
 bundlesize-check:
   stage: release
-  rules:
-    - if: $CI_COMMIT_BRANCH=='staging'
   dependencies:
     - build-frontend
   script:
