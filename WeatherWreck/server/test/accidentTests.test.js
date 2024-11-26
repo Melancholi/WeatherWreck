@@ -193,17 +193,18 @@ describe('Error Handling for Accidents', () => {
 });
 
 // Test retrieving accidents by state
-describe.skip('GET /accidents/state/:state', () => {
+describe('GET /accidents/state/:state', () => {
   after(()=>{
     sinon.restore();
   });
   before(()=>{
-    const stubDB = sinon.stub(db, 'readByCondition');
-    stubDB.resolves(mockListAccidents[2]);
+    sinon.stub(cache, 'get').returns(null);
+    const stubDB = sinon.stub(db, 'fetchEventsAndAccidents');
+    stubDB.resolves(mockAccidentsState);
   });
   it('should retrieve accidents by state', async () => {
     const res = await request(app).get('/api/accidents/state/CA');
-    expect(res.body).to.deep.equal(mockListAccidents[2]);
+    expect(res.body).to.deep.equal(formattedStateAccidents);
   });
   it('should respond with status code 200', async () => {
     const response = await request(app).get('/api/accidents/state/CA');
@@ -212,12 +213,13 @@ describe.skip('GET /accidents/state/:state', () => {
 });
 
 // Test error handling for retriving accidents by an invalid state
-describe.skip('GET /accidents/state/:state - invalid state', () => {
+describe('GET /accidents/state/:state - invalid state', () => {
   after(()=>{
     sinon.restore();
   });
   before(()=>{
-    const stubDB = sinon.stub(db, 'readByCondition');
+    sinon.stub(cache, 'get').returns(null);
+    const stubDB = sinon.stub(db, 'fetchEventsAndAccidents');
     // Resolving to an empty array to simulate no results
     stubDB.resolves([]);
   });
