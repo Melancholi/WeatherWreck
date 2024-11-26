@@ -116,11 +116,11 @@ build-app-archive:
       - $RELEASE_FILE
 
 bundlesize-check:
-  stage: build
+  stage: release
   dependencies:
     - build-frontend
   script:
     - cd ..
-    - find -name *dist* -type d
+    # - find -name *dist* -type d
     - cd client/dist
     - npm run bundlesize 
