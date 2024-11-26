@@ -348,3 +348,60 @@ describe('GET /accidents/type/:type - No accidents found', ()=>{
     expect(res.body.error).to.equal('No accidents found for type snow');
   });
 });
+
+
+describe('Get /accidents/:weatherID/:accidentID', ()=>{
+  after(() => {
+    sinon.restore();
+  });
+
+  before(() => {
+    sinon.stub(cache, 'get').returns(null);
+    const stubDB = sinon.stub(db, 'fetchEventsAndAccidents');
+    stubDB.resolves(mockListDetails);
+  });
+  it('should retrieve specific accident', async () => {
+    const res = await request(app).get('/api/accidents/details/A-756216/W-105145');
+    expect(res.body).to.deep.equal(formattedDetailAccident);
+  });
+  it('should respond with status code 200', async () => {
+    const response = await request(app).get('/api/accidents/details/A-756216/W-105145');
+    expect(response.statusCode).to.equal(200);
+  });
+});
+
+// Test error handling for retriving accidents by an invalid type
+describe('GET /accidents/:weatherID/:accidentID - No weather found', ()=>{
+  after(() => {
+    sinon.restore();
+  });
+
+  before(() => {
+    sinon.stub(cache, 'get').returns(null);
+    const stubDB = sinon.stub(db, 'fetchEventsAndAccidents');
+    stubDB.resolves([]);
+  });
+  it('should handle error when no result is found', async () => {
+    const res = await request(app).get('/api/accidents/details/A-756216/W-105145');
+    expect(res.status).to.equal(404);
+    expect(res.body.error).to.equal('No details found for W-105145');
+  });
+});
+
+// Test error handling for retriving accidents by an invalid type
+describe('GET /accidents/:weatherID/:accidentID - No accidents found', ()=>{
+  after(() => {
+    sinon.restore();
+  });
+
+  before(() => {
+    sinon.stub(cache, 'get').returns(null);
+    const stubDB = sinon.stub(db, 'fetchEventsAndAccidents');
+    stubDB.resolves(mockListDetails);
+  });
+  it('should handle error when no result is found', async () => {
+    const res = await request(app).get('/api/accidents/details/A-752/W-105145');
+    expect(res.status).to.equal(404);
+    expect(res.body.error).to.equal('Oupsy something went wrong for A-752 ');
+  });
+});
