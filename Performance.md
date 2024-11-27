@@ -143,8 +143,8 @@ It was shocking to see how, having code or libraries that are not used, can affe
 
 ### What we learned from this experience
 1. How proper caching strategies can drastically improve the speed and responsiveness of your website.  
-  1. We understood better what cache headers like Etag, Cahe-control, max-age mean and how crucial they are for effective client-side cashing.
-2. Testing those cashed API repones is different from normal endpoints testing.
-  1. We had to set the caching to null in order for it to not reuse data already stored in server-cache.  
-3. How lazy loading components can make the performance much better.
-4. How the bundle sizes can drastically change the performance and speed up a page.
+    1. We understood better what cache headers like Etag, Cahe-control, max-age mean and how crucial they are for effective client-side cashing.  
+2. Testing those cashed API repones is different from normal endpoints testing.  
+    1. We had to set the caching to null in order for it to not reuse data already stored in server-cache.  
+3. How lazy loading components can make the performance much better.  
+4. How the bundle sizes can drastically change the performance and speed up a page.  
