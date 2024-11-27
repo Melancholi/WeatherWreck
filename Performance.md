@@ -1,6 +1,5 @@
 # Performance of WeatherWreck
 ## Introduction and Methodology
-**TO DO**
 <!-- Briefly state how you gathered data about app performance, and in what environment 
 (which browsers, what browser versions, what kind of device, OS,
 width and height of viewport as reported in the console with `window.screen`) -->
@@ -64,7 +63,6 @@ We don't think that the result were accurate for these tests since they were ver
   * Modify the css and fix any mistakes in the components that could cause this issue
 
 ## Summary of Changes 
-**TO DO**
 <!-- Briefly describe each change and the impact it had on performance (be specific). If there
 was no performance improvement, explain why that might be the case -->
 ### Change 1 - Fix Database Performance
