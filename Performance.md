@@ -131,15 +131,15 @@ So by modifying the code so each section has its own id, this issue should no lo
 ## Conclusion
 <!-- Summarize which changes had the greatest impact, note any surprising results and list 2-3 main 
 things you learned from this experience. -->
-The **caching** of API endpoints had the greatest impact on performance, as it significantly sped up the loading of the page!  
-By reducing redundant database queries and reusing stores responses, the time taken to fetch  and display data was noticeably smaller.  
-The improvement was especially evident when accessing frequently requested data, where the response time became almost instantaneous.  
-One surprising result was how small changes in cache setting, like the expiration times or enabling server-side caching, could drastically affect performance.  
-It also brought out the importance of knowing when cache is most efficient and when it shouldn't be used because of possible inconsistencies(stale data).   
-Another change that made a big impact was the **lazy loading components** that are not need right away once the page is render.    
-It was a big surprise to see how badly rendering components that are not needed right away can affect the performance of a page.    
-Fixing the **bundle size** was also one of the changes that had a great impact and made our performance better.   
-It was shocking to see how, having code or libraries that are not used, can affect the performance.  
+* The **caching** of API endpoints had the greatest impact on performance, as it significantly sped up the loading of the page!  
+  * By reducing redundant database queries and reusing stores responses, the time taken to fetch  and display data was noticeably smaller.  
+  * The improvement was especially evident when accessing frequently requested data, where the response time became almost instantaneous.  
+  * One surprising result was how small changes in cache setting, like the expiration times or enabling server-side caching, could drastically affect performance.  
+  * It also brought out the importance of knowing when cache is most efficient and when it shouldn't be used because of possible inconsistencies(stale data).   
+* Another change that made a big impact was the **lazy loading components** that are not need right away once the page is render.    
+  * It was a big surprise to see how badly rendering components that are not needed right away can affect the performance of a page.    
+* Fixing the **bundle size** was also one of the changes that had a great impact and made our performance better.   
+  * It was shocking to see how, having code or libraries that are not used, can affect the performance.  
 
 ### What we learned from this experience
 1. How proper caching strategies can drastically improve the speed and responsiveness of your website.  
