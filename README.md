@@ -86,13 +86,22 @@ NOTE: We assume that you already set up you're .env in your aws server that conn
 
 
 ## UI Screenshots
-- Note that were not able to fit the header and footer since our UI is big
+
+### About page
+###### Above the fold:
+![About page](wireframe/UI_1.png)
+###### Bellow the fold:
+![About page](wireframe/UI_1.2.png)
 
 ### Accidents View
-![Accidents View](wireframe/UI_1.png)
+###### Above the fold:
+![Accidents View](wireframe/UI_2.png)
+###### Bellow the fold:
+![Accidents View](wireframe/UI_2.2.png)
+
 ### Charts View
 #### Bar Chart
 ![Bar Chart](wireframe/UI_3.png)
 
 #### Pie Chart
-![Pie Chart](wireframe/UI_2.png)
+![Pie Chart](wireframe/UI_3.2.png)
