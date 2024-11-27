@@ -140,7 +140,6 @@ This little mistake was causing the Large Layout Shift performance issue everyti
 So by modifying the code so each section has its own id, this issue should no longer happen.
 
 ## Conclusion
-**TO DO**
 <!-- Summarize which changes had the greatest impact, note any surprising results and list 2-3 main 
 things you learned from this experience. -->
 * The **caching** of API endpoints had the greatest impact on performance, as it significantly sped up the loading of the page!  
