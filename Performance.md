@@ -1,5 +1,4 @@
 # Performance of WeatherWreck
-
 ## Introduction and Methodology
 <!-- Briefly state how you gathered data about app performance, and in what environment 
 (which browsers, what browser versions, what kind of device, OS,
