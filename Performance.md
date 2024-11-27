@@ -1,4 +1,5 @@
 # Performance of WeatherWreck
+
 ## Introduction and Methodology
 <!-- Briefly state how you gathered data about app performance, and in what environment 
 (which browsers, what browser versions, what kind of device, OS,
@@ -11,13 +12,14 @@ width and height of viewport as reported in the console with `window.screen`) --
 
 ### Impact on [whatdoesmysitecost](https://whatdoesmysitecost.com/)
 For the _AWS_ the result **before** our changes, for Canada was 0.29 USD Dollars.  
-**TO DO AWS results after**
+For the _AWS_ the result **after** our changes, for Canada was 0.05 USD Dollars.  
+  * We are not sure why it's less valuable after all our changes.
 
-Unfortuanlly we forgot to check the results for the _Render_ deployments before our changes, so we don't have it the prices before it.  
-**TO DO Render results after** 
+For the _Render_ the result **before** our changes, for Canada was 0.30 USD Dollars.   
+For the _Render_ the result **after** our changes, for Canada was 0.12 USD Dollars.  
+  * We are not sure why it's less valuable after all our changes.
 
 ## Baseline Performance
-**TO DO - Possibly forgot to add something in here?**
 <!-- Summarize initial results for each tool that you used. Did the tools
 detect all the performance issues you see as a user? -->
 ### For the AWS - Lighthouse
@@ -25,10 +27,19 @@ For the Accidents Map Page the initial results was a 32 on mobile device (I don'
 For the Charts Page the initial results was a 31 on mobile device (I don't think we initially run it for the desktop device).  
 We think that the results from the lighthouse were accurate because it was mostly about how slow our website was.  
 
+### For the AWS - WebPageTests
+We think that the results are somewhat similar to the ones from the lighthouse.  
+There were one or two results that we cannot remember seeing in the ones from the lighthouse, but overall they seem accurate.  
+
 ### For the Render - Lighthouse
 For the Accidents Map Page the initial results was a 31 on mobile device (I don't think we initially run it for the desktop device).  
 For the Charts Page the initial results was a 3o on mobile device (I don't think we initially run it for the desktop device).  
 We think that the results from the lighthouse were accurate because it was mostly about how slow our website was.  
+
+### For the Render - WebPageTests
+We don't think that the result were accurate for these tests since they were very different from the ones we got in the lighthouse.  
+* For example, one of the issues that the WebPageTests was giving us was that we have 4 externally-referenced CSS files that are blocking page rendering and it list the 4 css file that were blocking the rendering but we never got this issue in the lighthouse result (for the list of files).  
+  * When we tried to look for these files through our project so we can try remove them or fix them, we could not find them anywhere.
 
 ## Areas to Improve
 * Fix Database Performance:
