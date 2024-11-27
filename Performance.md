@@ -1,11 +1,16 @@
 # Performance of WeatherWreck
+<<<<<<< HEAD
 
+=======
+...
+>>>>>>> f61fd98 (Add skeleton for report)
 ## Introduction and Methodology
 <!-- Briefly state how you gathered data about app performance, and in what environment 
 (which browsers, what browser versions, what kind of device, OS,
 width and height of viewport as reported in the console with `window.screen`) -->
 
 <!-- Also report overall impact on whatdoesmysitecost results before and after all your changes -->
+<<<<<<< HEAD
 1. We first ran the lighthouse on the server side webpage (in Chrome) and checked the performance for each view on the desktop device.
 2. We also ran the lighthouse on the AWS and Render deployments so like that we can see the differences on the desktop device.  
 3. We mostly used the lighthouse but we also put the URL of the 2 deployments on the [WebPageTests](https://www.webpagetest.org) to see the results from there as well.
@@ -62,10 +67,20 @@ We don't think that the result were accurate for these tests since they were ver
   * Lazy-Load any components that are not needed right away
 * Large Layout Shift
   * Modify the css and fix any mistakes in the components that could cause this issue
+=======
+
+...
+## Baseline Performance
+<!-- Summarize initial results for each tool that you used. Did the tools
+detect all the performance issues you see as a user? -->
+
+## Areas to Improve
+>>>>>>> f61fd98 (Add skeleton for report)
 
 ## Summary of Changes 
 <!-- Briefly describe each change and the impact it had on performance (be specific). If there
 was no performance improvement, explain why that might be the case -->
+<<<<<<< HEAD
 ### Change 1 - Fix Database Performance
 Lead: Iana Feniuc.  
 Our database performance is very slow. It fetches too much data which makes it too slow for the first loading operation.  
@@ -158,3 +173,17 @@ things you learned from this experience. -->
     1. We had to set the caching to null in order for it to not reuse data already stored in server-cache.  
 3. How lazy loading components can make the performance much better.  
 4. How the bundle sizes can drastically change the performance and speed up a page.  
+=======
+
+### <!-- Change 1 -->
+Lead: <!-- name of main contributor to this change -->
+
+...
+
+### <!-- Change n -->
+Lead: <!-- name of main contributor to this change -->
+
+## Conclusion
+<!-- Summarize which changes had the greatest impact, note any surprising results and list 2-3 main 
+things you learned from this experience. -->
+>>>>>>> f61fd98 (Add skeleton for report)
