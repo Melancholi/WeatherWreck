@@ -1,5 +1,6 @@
 # Performance of WeatherWreck
 ## Introduction and Methodology
+**TO DO**
 <!-- Briefly state how you gathered data about app performance, and in what environment 
 (which browsers, what browser versions, what kind of device, OS,
 width and height of viewport as reported in the console with `window.screen`) -->
@@ -63,6 +64,7 @@ We don't think that the result were accurate for these tests since they were ver
   * Modify the css and fix any mistakes in the components that could cause this issue
 
 ## Summary of Changes 
+**TO DO**
 <!-- Briefly describe each change and the impact it had on performance (be specific). If there
 was no performance improvement, explain why that might be the case -->
 ### Change 1 - Fix Database Performance
@@ -140,6 +142,7 @@ This little mistake was causing the Large Layout Shift performance issue everyti
 So by modifying the code so each section has its own id, this issue should no longer happen.
 
 ## Conclusion
+**TO DO**
 <!-- Summarize which changes had the greatest impact, note any surprising results and list 2-3 main 
 things you learned from this experience. -->
 * The **caching** of API endpoints had the greatest impact on performance, as it significantly sped up the loading of the page!  
