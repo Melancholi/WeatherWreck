@@ -16,9 +16,11 @@ This project is a web application (MERN Stack) that visualizes car accidents and
 >            - https://arxiv.org/abs/1906.05409 
 >            - https://arxiv.org/abs/1909.09638
 
-- https://leafletjs.com/examples/quick-start/ ( for map and markers)
+## Libraries
+> - [Plotly](https://plotly.com/javascript/)  
+> - [Leaflet (for map and markers)](https://leafletjs.com/examples/quick-start/) 
 
-> ### Licenses
+### Licenses
 > - Restictions/licenses if any: CC BY_NC_SA 4.0 - Attribution-Noncommercial-Sharelink 4.0 International (https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
 ## Structure:
