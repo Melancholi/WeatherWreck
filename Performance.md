@@ -129,9 +129,22 @@ This little mistake was causing the Large Layout Shift performance issue everyti
 So by modifying the code so each section has its own id, this issue should no longer happen.
 
 ## Conclusion
-**TO DO**
 <!-- Summarize which changes had the greatest impact, note any surprising results and list 2-3 main 
 things you learned from this experience. -->
-I think one of the biggest impacts was the lazy loading components.
-  * Once we done this, after the changes Iana did, we hade pages that got around 10-20 extra point in performance.  
-Fixing the bundle size was also one of the changes that had a great impact and made our performace better.
+The **caching** of API endpoints had the greatest impact on performance, as it significantly sped up the loading of the page!  
+By reducing redundant database queries and reusing stores responses, the time taken to fetch  and display data was noticeably smaller.  
+The improvement was especially evident when accessing frequently requested data, where the response time became almost instantaneous.  
+One surprising result was how small changes in cache setting, like the expiration times or enabling server-side caching, could drastically affect performance.  
+It also brought out the importance of knowing when cache is most efficient and when it shouldn't be used because of possible inconsistencies(stale data).   
+Another change that made a big impact was the **lazy loading components** that are not need right away once the page is render.    
+It was a big surprise to see how badly rendering components that are not needed right away can affect the performance of a page.    
+Fixing the **bundle size** was also one of the changes that had a great impact and made our performance better.   
+It was shocking to see how, having code or libraries that are not used, can affect the performance.  
+
+### What we learned from this experience
+1. How proper caching strategies can drastically improve the speed and responsiveness of your website.  
+  1. We understood better what cache headers like Etag, Cahe-control, max-age mean and how crucial they are for effective client-side cashing.
+2. Testing those cashed API repones is different from normal endpoints testing.
+  1. We had to set the caching to null in order for it to not reuse data already stored in server-cache.  
+3. How lazy loading components can make the performance much better.
+4. How the bundle sizes can drastically change the performance and speed up a page.
