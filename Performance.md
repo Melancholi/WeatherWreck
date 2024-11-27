@@ -94,8 +94,10 @@ A simple fix was enabling the Gzip compression in the Express server to compress
 ### Change 5 - Uncached Endpoint Responses
 Lead: Iana Feniuc.  
 API endpoints fetching data from the database for rendering the map lacked caching.  
-This led to repeated database queries and slower response times, particularly for frequently requested data.We implemented caching at the API layer using a key-value store (in-memory caching).  
-Responses for frequently accessed data were cached and served directly without querying the database. This improved greatly the loading time when fetching data!  
+This led to repeated database queries and slower response times, particularly for frequently requested data.  
+We implemented caching at the API layer using a key-value store (in-memory caching).  
+Responses for frequently accessed data were cached and served directly without querying the database.  
+This improved greatly the loading time when fetching data!  
 
 ### Change 6 - Non-prefetched Critical Resources
 Lead: Iana Feniuc.  
@@ -122,19 +124,19 @@ The solution to this issue was to manually install a section of the library that
 
 ### Change 9 - Largest Contentful Paint
 Lead: Maara Purici.  
-In this update, I've implemented lazy-loading for multiple components across the app to improve the initial page load time and optimize the Largest Contentful Paint (LCP) metric.  
+In this update, we've implemented lazy-loading for multiple components across the app to improve the initial page load time and optimize the Largest Contentful Paint (LCP) metric.  
 By lazy-loading components that are not immediately visible or needed, we reduce the amount of resources required upfront, resulting in a faster and more efficient user experience.  
-Additionally, I made the following optimizations to address potential render-blocking issues that could negatively impact LCP:
+Additionally, we made the following optimizations to address potential render-blocking issues that could negatively impact LCP:
 1. Removed the import for index.css in main.jsx:
-    1. I removed the import for index.css in main.jsx because it seemed like this stylesheet contained styles for elements (such as buttons and a tags) that are not actually used or present in main.jsx.
+    1. We removed the import for index.css in main.jsx because it seemed like this stylesheet contained styles for elements (such as buttons and a tags) that are not actually used or present in main.jsx.
     2. This could have been causing unnecessary render-blocking, especially as the browser was still trying to load and apply styles for elements that don’t exist in the component.
 2. Removed unnecessary font-family styles:
-    1. I also removed unnecessary styles related to font-family that were previously defined through out our CSS files.
+    1. We also removed unnecessary styles related to font-family that were previously defined through out our CSS files.
     2. These styles were contributing to the render blocking which wich could have unecessarily delayed text rendering and therefore increase the LCP time.
 
 ### Change 10 - Large Layout Shift
 Lead: Maara Purici.  
-In this update, I've fixed a tiny mistakes, which is modifying the code so that the 2 sections in the About Us page does not use the same id.  
+In this update, we've fixed a tiny mistakes, which is modifying the code so that the 2 sections in the About Us page does not use the same id.  
 This little mistake was causing the Large Layout Shift performance issue everytime the page was changed from the About Us View to either Accidents Map or the Charts Page.  
 So by modifying the code so each section has its own id, this issue should no longer happen.
 
