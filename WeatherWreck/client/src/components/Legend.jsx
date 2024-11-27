@@ -6,8 +6,20 @@ import IconPrecipitation from '../assets/IconPrecip.webp';
 import IconStorm from '../assets/IconStorm.webp';
 import './Legend.css';
 
-// Legend component
+/**
+ * Legend Component
+ * 
+ * This functional component renders a legend for weather types, displaying
+ * corresponding icons with descriptive labels. It is dynamically created from
+ * a predefined list of weather conditions and their associated icons.
+ * 
+ * @component
+ * @returns {JSX.Element} JSX markup for the legend.
+ */
 export default function Legend() {
+  /**
+   * Array of legend icons, each representing a weather type.
+   */
   const legendItems = [
     { label: 'Snow', icon: IconSnow },
     { label: 'Cold', icon: IconCold },

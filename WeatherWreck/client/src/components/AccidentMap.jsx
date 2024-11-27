@@ -27,7 +27,10 @@ const Legend = lazy(
   () => import( './Legend.jsx')
 );
 /**
- * Custom icons for map markers.
+ * Returns a custom Leaflet icon based on the weather condition type.
+ * 
+ * @param {string} weatherType - The type of weather condition (e.g., 'Snow', 'Rain').
+ * @returns {Icon} A Leaflet Icon instance for the marker.
  */
 function customIcon(weatherType){
   let icon;
@@ -56,6 +59,13 @@ function customIcon(weatherType){
     iconAnchor: [22, 30]
   });
 }
+
+/**
+ * The main component for rendering the accident map.
+ * Handles filtering, marker rendering, and lazy-loaded UI components.
+ * 
+ * @returns {JSX.Element} The rendered AccidentMap component.
+ */
 export default function AccidentMap() {
   const attribution = 
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
@@ -63,23 +73,33 @@ export default function AccidentMap() {
   const [error, setError] = useState(null);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  // Current filter settings
   const [filterOption, setFilterOption] = useState({
     filterType : '',
     filterValue: ''
   });
   const [selectedAccident, setSelectedAccident] = useState(null);
 
-
+  /**
+   * Updates the filter options based on user input.
+   * 
+   * @param {Object} value - The filter configuration.
+   */
   function onOptionChange(value){
     setFilterOption(value);
   }
 
+  /**
+   * Fetches accident data from the API based on the current filter settings.
+   * Executes on initial render and whenever the filterOption changes.
+   */
   useEffect(()=>{
     const fetchData = async () => {
       try {
         setLoading(true);
         let api = `/api/accidents/`;
 
+        // Append filter query if filterType and filterValue are set
         if (filterOption.filterType !== '' && filterOption.filterValue !== '') {
           api += `/${filterOption.filterType}/${filterOption.filterValue}`;
         }
@@ -98,7 +118,13 @@ export default function AccidentMap() {
     // Call the fetch function when component mounts
     fetchData();
   }, [filterOption]);
-
+  
+  /**
+   * Fetches detailed information for a selected accident and updates state.
+   * 
+   * @param {string} accidentId - The ID of the accident.
+   * @param {string} weatherId - The ID of the associated weather condition.
+   */
   async function fetchAccidentDetails(accidentId, weatherId) {
     try {
       const response = await fetch(`/api/accidents/details/${accidentId}/${weatherId}`);
@@ -108,7 +134,14 @@ export default function AccidentMap() {
       console.error('Error fetching accident details:', error);
     }
   }
-  
+  /**
+   * Renders accident markers on the map.
+   * 
+   * Uses the `MarkerClusterGroup` component to group markers dynamically.
+   * Each marker is clickable to fetch and display additional accident details.
+   * 
+   * @returns {JSX.Element} The rendered marker cluster group.
+   */
   function AccidentMarker(){
     return (
       <MarkerClusterGroup>
@@ -129,7 +162,7 @@ export default function AccidentMap() {
     );
   }
 
-  
+  // Render loading screen when data is being fetched
   if(loading){
     return (
       <>
@@ -140,6 +173,7 @@ export default function AccidentMap() {
         </div>
       </>);
   }else{
+    // Render the map and UI components
     return (
       <div id="displayMap">
         {error && <div id="error-message">{error}</div>}

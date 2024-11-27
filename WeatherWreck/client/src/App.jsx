@@ -14,6 +14,16 @@ const ChartsPage = lazy(
   () => import('./components/ChartsPage.jsx')
 );
 
+/**
+ * App Component
+ * 
+ * The root component of the application. It manages the navigation between pages
+ * and lazy-loads components for improved performance. It also displays the footer
+ * as a common element across pages.
+ * 
+ * @component
+ * @returns {JSX.Element} The App component.
+ */
 function App() {
   const [currentPage, setCurrentPage] = useState('AboutUs');
 

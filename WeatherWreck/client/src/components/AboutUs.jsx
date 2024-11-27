@@ -5,6 +5,16 @@ const Usage = lazy(
   () => import('./Usage.jsx')
 );
 
+/**
+ * AboutUs Component
+ * 
+ * This functional component renders the "About Us" section of the application.
+ * It includes details about the team, the motivation behind the project, and
+ * the datasets used. The `Usage` component is lazy-loaded to optimize performance.
+ * 
+ * @component
+ * @returns {JSX.Element} JSX for the About Us section.
+ */
 export default function AboutUs() {
   return (
     <>
