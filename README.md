@@ -52,7 +52,7 @@ ATLAS_URI= <...url...>
 6. npm run dev
 
 ## Deployment
-This project was deployed in two locations : 15.157.61.228 and Render https://weatherwreck.onrender.com/
+This project was deployed in two locations : AWS [15.157.61.228](http://15.157.61.228) and [Render](https://weatherwreck.onrender.com/)
 
 <b>OPTION 1:</b> If you want to manually go through the process of deploying from scratch follow this  
 1. Clone the repo  
@@ -72,17 +72,24 @@ NOTE: We assume that you already set up you're .env in your aws server that conn
 
 <b>OPTION 2:</b> Deploy using the artifact
 
-<b>OPTION 2.1 </b> Getting from your own tag
-1. `git checkout main` or staging
-2. Make a tag to trigger the build-app-artifact `git tag -a tag_name -m "description"`
-3. Push the tag `git push orgin tag_name`
-4. 
-1. Get the artifact from the most recent `build-app-artifact` job.
-2. Pass it to the aws   
+> <b>OPTION 2.1 </b> Using from your own tag
+> 1. `git checkout main` or staging
+> 2. Make a tag to trigger the build-app-artifact `git tag -a tag_name -m "description"`
+> 3. Push the tag `git push orgin tag_name`
+> 4. Then, going to the repository for this project on gitlab, access the tags by going to <b> Code > Tags </b>. 
+> 5. On your tag, click the download and download the artifact for the <b> build-app-artifact </b>  
+
+> <b>OPTION 2.2</b> Use one of our tags  
+> Repeating the steps from the <b>Option 2.1</b>, get the most recent tag and download it's artifact for the build-app-artifact.
+
+### Deploying the artifact
+6. Get the artifact from the most recent `build-app-artifact` job.
+7. Pass it to the aws   
 `scp -r -i <your-private-key-to-your-aws> WeatherWreck.tar.gz bitnami@15.157.61.228:~`
-3. Now log into your AWS console and extract the folder `tar -xvf WeatherWreck.tar.gz`
-4. Then, simply `cd WeatherWreck/server && NODE_ENV=production PORT=3001 bin/www.js` to start the server, or `cd WeatherWreck/server && NODE_ENV=production PORT=3001 forever restart bin/www.js` if you already have it running.
-5. Then, go to the address passed at the top of these steps and voila! You're web application is deployed!
+8. Now log into your AWS console and extract the folder `tar -xvf WeatherWreck.tar.gz`  
+NOTE: We assume that you already set up your .env in your aws server that points to the production database. If you already set it up, don't worry, extracting the updated folders won't overwrite that file.
+9. Then, simply `cd WeatherWreck/server && NODE_ENV=production PORT=3001 bin/www.js` to start the server, or `cd WeatherWreck/server && NODE_ENV=production PORT=3001 forever restart bin/www.js` if you already have it running.
+10. Then, go to the address passed at the top of these steps and voila! You're web application is deployed!
 
 
 ## UI Screenshots
