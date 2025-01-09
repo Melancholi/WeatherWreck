@@ -1,8 +1,23 @@
 import {useState} from 'react';
 import './FilterControl.css';
+/**
+ * FilterControl Component
+ *
+ * Allows users to select and apply various filters for accidents, such as by state, 
+ * severity, weather type, or date.
+ *
+ * @component
+ * @param {Object} props - Component properties.
+ * @param {Function} props.setFilter - Callback function to set the selected filter 
+ * in the parent component.
+ * @returns {JSX.Element} A filter control panel with dropdowns and input fields.
+ */
 export default function FilterControl({setFilter}){
+  // The type of filter selected (e.g., state, severity).
   const [filterType, setFilterType] = useState('');
+  // The value of the selected filter.
   const [filterValue, setFilterValue] = useState('');
+  // The value of the selected filter.
   const [selectedDate, setSelectedDate] = useState('');
   const [states] = useState([
     { name: 'Alabama', abbreviation: 'AL' },
@@ -60,12 +75,18 @@ export default function FilterControl({setFilter}){
     'Rain', 'Snow', 'Precipitation', 'Fog', 'Storm', 'Cold'
   ]);
   const [severities] = useState(['Light', 'Moderate', 'Heavy', 'Severe']);
-
+  /**
+   * Handles date changes and updates the selected date state.
+   *
+   * @param {Event} e - Event triggered when the date input value changes.
+   */
   const handleDateChange = (e) => {
     const date = e.target.value;
     setSelectedDate(date);
   };
-
+  /**
+   * Applies the selected filter by calling the `setFilter` function with the filter type and value.
+   */
   const applyFilter = () => {
     // Set the filter based on the selected filter type and value
     if (filterType === 'date' && selectedDate.length === 10) {
@@ -84,7 +105,8 @@ export default function FilterControl({setFilter}){
           value={filterType}
           onChange={(e) => {
             setFilterType(e.target.value);
-            setFilterValue(''); 
+            // Reset the filter value/date when changing filter type
+            setFilterValue('');  
             setSelectedDate('');
           }}
         >
@@ -95,51 +117,51 @@ export default function FilterControl({setFilter}){
           <option value="date">Date</option>
         </select>
 
-        {filterType === 'state' && (
+        {filterType === 'state' && 
           <select
             id="filterValue"
             value={filterValue}
             onChange={(e) => setFilterValue(e.target.value)}
           >
             <option value="">Select State</option>
-            {states.map((state, index) => (
+            {states.map((state, index) => 
               <option key={index} value={state.abbreviation}>
                 {state.name} ({state.abbreviation})
               </option>
-            ))}
+            )}
           </select>
-        )}
+        }
 
-        {filterType === 'severity' && (
+        {filterType === 'severity' && 
           <select
             id="filterValue"
             value={filterValue}
             onChange={(e) => setFilterValue(e.target.value)}
           >
             <option value="">Select Severity</option>
-            {severities.map((severity, index) => (
+            {severities.map((severity, index) => 
               <option key={index} value={severity}>
                 {severity}
               </option>
-            ))}
+            )}
           </select>
-        )}
+        }
 
-        {filterType === 'type' && (
+        {filterType === 'type' && 
           <select
             id="filterValue"
             value={filterValue}
             onChange={(e) => setFilterValue(e.target.value)}
           >
             <option value="">Select Weather Type</option>
-            {weatherTypes.map((weather, index) => (
+            {weatherTypes.map((weather, index) => 
               <option key={index} value={weather}>
                 {weather}
               </option>
-            ))}
+            )}
           </select>
-        )}
-        {filterType === 'date' && (
+        }
+        {filterType === 'date' && 
           <input
             type="date"
             id="filterValue"
@@ -148,7 +170,7 @@ export default function FilterControl({setFilter}){
             value={selectedDate}
             onChange={handleDateChange}
           />
-        )}
+        }
         
         <button id="ApplyFilterButton" onClick={applyFilter}>
           Apply Filter

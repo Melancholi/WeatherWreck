@@ -1,20 +1,85 @@
-#SearchHeader{
-  color:black;
+#FilterControlSection {
+  height: auto;
+  padding: 10px;
+  background-color: #ecf8ff;
+  border-top: 1px solid #bdc3c7;
+  border-left: 4px solid #3498db;
+  border-radius: 8px;
+  max-width: 400px;
+  margin: 0;
+  text-align: center;
 }
-#FilterControlSection{
-  background: lightgray;
-  padding: 20px;
-  height: 95.2%;
+
+#SearchHeader {
+  font-size: 20px;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 5px;
 }
-#SearchSection{
+
+#SearchSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   padding: 20px;
-  gap:10px;
-  background: gray;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
-#FilterChoice{
-  display: flex;
+
+#FilterChoice,
+#filterValue {
+  width: 100%;
+  padding: 5px 10px;
+  font-size: 17px;
+  color: #34495e;
+  background-color: #ecf0f1;
+  border: 1px solid #bdc3c7;
+  border-radius: 5px;
+  outline: none;
+}
+
+#FilterChoice:focus,
+#filterValue:focus {
+  border-color: #3498db;
+}
+
+#filterValue[type="date"] {
+  padding: 6px 8px;
+}
+
+#ApplyFilterButton {
+  padding: 5px 10px;
+  font-size: 17px;
+  color: #ecf0f1;
+  background-color: #3498db;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#ApplyFilterButton:hover {
+  background-color: #1abc9c;
+  padding: 8px 10px;
+}
+
+@media (max-width: 1200px) {
+  #FilterControlSection {
+    height: 30vh;
+    max-width: 100%;
+  }
+
+  #SearchHeader {
+    font-size: 20px;
+  }
+
+  #FilterChoice,
+  #filterValue {
+    font-size: 17px;
+  }
+
+  #ApplyFilterButton {
+    font-size: 17px;
+  }
 }

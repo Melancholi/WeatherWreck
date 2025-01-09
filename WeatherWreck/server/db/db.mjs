@@ -4,41 +4,6 @@ import { MongoClient, ServerApiVersion } from 'mongodb';
 let instance = null;
 
 /**
- * Converts the separate date and time into a Date object
- */
-function parseTime(date, time){
-  return new Date(`${date}T${time}`);
-}
-
-/**
- * Return weather an accident is from the same region and time as an
- * event
- */
-function compareDateAndLocation(accident, event){
-  return (
-    accident.State === event.State &&
-    accident.City === event.City &&
-    accident.Date === event.Date
-  );
-}
-/**
- * Checks if the accident happens after the weather event started
- */
-function checkTimeOverlap(accident, event){
-  const accidentStart = parseTime(accident.Date, accident.Start_Time);
-  const weatherStart = parseTime(event.Date, event['StartTime(UTC)']);
-
-  return weatherStart <= accidentStart;
-}
-
-/**
- * Checks if the accident happened while the weather event was taking place
- */
-function isMatch(accident, event){
-  return compareDateAndLocation(accident, event) && checkTimeOverlap(accident, event); 
-}
-
-/**
  * Creates new object from information from both event, and accident
  * @returns {Object} Complete description accident object
  */
@@ -130,61 +95,7 @@ class DB{
     }
   }
 
-  // Data Manipulation
-  /**
-   * Returns all the data related to a collection
-   * @param {string} collName The name of the collection to read
-   */
-  async readAll(collName){
-    if (!instance.collections[collName]) {
-      throw new Error(`Collection ${collName} not opened. Call open() first.`);
-    }
-    return await instance.collections[collName].find().toArray();
-  }
-  /**
-   * General method to read documents based on a query
-   * @param {Object} query - The MongoDB query object specifying search conditions
-   * @param {string} collName The name of the collection to read
-   * @returns {Array} The matching documents
-   * @example
-   * const read = await db.readByCondition('CarAccidents' ,{State: 'IL',City: 'Bartlett' })
-   * 'You can also index the data'
-   * read[0] -> {id:1323, desc: 'example single data', state: 'IL', city:'Bartlett'}
-   */
-  async readByCondition(collName, query) {
-    if (!instance.collections[collName]) {
-      throw new Error(`Collection ${collName} not opened.`);
-    }
-    return await instance.collections[collName].find(query).limit(100).toArray();
-  }
-  
-  /**
-   * Extension of the readbyconditon method, matches the data fetched 
-   * from 2 collections by query into a list of objects with data matching from 2
-   * collections
-   * @param {Object} query - The MongoDB query object specifying search conditions
-   * @param {string} collName1 The name of the collection to read and match with the other
-   * @param {string} collName2 The name of the collection to read and match with the other
-   * @returns {ArrayObject} Array of matching data objects
-   */
-  async readByConditionMatch(collName1, collName2, query){
-    if (!(instance.collections[collName1] && instance.collections[collName2])) {
-      throw new Error(`Collection ${collName1, collName2} not opened.`);
-    }
-    const data = await Promise.all([collName1, collName2].map(async coll =>
-      await this.readByCondition(coll, query)
-    ));
-    //depending on order of opening the connections
-    const weatherEvents = !data[0][0]['Description'] ? data[0] : data[1];
-    const carAccidents = weatherEvents === data[1] ? data[0] : data[1];
-    
-    //filter data and match it into array of objects mixed with data of two 
-    //collections
-    return weatherEvents.map(event =>{
-      const accidents = carAccidents.filter(acc => isMatch(acc, event));
-      return accidents.map(accident => formatData(event, accident));
-    });
-  }
+  //Data Manipulation
   /**
    * inserts an object into the database
    * @param {JSON} event the data to be added
@@ -217,17 +128,17 @@ class DB{
     const states = await instance.collections['WeatherForecast'].aggregate([
       {
         $group: {
-          _id: '$State'
+          _id: '$State' 
         }
       },
       {
         $project: {
           _id: 0,
-          State: '$_id'
+          State: '$_id' 
         }
       }
     ]).toArray();
-    const events = await Promise.all(states.map(async state =>{
+    const events = await Promise.all(states.map(async (state) =>{
       return await instance.collections['WeatherForecast'].aggregate([
         {
           $match : {State: {$eq: state.State}}
@@ -249,7 +160,7 @@ class DB{
                 }
               },
               {
-                $limit:5,
+                $limit:2,
               },
             ],
             as: 'matchingAccidents'
@@ -258,6 +169,7 @@ class DB{
         {
           //what the document to return will look like
           $project: {
+            _id: 0,
             // eslint-disable-next-line camelcase
             Weather_Key: 1,
             Type: 1,
@@ -270,11 +182,12 @@ class DB{
           }
         },
         {
-          //do this search 10 times
+          //do this search 5 times
           $limit:1
         }
       ]).toArray();
     }));
+  
     return events.flat().map(event => {
       return event.matchingAccidents.map(accident => {
         return formatData(event, accident);
@@ -286,11 +199,18 @@ class DB{
  * Fetches events and matching accidents based on query filter direclty from db.
  * More effecient than readByConditionMatch
  * @param {Object} query - The query filter to be applied, e.g., { State: { $eq: "New York" } }
+ * @param {Boolean} skip - Determines weather a certain amount of results should be skipped or not
+ * for data variety 
  * @note if no parameters are passed to the method, it will search for all cases
  * and return the matching data
  */
-  async fetchEventsAndAccidents(query = { _id : {$exists:true}}) {
-    const randomValue = Math.floor(Math.random() * 10000);
+  async fetchEventsAndAccidents(query = { _id : {$exists:true}}, skip = true) {
+    let randomValue;
+    if(skip){
+      randomValue = Math.floor(Math.random() * 10000);
+    }else{
+      randomValue = 0;
+    }
     // Step 1: Fetch events matching the query filter
     const events = await instance.collections['WeatherForecast'].aggregate([
       {
@@ -323,6 +243,7 @@ class DB{
       {
         //what the document to return will look like
         $project: {
+          _id: 0,
           // eslint-disable-next-line camelcase
           Weather_Key: 1,
           Type: 1,
@@ -338,19 +259,15 @@ class DB{
         $skip: randomValue
       },
       {
-        //do this search 10 times
-        $limit:10
+        //do this search 2 times
+        $limit:2
       }
     ]).toArray();
 
     // Step 2: Process each event and its matching accidents
-    const formattedResults = events.map(event => {
-      return event.matchingAccidents.map(accident => {
-        return formatData(event, accident);
-      });
-    });
-    //flatten the arrays
-    return formattedResults.flat();
+    return events.flatMap(event =>
+      event.matchingAccidents.map(accident => formatData(event, accident))
+    );
   }
 
 }

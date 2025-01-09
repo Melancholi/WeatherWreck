@@ -1,6 +1,39 @@
-import Plot from 'react-plotly.js';
+import { useState, useEffect } from 'react';
+import createPlotlyComponent from 'react-plotly.js/factory';
+/**
+ * Function to dynamically get the chart size based on the screen width.
+ * It adjusts the chart size for small, medium, and large screen widths.
+ * 
+ * @returns {number} width - The width of the chart.
+ * @returns {number} height - The height of the chart.
+ */ 
+const getChartSize = () => {
+  let width; 
+  let height;
 
+  /* Adjusts the size of the chart based on screen width 
+    (for smaller, medium, large screens)
+    Learned about innerHeight property from here
+    https://developer.mozilla.org/en-US/docs/Web/API/Window/innerHeight
+    Learned about innerWidth property from here
+    https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth
+  */
+  if (window.innerWidth < 600) {  
+    width = window.innerWidth - 90;
+    height = 300;
+  } else if (window.innerWidth >= 600 && window.innerWidth < 1200) {
+    width = window.innerWidth - 150;
+    height = 400;
+  } else {
+    width = 900;
+    height = 500;
+  }
 
+  return { width, height };
+};
+//Transforms plotly object into react component
+// eslint-disable-next-line no-undef
+const Plot = createPlotlyComponent(Plotly);
 /**
  * Pie chart Component that displays the correllation bewteen the severity of car accidents and
  *  weather events
@@ -10,6 +43,32 @@ import Plot from 'react-plotly.js';
  * weather
  */
 export default function PieChart({weatherOfAccidents}) {
+  // State to store the width and height for the chart
+  const [chartSize, setChartSize] = useState(getChartSize());
+
+  /**
+   * Handles resizing of the window by updating the chart size.
+   */
+  const handleResize = () => {
+    setChartSize(getChartSize());
+  };
+
+  // Update chart size on window resize
+  useEffect(() => {
+    /* Used an example from here
+      https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth
+    */ 
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup event listener
+    return () => {
+      /* Used an example from here
+      https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/removeEventListener
+      */
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   /*
     Based from https://plotly.com/javascript/sunburst-charts/
   */
@@ -37,6 +96,7 @@ export default function PieChart({weatherOfAccidents}) {
 
   });
 
+  //Setup the data to display
   const data = [{
     labels: labels,
     parents: parents,
@@ -49,24 +109,27 @@ export default function PieChart({weatherOfAccidents}) {
     textinfo:'label+value+percent parent',
     textfont: { size: 14 }, 
   }];
-
+  //set the layout, how the chart should be displayed
   const layout = {
-    height: 500,
-    width: 500,
+    height: chartSize.height,
+    width: chartSize.width,
     margin: { t: 70, l: 0, r: 0, b: 20 },
     sunburstcolorway:[
       '#636EFA', '#EF553B', '#00CC96', '#AB63FA', '#FFA15A'
     ],
-    title: 'Accident Severity by Weather Condition'
+    title: 'Accident Severity by Weather Condition',
+    'paper_bgcolor': '#e3f2fc'
   };
 
   return (
     <figure>
       <h1 className="chartsH1">Accident Severity by Weather Condition</h1>
-      <Plot
-        data={data}
-        layout={layout}
-      />
+      <div className="chart-container">
+        <Plot
+          data={data}
+          layout={layout}
+        />
+      </div>
     </figure>
   );
 }

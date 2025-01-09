@@ -1,19 +1,61 @@
 .legend {
-  background: white;
-  padding: 10px;
-  background-color: gainsboro;
-  height: 97.6%;
+  height: auto;
+  padding: 20px;
+  background-color: #ecf8ff;
+  border-top: 1px solid #bdc3c7;
+  border-left: 4px solid #3498db;
+  border-radius: 8px;
+  max-width: 400px;
+  margin: 0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+  width: auto;
 }
 
 .legend-item {
   display: flex;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 5px;
-  color: black;
+  gap: 10px;
+  font-size: 17px;
+  color: #34495e;
+  background-color: #f4f9fc;
+  padding: 5px 8px;
+  margin: 0 5px;
+  border-radius: 5px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
 }
 
 .legend-icon {
-  width: 30px;
+  width: 40px;
   height: 40px;
-  margin-right: 8px;
+}
+
+@media (max-width: 1200px) {
+  .legend {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    gap: 5px;
+    font-size: 14px;
+    padding: 5px;
+    margin: 0;
+    width: 45%;
+  }
+
+  .legend-icon {
+    width: 30px;
+    height: 30px;
+  }
 }

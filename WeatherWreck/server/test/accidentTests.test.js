@@ -4,134 +4,185 @@ import sinon from 'sinon';
 import { db } from '../db/db.mjs';
 import app from '../api.mjs';
 import * as chai from 'chai';
+import chaiAsPromised from 'chai-as-promised';
+import cache from 'memory-cache';
 
+chai.use(chaiAsPromised);
 const expect = chai.expect;
 // Mock data for accident records
 const mockListAccidents = [
   {
-    ID: 'A-512230',
-    State: 'IL',
-    City: 'Bartlett',
-    Severity: 1,
-    Start_Time: '2022-09-08 05:49:30',
-    End_Time: '2022-09-08 06:34:53',
-    Start_Lat: 41.946796,
-    Start_Lng: -88.208092,
-    Description: 'Crash on CR-11 Army Trail Rd at IL-59.',
-    Street: 'Army Trail Rd',
-    End_Lat: null,
-    End_Lng: null,
-    Distance_mi: 0.0,
-    Weather_Condition: 'Cloudy'
+    'AccidentID': 'A-756216',
+    'WeatherID': 'W-105145',
+    'Weather_Condition': 'Rain',
+    'Coordinates': [
+      '-118.58980600000001',
+      '45.581501'
+    ],
+    'Date': '2022-01-03',
+    'Weather_Severity': 'Moderate',
+    'Accident_Severity': '3'
   },
   {
-    ID: 'A-512231',
-    State: 'CA',
-    City: 'Littlerock',
-    Severity: 1,
-    Start_Time: '2022-09-08 02:02:05',
-    End_Time: '2022-09-08 04:31:32',
-    Start_Lat: 34.521172,
-    Start_Lng: -117.958076,
-    Description: 'Crash on CA-138 Pearblossom Hwy at 96th St.',
-    Street: 'Pearblossom Hwy',
-    End_Lat: null,
-    End_Lng: null,
-    Distance_mi: 0.0,
-    Weather_Condition: 'Cloudy'
+    'AccidentID': 'A-756542',
+    'WeatherID': 'W-105145',
+    'Weather_Condition': 'Rain',
+    'Coordinates': [
+      '-122.676643',
+      '45.543568'
+    ],
+    'Date': '2022-01-03',
+    'Weather_Severity': 'Moderate',
+    'Accident_Severity': '3'
+  },
+];
+//Format for data returned from fetches of state, date
+const mockAccidentsState = [
+  {
+    AccidentID: 'A-3709602',
+    WeatherID: 'W-537411',
+    Weather_Condition: 'Fog',
+    Coordinates: ['-120.110109', '36.938262'],
+    State: 'CA'
   },
   {
-    ID: 'A-512232',
-    State: 'VA',
-    City: 'Richmond',
-    Severity: 1,
-    Start_Time: '2022-09-08 05:14:12',
-    End_Time: '2022-09-08 07:38:17',
-    Start_Lat: 37.542839,
-    Start_Lng: -77.441780,
-    Description: 'Crash on 2nd St Northbound at Franklin St.',
-    Street: 'N 2nd St',
-    End_Lat: null,
-    End_Lng: null,
-    Distance_mi: 0.0,
-    Weather_Condition: 'Cloudy'
-  },
-  {
-    ID: 'A-512233',
-    State: 'OH',
-    City: 'Alliance',
-    Severity: 1,
-    Start_Time: '2022-09-08 06:22:57',
-    End_Time: '2022-09-08 06:52:42',
-    Start_Lat: 40.896629,
-    Start_Lng: -81.178452,
-    Description: 'Crash on US-62 Atlantic Blvd Westbound after OH-173 State St.',
-    Street: 'Atlantic Blvd NE',
-    End_Lat: null,
-    End_Lng: null,
-    Distance_mi: 0.0,
-    Weather_Condition: 'Cloudy'
-  },
-  {
-    ID: 'A-512236',
-    State: 'WA',
-    City: 'Seattle',
-    Severity: 3,
-    Start_Time: '2022-11-20 10:30:00',
-    End_Time: '2022-11-20 11:15:00',
-    Start_Lat: 47.6062,
-    Start_Lng: -122.3321,
-    Description: 'Collision on I-5 Northbound near Madison St.',
-    Street: 'I-5 N',
-    End_Lat: null,
-    End_Lng: null,
-    Distance_mi: 0.0,
-    Weather_Condition: 'Cloudy'
-  },
-  {
-    ID: 'A-512238',
-    State: 'FL',
-    City: 'Orlando',
-    Severity: 2,
-    Start_Time: '2022-02-28 13:00:00',
-    End_Time: '2022-02-28 14:00:00',
-    Start_Lat: 28.5383,
-    Start_Lng: -81.3792,
-    Description: 'Crash on I-4 Westbound near Exit 83.',
-    Street: 'I-4 W',
-    End_Lat: null,
-    End_Lng: null,
-    Distance_mi: 0.0,
-    Weather_Condition: 'Cloudy'
+    AccidentID: 'A-3711976',
+    WeatherID: 'W-537411',
+    Weather_Condition: 'Fog',
+    Coordinates: ['-121.991661', '37.389788'],
+    State: 'CA'
   }
 ];
+const mockAccidentsDate = [
+  {
+    AccidentID: 'A-756216',
+    WeatherID: 'W-105145',
+    Weather_Condition: 'Rain',
+    Coordinates: ['-118.58980600000001', '45.581501'],
+    'Date': '2022-01-03',
+  },
+  {
+    AccidentID: 'A-756542',
+    WeatherID: 'W-105145',
+    Weather_Condition: 'Rain',
+    Coordinates: ['-122.676643', '45.543568'],
+    'Date': '2022-01-03',
+  }
+];
+const mockAccidentsSeverity = [
+  {
+    AccidentID: 'A-756216',
+    WeatherID: 'W-105145',
+    Weather_Condition: 'Rain',
+    Coordinates: ['-118.58980600000001', '45.581501'],
+    'Weather_Severity': 'High',
+  },
+  {
+    AccidentID: 'A-756542',
+    WeatherID: 'W-105145',
+    Weather_Condition: 'Rain',
+    Coordinates: ['-122.676643', '45.543568'],
+    'Weather_Severity': 'Moderate',
+  }
+];
+const mockListDetails = [
+  {
+    'AccidentID': 'A-756216',
+    'WeatherID': 'W-105145',
+    'Weather_Condition': 'Rain',
+    'Coordinates': [
+      '-118.58980600000001',
+      '45.581501'
+    ],
+    'Date': '2022-01-03',
+    'Weather_Severity': 'Moderate',
+    'Accident_Severity': '3',
+    'State': 'NY',
+    'City': 'New York',
+    'Description': 'A minor fender bender'
+  },
+  {
+    'AccidentID': 'A-756542',
+    'WeatherID': 'W-105145',
+    'Weather_Condition': 'Rain',
+    'Coordinates': [
+      '-122.676643',
+      '45.543568'
+    ],
+    'Date': '2022-01-03',
+    'Weather_Severity': 'Moderate',
+    'Accident_Severity': '3',
+    'State': 'NY',
+    'City': 'New York',
+    'Description': 'A minor fender bender'
+  },
+];
+const formatData = (accidents) =>{ 
+  return accidents.map((accident) =>{
+    const formattedAccident = {};
+    Object.entries(accident).map(([key, value]) => {
+      formattedAccident[key.replace('_', '')] = value;
+    });
+    return formattedAccident;
+  });
+};
+const formattedGeneralAccidents = formatData(mockListAccidents);
+const formattedStateAccidents = formatData(mockAccidentsState);
+const formattedDateAccidents = formatData(mockAccidentsDate);
+const formattedSeverityAccidents = formatData(mockAccidentsSeverity);
+const formattedTypeAccidents = [
+  {
+    AccidentID: 'A-756216',
+    WeatherID: 'W-105145',
+    WeatherCondition: 'Rain',
+    Coordinates: ['-118.58980600000001', '45.581501']
+  },
+  {
+    AccidentID: 'A-756542',
+    WeatherID: 'W-105145',
+    WeatherCondition: 'Rain',
+    Coordinates: ['-122.676643', '45.543568']
+  }
+];
+const formattedDetailAccident =  {
+  'WeatherCondition': 'Rain',
+  'Date': '2022-01-03',
+  'WeatherSeverity': 'Moderate',
+  'AccidentSeverity': '3',
+  'State': 'NY',
+  'City': 'New York',
+  'Description': 'A minor fender bender'
+};
 
 // Test retrieving all accidents
-describe.skip('GET /accidents', () => {
-  after(()=>{
+describe('GET /accidents', () => {
+  after(()=>{ 
     sinon.restore();
   });
   before(()=>{
-    const stubDB = sinon.stub(db, 'readAll');
+    //ensure that the cache cannot return a value
+    sinon.stub(cache, 'get').returns(null);
+    const stubDB = sinon.stub(db, 'generalFetchEventsAndAccidents');
     stubDB.resolves(mockListAccidents);
   });
   it('should retrive all accidents', async()=>{
     const response = await request(app).get('/api/accidents');
-    expect(response.body).to.deep.equal(mockListAccidents);
+    expect(response.body).to.deep.equal(formattedGeneralAccidents);
   });
   it('should respond with status code 200', async () => {
     const response = await request(app).get('/api/accidents');
-    expect(response.status).to.equal(200);
+    expect(response.statusCode).to.equal(200);
   });
 });
 
 // Test error handling for retrieving all accidents
-describe.skip('Error Handling for Accidents', () => {
+describe('Error Handling for Accidents', () => {
   after(()=>{
     sinon.restore();
   });
   before(()=>{
-    const stubDB = sinon.stub(db, 'readAll');
+    sinon.stub(cache, 'get').returns(null);
+    const stubDB = sinon.stub(db, 'generalFetchEventsAndAccidents');
     stubDB.rejects(new Error('error'));
   });
   it('should handle errors when error thrown', async () => {
@@ -142,17 +193,18 @@ describe.skip('Error Handling for Accidents', () => {
 });
 
 // Test retrieving accidents by state
-describe.skip('GET /accidents/state/:state', () => {
+describe('GET /accidents/state/:state', () => {
   after(()=>{
     sinon.restore();
   });
   before(()=>{
-    const stubDB = sinon.stub(db, 'readByCondition');
-    stubDB.resolves(mockListAccidents[2]);
+    sinon.stub(cache, 'get').returns(null);
+    const stubDB = sinon.stub(db, 'fetchEventsAndAccidents');
+    stubDB.resolves(mockAccidentsState);
   });
   it('should retrieve accidents by state', async () => {
     const res = await request(app).get('/api/accidents/state/CA');
-    expect(res.body).to.deep.equal(mockListAccidents[2]);
+    expect(res.body).to.deep.equal(formattedStateAccidents);
   });
   it('should respond with status code 200', async () => {
     const response = await request(app).get('/api/accidents/state/CA');
@@ -161,12 +213,13 @@ describe.skip('GET /accidents/state/:state', () => {
 });
 
 // Test error handling for retriving accidents by an invalid state
-describe.skip('GET /accidents/state/:state - invalid state', () => {
+describe('GET /accidents/state/:state - invalid state', () => {
   after(()=>{
     sinon.restore();
   });
   before(()=>{
-    const stubDB = sinon.stub(db, 'readByCondition');
+    sinon.stub(cache, 'get').returns(null);
+    const stubDB = sinon.stub(db, 'fetchEventsAndAccidents');
     // Resolving to an empty array to simulate no results
     stubDB.resolves([]);
   });
@@ -177,33 +230,35 @@ describe.skip('GET /accidents/state/:state - invalid state', () => {
   });
 });
 
-// Test retrieving accidents by state
-describe.skip('GET /accidents/date/:date', () => {
+// Test retrieving accidents by date
+describe('GET /accidents/date/:date', () => {
   after(()=>{
     sinon.restore();
   });
   before(()=>{
-    const stubDB = sinon.stub(db, 'readByCondition');
+    sinon.stub(cache, 'get').returns(null);
+    const stubDB = sinon.stub(db, 'fetchEventsAndAccidents');
     // Resolving to an empty array to simulate no results
-    stubDB.resolves(mockListAccidents.slice(0, 3));
+    stubDB.resolves(mockListAccidents);
   });
   it('should retrieve accidents by date', async () => {
-    const res = await request(app).get('/api/accidents/date/2022-09-08');
-    expect(res.body).to.deep.equal(mockListAccidents.slice(0, 3));
+    const res = await request(app).get('/api/accidents/date/2022-01-03');
+    expect(res.body).to.deep.equal(formattedDateAccidents);
   });
   it('should respond with status code 200', async () => {
-    const response = await request(app).get('/api/accidents/date/2022-09-08');
+    const response = await request(app).get('/api/accidents/date/2022-01-03');
     expect(response.statusCode).to.equal(200);
   });
 });
 
 // Test error handling for retriving accidents by an invalid date
-describe.skip('GET /accidents/date/:date - invalid date', () => {
+describe('GET /accidents/date/:date - invalid date', () => {
   after(()=>{
     sinon.restore();
   });
   before(()=>{
-    const stubDB = sinon.stub(db, 'readByCondition');
+    sinon.stub(cache, 'get').returns(null);
+    const stubDB = sinon.stub(db, 'fetchEventsAndAccidents');
     // Resolving to an empty array to simulate no results
     stubDB.resolves([]);
   });
@@ -215,24 +270,37 @@ describe.skip('GET /accidents/date/:date - invalid date', () => {
 });
 
 // Test retrieving accidents by severity
-describe.skip('GET /accidents/severity/:severity', () => {
-  it.skip('should retrieve accidents by severity', async () => {
-    const res = await request(app).get('/api/accidents/severity/high');
-    expect(res.body).to.deep.equal(mockListAccidents);
+describe('GET /accidents/severity/:severity', () => {
+  after(()=>{
+    sinon.restore();
   });
-  it.skip('should respond with status code 200', async () => {
+  before(()=>{
+    sinon.stub(cache, 'get').returns(null);
+    const stubDB = sinon.stub(db, 'fetchEventsAndAccidents');
+    //filter to get only the result with high severity
+    stubDB.resolves(mockAccidentsSeverity.filter((accident) => 
+      accident['Weather_Severity'] === 'High'));
+  });
+  it('should retrieve accidents by severity', async () => {
+    const res = await request(app).get('/api/accidents/severity/high');
+    //filter to get only the result with high severity
+    expect(res.body).to.deep.equal(formattedSeverityAccidents.
+      filter((accident) => accident['WeatherSeverity'] === 'High'));
+  });
+  it('should respond with status code 200', async () => {
     const response = await request(app).get('/api/accidents/severity/high');
     expect(response.statusCode).to.equal(200);
   });
 });
 
 // Test error handling for retriving accidents by an invalid severity
-describe.skip('GET /accidents/severity/:severity - invalid severity', () => {
+describe('GET /accidents/severity/:severity - invalid severity', () => {
   after(()=>{
     sinon.restore();
   });
   before(()=>{
-    const stubDB = sinon.stub(db, 'readByCondition');
+    sinon.stub(cache, 'get').returns(null);
+    const stubDB = sinon.stub(db, 'fetchEventsAndAccidents');
     // Resolving to an empty array to simulate no results
     stubDB.resolves([]);
   });
@@ -243,3 +311,97 @@ describe.skip('GET /accidents/severity/:severity - invalid severity', () => {
   });
 });
 
+// Test retrieving accidents by weather type
+describe('GET /accidents/type/:type', () => {
+  after(()=>{
+    sinon.restore();
+  });
+  before(()=>{
+    sinon.stub(cache, 'get').returns(null);
+    const stubDB = sinon.stub(db, 'fetchEventsAndAccidents');
+    stubDB.resolves(mockListAccidents);
+  });
+  it('should retrieve accidents by severity', async () => {
+    const res = await request(app).get('/api/accidents/type/rain');
+    expect(res.body).to.deep.equal(formattedTypeAccidents);
+  });
+  it('should respond with status code 200', async () => {
+    const response = await request(app).get('/api/accidents/type/rain');
+    expect(response.statusCode).to.equal(200);
+  });
+});
+
+// Test error handling for retriving accidents by an invalid type
+describe('GET /accidents/type/:type - No accidents found', ()=>{
+  after(() => {
+    sinon.restore();
+  });
+
+  before(() => {
+    sinon.stub(cache, 'get').returns(null);
+    const stubDB = sinon.stub(db, 'fetchEventsAndAccidents');
+    stubDB.resolves([]);
+  });
+  it('should handle error when no result is found', async () => {
+    const res = await request(app).get('/api/accidents/type/snow');
+    expect(res.status).to.equal(404);
+    expect(res.body.error).to.equal('No accidents found for type snow');
+  });
+});
+
+
+describe('Get /accidents/:weatherID/:accidentID', ()=>{
+  after(() => {
+    sinon.restore();
+  });
+
+  before(() => {
+    sinon.stub(cache, 'get').returns(null);
+    const stubDB = sinon.stub(db, 'fetchEventsAndAccidents');
+    stubDB.resolves(mockListDetails);
+  });
+  it('should retrieve specific accident', async () => {
+    const res = await request(app).get('/api/accidents/details/A-756216/W-105145');
+    expect(res.body).to.deep.equal(formattedDetailAccident);
+  });
+  it('should respond with status code 200', async () => {
+    const response = await request(app).get('/api/accidents/details/A-756216/W-105145');
+    expect(response.statusCode).to.equal(200);
+  });
+});
+
+// Test error handling for retriving accidents by an invalid type
+describe('GET /accidents/:weatherID/:accidentID - No weather found', ()=>{
+  after(() => {
+    sinon.restore();
+  });
+
+  before(() => {
+    sinon.stub(cache, 'get').returns(null);
+    const stubDB = sinon.stub(db, 'fetchEventsAndAccidents');
+    stubDB.resolves([]);
+  });
+  it('should handle error when no result is found', async () => {
+    const res = await request(app).get('/api/accidents/details/A-756216/W-105145');
+    expect(res.status).to.equal(404);
+    expect(res.body.error).to.equal('No details found for W-105145');
+  });
+});
+
+// Test error handling for retriving accidents by an invalid type
+describe('GET /accidents/:weatherID/:accidentID - No accidents found', ()=>{
+  after(() => {
+    sinon.restore();
+  });
+
+  before(() => {
+    sinon.stub(cache, 'get').returns(null);
+    const stubDB = sinon.stub(db, 'fetchEventsAndAccidents');
+    stubDB.resolves(mockListDetails);
+  });
+  it('should handle error when no result is found', async () => {
+    const res = await request(app).get('/api/accidents/details/A-752/W-105145');
+    expect(res.status).to.equal(404);
+    expect(res.body.error).to.equal('Oupsy something went wrong for A-752 ');
+  });
+});

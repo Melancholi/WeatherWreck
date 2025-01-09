@@ -1,15 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, lazy, Suspense } from 'react';
+import bobLoadingImage from '../assets/bob.webp';
 import BarChart from './BarChart.jsx';
-import PieChart from './PieChart.jsx';
-import bobLoadingImage from '../assets/bob.png';
-import '../ChartsPage.css';
+import './ChartsPage.css';
 
+//Lazy imports, allows the app to not have to install all of the views
+const PieChart = lazy(
+  () => import('./PieChart.jsx')
+);
 /**
  * List of valid weather conditions for filtering accident data.
  * @constant {string[]}
  */
 const validWeatherType = [
-  'Cold', 'Fog', 'Hail', 'Precipitation',
+  'Cold', 'Fog', 'Precipitation',
   'Rain', 'Snow', 'Storm'
 ];
 
@@ -20,7 +23,6 @@ const validWeatherType = [
 const accidents = {
   'Cold': [],
   'Fog': [],
-  'Hail': [],
   'Precipitation': [],
   'Rain': [],
   'Snow': [],
@@ -29,8 +31,8 @@ const accidents = {
 
 function Loading() {
   return (
-    <div className="loading-container"> 
-      <img src={bobLoadingImage} alt="Please wait" className="loading-image" />
+    <div className="loading-container-charts"> 
+      <img src={bobLoadingImage} alt="Please wait" className="loading-image-charts" />
       <p>I know, I know... Wait patiently... It&apos;s loading ...</p>
     </div>);
 }
@@ -133,8 +135,11 @@ export default function ChartsPage() {
             />
           }
 
-          {checked === 'pie' &&
-            <PieChart weatherOfAccidents={acc} />
+          {checked === 'pie' && 
+            // Lazy loading the PieChart 
+            <Suspense fallback={<div className="loading"><p>Loading Pie Chart...</p></div>}>
+              <PieChart weatherOfAccidents={acc} />
+            </Suspense>
           }
         </section>
       }
