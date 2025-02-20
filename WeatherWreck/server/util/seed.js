@@ -2,7 +2,7 @@ import 'dotenv/config';
 import fs from 'fs/promises';
 import path from 'path';
 import { parse } from 'csv-parse';
-import { db } from '../db/db.mjs';
+import { db } from './db.mjs';
 import { getFilePaths, formatFile} from './utils.js';
 
 const folderPath = path.join('./data');
@@ -57,7 +57,7 @@ const seed = async () =>{
             resolve();
           });
       });
-      await db.createMany(collection['name'], dataToInsert);
+      await console.log(dataToInsert);
     }));
     await db.close();
     console.log('Database seeding completed.');
