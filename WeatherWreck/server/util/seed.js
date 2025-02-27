@@ -57,7 +57,7 @@ const seed = async () =>{
             resolve();
           });
       });
-      await console.log(dataToInsert);
+      await db.createMany(collection['name'],dataToInsert);
     }));
     await db.close();
     console.log('Database seeding completed.');
