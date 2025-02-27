@@ -18,13 +18,18 @@ const port = process.env.PORT || 3001;
     });
 
     // Handle graceful shutdown on SIGINT
-    process.on('SIGINT', ()=>{
-      console.debug('Signal received, closing HTTP server');
-      server.close(() =>{
+    const shutdown = (signal) => {
+      console.debug(`Signal ${signal} received, closing HTTP server`);
+      server.close(() => {
         db.close();
         console.debug('HTTP server has been closed');
+        process.exit(0);
       });
-    });
+    };
+
+    // Handle SIGINT (Ctrl+C) and SIGTERM (process termination)
+    process.on('SIGINT', () => shutdown('SIGINT'));
+    process.on('SIGTERM', () => shutdown('SIGTERM'));
 
   } catch (e) {
     console.error('Could not connect');
