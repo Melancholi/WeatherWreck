@@ -131,8 +131,9 @@ server-image:
     IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG     
   rules:
     - if: $CI_COMMIT_BRANCH == "docker-sec"
-  script:
+  before_script:
     - cd server
+  script:
     - echo $CI_REGISTRY_PASSWORD | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin 
     - docker build -t $IMAGE_TAG -f server.Dockerfile .    
     - docker push $IMAGE_TAG
