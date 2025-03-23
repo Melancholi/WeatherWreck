@@ -1,0 +1,31 @@
+services:
+  mongotemp:
+    image: "mongo:8.0"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "admin"
+      MONGO_INITDB_ROOT_PASSWORD: "admin123"
+    ports:
+      - "27017:27017"
+    volumes:
+      - db-volume:/data/db
+      - type: bind
+        source: ./initMongo.js
+        target: /docker-entrypoint-initdb.d/initMongo.js
+        read_only: true
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh mongotemp:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+  seedprocess:
+    build:
+      context: .
+      dockerfile: seed.Dockerfile
+    depends_on:
+      mongotemp:
+        condition: service_healthy
+      
+volumes:
+  db-volume:
+    external: true

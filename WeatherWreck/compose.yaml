@@ -1,0 +1,44 @@
+services:
+  mongo:
+    image: mongo:8.0
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: "admin"
+      MONGO_INITDB_ROOT_PASSWORD: "admin123"
+    volumes:
+      - db-volume:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+
+  mongo-admin-ui:
+    image: mongo-express
+    environment:
+      ME_CONFIG_MONGODB_SERVER: "mongo" 
+      ME_CONFIG_MONGODB_ADMINUSERNAME: "admin"
+      ME_CONFIG_MONGODB_ADMINPASSWORD: "admin123"
+      ME_CONFIG_BASICAUTH_USERNAME: "admin_ui" 
+      ME_CONFIG_BASICAUTH_PASSWORD: "admin_ui123"
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+  api:
+    build:
+      context: ./server
+      dockerfile: server.Dockerfile
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+
+volumes:
+  db-volume:
+    external: true
+networks:
+  app-network:
+    driver: bridge

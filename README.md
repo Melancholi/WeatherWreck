@@ -1,5 +1,9 @@
 # WeatherWreck: Accident and weather visualizer
 
+# Running with Docker
+Simply run the command `docker compose -f seed.compose.yaml up --build`, the compose contains all the code need to setup the seeding, the database and the volumes,
+If ever you need to remove the volumes, simply run `docker compose -f seed.compose.yaml down -v` To remove the images as well as the volumes
+
 ## Description: 
 This project is a web application (MERN Stack) that visualizes car accidents and weather conditions. It displays an interactive map that will allow the user to view accidents, it will have features such as:
 >   - Map Display: Accident locations and weather conditions are shown on a map, allowing users to explore data by region.
@@ -92,7 +96,6 @@ NOTE: We assume that you already set up you're .env in your aws server that conn
 NOTE: We assume that you already set up your .env in your aws server that points to the production database. If you already set it up, don't worry, extracting the updated folders won't overwrite that file.
 9. Then, simply `cd WeatherWreck/server && NODE_ENV=production PORT=3001 bin/www.js` to start the server, or `cd WeatherWreck/server && NODE_ENV=production PORT=3001 forever restart bin/www.js` if you already have it running.
 10. Then, go to the address passed at the top of these steps and voila! You're web application is deployed!
-
 
 ## UI Screenshots
 

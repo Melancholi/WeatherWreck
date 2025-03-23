@@ -2,10 +2,10 @@ import 'dotenv/config';
 import fs from 'fs/promises';
 import path from 'path';
 import { parse } from 'csv-parse';
-import { db } from '../db/db.mjs';
+import { db } from './db.mjs';
 import { getFilePaths, formatFile} from './utils.js';
 
-const folderPath = path.join('./db', '/mockData');
+const folderPath = path.join('./data');
 const dbName = 'WeatherWreck';
 const collections = ['CarAccidents', 'WeatherForecast'];
 
@@ -25,20 +25,39 @@ const seed = async () =>{
     await Promise.all(data.map(async(collection)=>{
       const dataToInsert = [];
       const fileContent = await fs.readFile(collection['filePath'], {encoding: 'utf-8'});
+      let rowsAdded = 0;
       //this csv-parse was based of onlines docs 
       await new Promise((resolve, reject) => {
-        parse(fileContent, { 
+        const parser = parse(fileContent, { 
           columns: true,
-        }).
+        });
+        parser.
           on('data', (row) => {
+            if(rowsAdded >= 1000){
+              console.log('close');
+              parser.destroy();
+              resolve();
+              return;
+            }
             //format the data before sending
             const formatData = formatFile(row, collection['name']);
             dataToInsert.push(formatData);
+            rowsAdded++;
           }).
-          on('end', resolve).
-          on('error', reject); 
+          on('end', () => {
+            console.log(`Finished parsing ${rowsAdded} rows.`);
+            resolve();
+          }).
+          on('error', (err) => {
+            console.error('Error while parsing:', err);
+            reject(err);
+          }).
+          on('close', ()=>{
+            console.log('closed?');
+            resolve();
+          });
       });
-      await db.createMany(collection['name'], dataToInsert);
+      await db.createMany(collection['name'],dataToInsert);
     }));
     await db.close();
     console.log('Database seeding completed.');
