@@ -2,14 +2,15 @@ image: node:lts-bullseye-slim
 
 workflow:
   rules:
+    - if: $CI_PIPELINE_SOURCE == 'push'
     - if: $CI_COMMIT_TAG
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-    - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME == "main"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH == "staging"
+    
 stages:
   - lint
   - build
   - test
-  - docker-build
   - release
   - deploy
 
@@ -119,21 +120,3 @@ bundlesize-check:
   script:
     - cd client/dist
     - npm run bundlesize 
-
-
-server-image:
-  stage: docker-build
-  image: docker:28.0.0
-  # dind starts the docker daemon so we can use docker commands
-  services:
-    - docker:28.0.0-dind
-  variables:
-    IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG     
-  rules:
-    - if: $CI_COMMIT_BRANCH == "docker-sec"
-  before_script:
-    - cd ./WeatherWreck/server
-  script:
-    - echo $CI_REGISTRY_PASSWORD | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin 
-    - docker build -t $IMAGE_TAG -f server.Dockerfile .    
-    - docker push $IMAGE_TAG
