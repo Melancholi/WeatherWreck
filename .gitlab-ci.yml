@@ -132,7 +132,7 @@ server-image:
   rules:
     - if: $CI_COMMIT_BRANCH == "docker-sec"
   script:
-    - cd WeatherWreck/server
+    - cd server
     - echo $CI_REGISTRY_PASSWORD | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin 
     - docker build -t $IMAGE_TAG -f server.Dockerfile .    
     - docker push $IMAGE_TAG
