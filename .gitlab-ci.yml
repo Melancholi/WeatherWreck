@@ -1,5 +1,7 @@
 image: node:lts-bullseye-slim
 
+include: https://gitlab.com/gitlab-org/gitlab/-/blob/master/lib/gitlab/ci/templates/Jobs/Container-Scanning.latest.gitlab-ci.yml
+
 workflow:
   rules:
     - if: $CI_COMMIT_TAG
@@ -130,10 +132,18 @@ server-image:
   variables:
     IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG     
   rules:
-    - if: $CI_COMMIT_BRANCH == "docker-sec"
+    - if: ($CI_COMMIT_BRANCH == "docker-sec" && $CI_PIPELINE_SOURCE != "merge_request_event")
   before_script:
     - cd ./WeatherWreck/server
   script:
     - echo $CI_REGISTRY_PASSWORD | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin 
     - docker build -t $IMAGE_TAG -f server.Dockerfile .    
     - docker push $IMAGE_TAG
+
+custom_container_scanning:
+  extends: .container_scanning
+  variables: 
+    CS_IMAGE: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  rules:
+    - if: $CI_COMMIT_BRANCH == "docker-sec"
+
