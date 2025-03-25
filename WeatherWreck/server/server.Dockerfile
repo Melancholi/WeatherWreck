@@ -1,6 +1,4 @@
-ARG node_version=20.9.0
-
-FROM node:$node_version
+FROM node:20-bullseye-slim
 
 WORKDIR /app
 
