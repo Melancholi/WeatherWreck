@@ -6,8 +6,10 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY . .
+COPY --chown=node:node . .
 
 EXPOSE 3001
+
+USER node
 
 CMD ["node", "bin/www.js"]
