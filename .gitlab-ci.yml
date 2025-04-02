@@ -15,8 +15,8 @@ workflow:
 stages:
   - lint
   - build
-  - test
   - docker-build
+  - test
   - release
   - deploy
 
