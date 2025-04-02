@@ -3,6 +3,7 @@ image: node:lts-bullseye-slim
 include: 
   - template: Container-Scanning.latest.gitlab-ci.yml
   - template: Jobs/SAST.gitlab-ci.yml
+  - template: Jobs/Dependency-Scanning.gitlab-ci.yml
 
 workflow:
   rules:
