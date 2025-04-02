@@ -137,7 +137,7 @@ server-image:
   variables:
     IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG     
   rules:
-    - if: ($CI_COMMIT_BRANCH == "docker-sec" || $CI_COMMIT_BRANCH == "main")
+    - if: ($CI_COMMIT_BRANCH == "docker-sec" || $CI_COMMIT_BRANCH == "docker-review" || $CI_COMMIT_BRANCH == "main")
   before_script:
     - cd ./WeatherWreck/server
   script:
