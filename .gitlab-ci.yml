@@ -2,6 +2,9 @@ image: node:lts-bullseye-slim
 
 include: 
   - template: Container-Scanning.latest.gitlab-ci.yml
+  - template: Jobs/SAST.gitlab-ci.yml
+  - template: Jobs/Dependency-Scanning.gitlab-ci.yml
+  - template: Jobs/Secret-Detection.gitlab-ci.yml
 
 workflow:
   rules:
@@ -13,8 +16,8 @@ workflow:
 stages:
   - lint
   - build
-  - test
   - docker-build
+  - test
   - release
   - deploy
 
@@ -135,7 +138,7 @@ server-image:
   variables:
     IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG     
   rules:
-    - if: ($CI_COMMIT_BRANCH == "docker-sec" || $CI_COMMIT_BRANCH == "main") && $CI_PIPELINE_SOURCE != "merge_request_event"
+    - if: ($CI_COMMIT_BRANCH == "docker-sec" || $CI_COMMIT_BRANCH == "docker-review" || $CI_COMMIT_BRANCH == "main")
   before_script:
     - cd ./WeatherWreck/server
   script:
