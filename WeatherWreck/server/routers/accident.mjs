@@ -5,7 +5,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /api/accidents:
+ * /api/v1/accidents:
  *   get:
  *     summary: Retrieve a list of all events of accidents and weather that were a match
  *     description: |
@@ -67,7 +67,7 @@ router.get('/', accidentController.getAccidents);
 
 /**
  * @swagger
- * /api/accidents/state/{state}:
+ * /api/v1/accidents/state/{state}:
  *   get:
  *     summary: |
  *      Retrieve a list of all events, for a specific state, of accidents and weather 
@@ -132,7 +132,7 @@ router.get('/state/:state', accidentController.getAccidentsByState);
 
 /**
  * @swagger
- * /api/accidents/date/{date}:
+ * /api/v1/accidents/date/{date}:
  *   get:
  *     summary: |
  *       Retrieve a list of all events, for a specific date, of accidents and weather that 
@@ -195,7 +195,7 @@ router.get('/date/:date', accidentController.getAccidentsByDate);
 
 /**
  * @swagger
- * /api/accidents/severity/{severity}:
+ * /api/v1/accidents/severity/{severity}:
  *   get:
  *     summary: |
  *       Retrieve a list of all events, for a specific weather severity, of accidents and 
@@ -258,7 +258,7 @@ router.get('/severity/:severity', accidentController.getAccidentsBySeverity);
 
 /**
  * @swagger
- * /api/accidents/type/{type}:
+ * /api/v1/accidents/type/{type}:
  *   get:
  *     summary: |
  *       Retrieve a list of all events, for a specific type of weather, of accidents and 
@@ -319,7 +319,7 @@ router.get('/type/:type', accidentController.getAccidentsByType);
 
 /**
  * @swagger
- * /api/accidents/details/{accident_id}/{weather_id}:
+ * /api/v1/accidents/details/{accident_id}/{weather_id}:
  *   get:
  *     summary: |
  *       Retrieves detailed information about a specific accident event based on the 

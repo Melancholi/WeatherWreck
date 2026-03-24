@@ -1,5 +1,6 @@
 import express from 'express';
 import accidentRouter from './routers/accident.mjs';
+import accidentRouterV2 from './routers/accidentV2.mjs';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import compression from 'compression';
@@ -41,8 +42,11 @@ app.use(express.static('./../client/dist', {
   maxAge: '1y', 
 }));
 
-// Route for accident-related API endpoints
-app.use('/api/accidents', accidentRouter);
+// Route for accident-related API endpoints (v1)
+app.use('/api/v1/accidents', accidentRouter);
+
+// Route for accident-related API endpoints (v2) with pagination
+app.use('/api/v2/accidents', accidentRouterV2);
 
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
