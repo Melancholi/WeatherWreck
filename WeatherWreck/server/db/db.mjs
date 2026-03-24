@@ -1,9 +1,14 @@
+/* eslint-disable camelcase */
 import 'dotenv/config';
 import { MongoClient, ServerApiVersion } from 'mongodb';
 
 let instance = null;
 
 /**
+ * @deprecated Use MongoDB aggregation pipeline $project instead.
+ * Data transformation is now handled at database level for better performance.
+ * See fetchEventsAndAccidents() and generalFetchEventsAndAccidents()
+ * 
  * Creates new object from information from both event, and accident
  * @returns {Object} Complete description accident object
  */
@@ -123,107 +128,98 @@ class DB{
 
   /**
  * Fetches random matching events from all 50 states 
+ * @returns {Array} Formatted accident data from all states
  */
   async generalFetchEventsAndAccidents(){
-    const states = await instance.collections['WeatherForecast'].aggregate([
+    // Reference: https://docs.mongodb.com/manual/reference/operator/aggregation/group/
+    const events = await instance.collections['WeatherForecast'].aggregate([
       {
+        // Group by state and take first event from each state
         $group: {
-          _id: '$State' 
+          _id: '$State',
+          weatherEvent: { $first: '$$ROOT' }
+        }
+      },
+      {
+        // Replace root to flatten back to document level
+        $replaceRoot: { newRoot: '$weatherEvent' }
+      },
+      {
+        $lookup:{
+          from:'CarAccidents',
+          let: { eventState: '$State',
+            eventDate: '$Date'},
+          pipeline: [
+            {
+              $match:{
+                $expr:{
+                  $and: [
+                    { $eq: ['$State', '$$eventState'] },
+                    { $eq: ['$Date', '$$eventDate'] }
+                  ]
+                }
+              }
+            },
+            {
+              $limit:2,
+            },
+          ],
+          as: 'matchingAccidents'
         }
       },
       {
         $project: {
           _id: 0,
-          State: '$_id' 
+          matchingAccidents: {
+            $map: {
+              input: '$matchingAccidents',
+              as: 'accident',
+              in: {
+                AccidentID: '$$accident.Accident_Key',
+                WeatherID: '$Weather_Key',
+                Weather_Condition: '$Type',
+                Weather_Severity: '$Severity',
+                Accident_Severity: '$$accident.Severity',
+                Description: '$$accident.Description',
+                Start_Time: '$$accident.Start_Time',
+                End_Time: '$$accident.End_Time',
+                State: '$State',
+                City: '$City',
+                Date: '$Date',
+                Coordinates: '$$accident.Start_Point'
+              }
+            }
+          }
         }
+      },
+      {
+        // Unwind to flatten array of matched accidents
+        $unwind: '$matchingAccidents'
+      },
+      {
+        // Return individual documents instead of nested array
+        $replaceRoot: { newRoot: '$matchingAccidents' }
       }
     ]).toArray();
-    const events = await Promise.all(states.map(async (state) =>{
-      return await instance.collections['WeatherForecast'].aggregate([
-        {
-          $match : {State: {$eq: state.State}}
-        },
-        {
-          $lookup:{
-            from:'CarAccidents',
-            let: { eventState: '$State',
-              eventDate: '$Date'},
-            pipeline: [
-              {
-                $match:{
-                  $expr:{
-                    $and: [
-                      { $eq: ['$State', '$$eventState'] },
-                      { $eq: ['$Date', '$$eventDate'] }
-                    ]
-                  }
-                }
-              },
-              {
-                $limit:2,
-              },
-            ],
-            as: 'matchingAccidents'
-          }
-        },
-        {
-          //what the document to return will look like
-          $project: {
-            _id: 0,
-            // eslint-disable-next-line camelcase
-            Weather_Key: 1,
-            Type: 1,
-            Severity: 1,
-            City: 1,
-            State: 1,
-            Date: 1,
-            //array of matched data
-            matchingAccidents: 1
-          }
-        },
-        {
-          //do this search 5 times
-          $limit:1
-        }
-      ]).toArray();
-    }));
   
-    return events.flat().map(event => {
-      return event.matchingAccidents.map(accident => {
-        return formatData(event, accident);
-      });
-    }).flat();
+    return events;
   }
 
   /**
- * Fetches events and matching accidents based on query filter direclty from db.
- * More effecient than readByConditionMatch
+ * Fetches events and matching accidents based on query filter directly from db.
  * @param {Object} query - The query filter to be applied, e.g., { State: { $eq: "New York" } }
- * @param {Boolean} skip - Determines weather a certain amount of results should be skipped or not
- * for data variety 
  * @note if no parameters are passed to the method, it will search for all cases
  * and return the matching data
  */
-  async fetchEventsAndAccidents(query = { _id : {$exists:true}}, skip = true) {
-    let randomValue;
-    if(skip){
-      randomValue = Math.floor(Math.random() * 10000);
-    }else{
-      randomValue = 0;
-    }
-    // Step 1: Fetch events matching the query filter
+  async fetchEventsAndAccidents(query = { _id : {$exists:true}}) {
     const events = await instance.collections['WeatherForecast'].aggregate([
       {
         $match: query
-        // Match based on state or other filter condition
       },
       {
-        //Similar to joins in SQL databases
         $lookup: {
           from: 'CarAccidents',
-          // set values from outside 
-          let: { eventState: '$State',
-            eventDate: '$Date'},
+          let: { eventState: '$State', eventDate: '$Date'},
           pipeline: [
             {
               $match: {
@@ -236,40 +232,54 @@ class DB{
               },
             },
           ],
-          // name data
           as: 'matchingAccidents'
         }
       },
       {
-        //what the document to return will look like
+        // Reference: https://docs.mongodb.com/manual/reference/operator/aggregation/project/
         $project: {
           _id: 0,
-          // eslint-disable-next-line camelcase
-          Weather_Key: 1,
-          Type: 1,
-          Severity: 1,
-          City: 1,
-          State: 1,
-          Date: 1,
-          //array of matched data
-          matchingAccidents: 1
+          matchingAccidents: {
+            $map: {
+              input: '$matchingAccidents',
+              as: 'accident',
+              in: {
+                AccidentID: '$$accident.Accident_Key',
+                WeatherID: '$Weather_Key',
+                Weather_Condition: '$Type',
+                Weather_Severity: '$Severity',
+                Accident_Severity: '$$accident.Severity',
+                Description: '$$accident.Description',
+                Start_Time: '$$accident.Start_Time',
+                End_Time: '$$accident.End_Time',
+                State: '$State',
+                City: '$City',
+                Date: '$Date',
+                Coordinates: '$$accident.Start_Point'
+              }
+            }
+          }
         }
       },
       {
-        $skip: randomValue
+        $limit: 2
       },
       {
-        //do this search 2 times
-        $limit:2
+        // Unwind array to get individual accident documents
+        // Reference: https://docs.mongodb.com/manual/reference/operator/aggregation/unwind/
+        $unwind: '$matchingAccidents'
+      },
+      {
+        // Replace root to return formatted accidents directly
+        // Reference: https://docs.mongodb.com/manual/reference/operator/aggregation/replaceRoot/
+        $replaceRoot: { newRoot: '$matchingAccidents' }
       }
     ]).toArray();
 
-    // Step 2: Process each event and its matching accidents
-    return events.flatMap(event =>
-      event.matchingAccidents.map(accident => formatData(event, accident))
-    );
+    // Return already-formatted data from database aggregation
+    return events;
   }
-
 }
+
 
 export const db = new DB();

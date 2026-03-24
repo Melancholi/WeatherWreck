@@ -26,19 +26,10 @@ export async function getAccidents(req, res, next){
     if (data.length === 0){
       return res.status(404).json({error: 'No accidents found'});
     }
-    const simplifiedData = data.map(accident => ({
-      AccidentID: accident.AccidentID,
-      WeatherID: accident.WeatherID,
-      WeatherCondition: accident.Weather_Condition,
-      Coordinates: accident.Coordinates,
-      Date: accident.Date,
-      WeatherSeverity: accident.Weather_Severity,
-      AccidentSeverity: accident.Accident_Severity
-    }));
-
-    cache.put(cacheKey, simplifiedData);
+    // Data is already formatted by database aggregation pipeline
+    cache.put(cacheKey, data);
     res.set({'Cache-Control': 'max-age=31536000'}); 
-    res.status(200).json(simplifiedData);
+    res.status(200).json(data);
   } catch (error) {
     console.error(error.message);
     next(res.status(500).json({ error: error.message }));
@@ -71,18 +62,10 @@ export async function getAccidentsByState(req, res, next){
     if( data.length === 0){
       return res.status(404).json({error: `No accidents found for ${state}`});
     }
-    // Map each accident to include only AccidentID, Weather_Condition, and coordinates
-    const simplifiedData = data.map(accident => ({
-      AccidentID: accident.AccidentID,
-      WeatherID: accident.WeatherID,
-      WeatherCondition: accident.Weather_Condition,
-      Coordinates: accident.Coordinates,
-      State: accident.State
-    }));
-
-    cache.put(cacheKey, simplifiedData);
+    // Data is already formatted by database aggregation pipeline
+    cache.put(cacheKey, data);
     res.set({'Cache-Control': 'max-age=31536000'}); 
-    res.status(200).json(simplifiedData);
+    res.status(200).json(data);
   } catch (error) {
     console.error(error.message);
     next(res.status(500).json({ error: error.message }));
@@ -115,18 +98,10 @@ export async function getAccidentsByDate(req, res, next){
     if( data.length === 0){
       return res.status(404).json({error: `No accidents found for ${date}`});
     }
-    // Map each accident to include only AccidentID, Weather_Condition, and coordinates
-    const simplifiedData = data.map(accident => ({
-      AccidentID: accident.AccidentID,
-      WeatherID: accident.WeatherID,
-      WeatherCondition: accident.Weather_Condition,
-      Coordinates: accident.Coordinates,
-      Date: accident.Date
-    }));
-
-    cache.put(cacheKey, simplifiedData);
+    // Data is already formatted by database aggregation pipeline
+    cache.put(cacheKey, data);
     res.set({'Cache-Control': 'max-age=31536000'}); 
-    res.status(200).json(simplifiedData);
+    res.status(200).json(data);
   } catch (error) {
     console.error(error.message);
     next(res.status(500).json({ error: error.message}));
@@ -162,18 +137,10 @@ export async function getAccidentsBySeverity(req, res, next){
     if( data.length === 0){
       return res.status(404).json({error: `No accidents found for severity ${severity}`});
     }
-    // Map each accident to include only AccidentID, Weather_Condition, and coordinates
-    const simplifiedData = data.map(accident => ({
-      AccidentID: accident.AccidentID,
-      WeatherID: accident.WeatherID,
-      WeatherCondition: accident.Weather_Condition,
-      Coordinates: accident.Coordinates,
-      WeatherSeverity: accident.Weather_Severity
-    }));
-
-    cache.put(cacheKey, simplifiedData);
+    // Data is already formatted by database aggregation pipeline
+    cache.put(cacheKey, data);
     res.set({'Cache-Control': 'max-age=31536000'}); 
-    res.status(200).json(simplifiedData);
+    res.status(200).json(data);
   } catch (error) {
     console.error(error.message);
     next(res.status(500).json({ error: error.message }));
@@ -208,17 +175,10 @@ export async function getAccidentsByType(req, res, next){
     if( data.length === 0){
       return res.status(404).json({error: `No accidents found for type ${type}`});
     }
-    // Map each accident to include only AccidentID, Weather_Condition, and coordinates
-    const simplifiedData = data.map(accident => ({
-      AccidentID: accident.AccidentID,
-      WeatherID: accident.WeatherID,
-      WeatherCondition: accident.Weather_Condition,
-      Coordinates: accident.Coordinates,
-    }));
-
-    cache.put(cacheKey, simplifiedData);
+    // Data is already formatted by database aggregation pipeline
+    cache.put(cacheKey, data);
     res.set({'Cache-Control': 'max-age=31536000'}); 
-    res.status(200).json(simplifiedData);
+    res.status(200).json(data);
   } catch (error) {
     console.error(error.message);
     next(res.status(500).json({ error: error.message }));
@@ -252,8 +212,7 @@ export async function getAccidentDetails(req, res, next){
       return res.status(200).json(cachedData); 
     }
 
-    const data = await db.fetchEventsAndAccidents({ 'Weather_Key': { $eq : weatherId} },
-      false);
+    const data = await db.fetchEventsAndAccidents({ 'Weather_Key': { $eq : weatherId} });
     if( data.length === 0){
       return res.status(404).json({error: `No details found for ${weatherId}`});
     }
@@ -263,20 +222,10 @@ export async function getAccidentDetails(req, res, next){
     if(!filteredAccident){
       return res.status(404).json({error: `Oupsy something went wrong for ${accidentId} `});
     }
-    const accident = {
-      WeatherCondition: filteredAccident.Weather_Condition,
-      WeatherSeverity: filteredAccident.Weather_Severity,
-      AccidentSeverity: filteredAccident.Accident_Severity,
-      Description: filteredAccident.Description,
-      State: filteredAccident.State,
-      City: filteredAccident.City,
-      Date: filteredAccident.Date
-    };
-
-    cache.put(cacheKey, accident);
+    // Data is already formatted by database aggregation pipeline
+    cache.put(cacheKey, filteredAccident);
     res.set({'Cache-Control': 'max-age=31536000'}); 
-    // Return the found accident
-    res.status(200).json(accident);
+    res.status(200).json(filteredAccident);
 
   } catch (error) {
     console.error(error.message);
