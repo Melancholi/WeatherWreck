@@ -4,6 +4,7 @@ import './Map.css';
 import { Icon  } from 'leaflet';
 import { useState, useEffect, lazy, Suspense} from 'react';
 import FilterControl  from './FilterControl.jsx';
+import PageControl from './PageControl.jsx';
 import { 
   MapContainer, 
   TileLayer, 
@@ -66,7 +67,8 @@ function customIcon(weatherType){
  * 
  * @returns {JSX.Element} The rendered AccidentMap component.
  */
-export default function AccidentMap() {
+export default function AccidentMap({ apiVersion = 'v2' }) {
+  const DEFAULT_PAGE_SIZE = 40;
   const attribution = 
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
   const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -79,6 +81,10 @@ export default function AccidentMap() {
     filterValue: ''
   });
   const [selectedAccident, setSelectedAccident] = useState(null);
+  const [limit, setLimit] = useState(DEFAULT_PAGE_SIZE);
+  const [hasMore, setHasMore] = useState(false);
+  const [cursorStack, setCursorStack] = useState([null]);
+  const [currentPageIndex, setCurrentPageIndex] = useState(0);
 
   /**
    * Updates the filter options based on user input.
@@ -87,7 +93,14 @@ export default function AccidentMap() {
    */
   function onOptionChange(value){
     setFilterOption(value);
+    setCursorStack([null]);
+    setCurrentPageIndex(0);
   }
+
+  useEffect(() => {
+    setCursorStack([null]);
+    setCurrentPageIndex(0);
+  }, [apiVersion]);
 
   /**
    * Fetches accident data from the API based on the current filter settings.
@@ -97,27 +110,67 @@ export default function AccidentMap() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        let api = `/api/accidents/`;
+        let api = `/api/${apiVersion}/accidents`;
 
         // Append filter query if filterType and filterValue are set
         if (filterOption.filterType !== '' && filterOption.filterValue !== '') {
           api += `/${filterOption.filterType}/${filterOption.filterValue}`;
         }
+
+        const currentCursor = cursorStack[currentPageIndex];
+        if (apiVersion === 'v2') {
+          api += currentCursor ? `?limit=${limit}&cursor=${currentCursor}` : `?limit=${limit}`;
+        }
+
         const response = await fetch(api);
+
+        if (!response.ok) {
+          setData([]);
+          setHasMore(false);
+
+          if (response.status === 404) {
+            setError('No data found for the selected filter.');
+            return;
+          }
+
+          throw new Error(`Request failed with status ${response.status}`);
+        }
+
         const result = await response.json();
 
-        setError(result.length ? null : 'No data found for the selected filter.'); 
-        setData(result);
+        if (apiVersion === 'v2') {
+          const pagedData = Array.isArray(result.data) ? result.data : [];
+          setError(pagedData.length ? null : 'No data found for the selected filter.');
+          setData(pagedData);
+          setHasMore(Boolean(result.pagination?.hasMore));
+          
+          const nextCursor = result.pagination?.nextCursor;
+          if (nextCursor) {
+            setCursorStack((prevStack) => {
+              if (currentPageIndex === prevStack.length - 1) {
+                return [...prevStack, nextCursor];
+              }
+              return prevStack;
+            });
+          }
+        } else {
+          const v1Data = Array.isArray(result) ? result : [];
+          setError(v1Data.length ? null : 'No data found for the selected filter.');
+          setData(v1Data);
+          setHasMore(false);
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
         setError(`Failed to load data.`);
+        setData([]);
+        setHasMore(false);
       } finally {
         setLoading(false);
       }
     };
     // Call the fetch function when component mounts
     fetchData();
-  }, [filterOption]);
+  }, [filterOption, limit, currentPageIndex, cursorStack, apiVersion]);
   
   /**
    * Fetches detailed information for a selected accident and updates state.
@@ -127,12 +180,29 @@ export default function AccidentMap() {
    */
   async function fetchAccidentDetails(accidentId, weatherId) {
     try {
-      const response = await fetch(`/api/accidents/details/${accidentId}/${weatherId}`);
+      // eslint-disable-next-line max-len
+      const response = await fetch(`/api/${apiVersion}/accidents/details/${accidentId}/${weatherId}`);
       const details = await response.json();
       setSelectedAccident(details);
     } catch (error) {
       console.error('Error fetching accident details:', error);
     }
+  }
+
+  function handlePreviousPage() {
+    setCurrentPageIndex((idx) => Math.max(0, idx - 1));
+  }
+
+  function handleNextPage() {
+    if (hasMore) {
+      setCurrentPageIndex((idx) => idx + 1);
+    }
+  }
+
+  function handlePageSizeChange(nextLimit) {
+    setLimit(nextLimit);
+    setCursorStack([null]);
+    setCurrentPageIndex(0);
   }
   /**
    * Renders accident markers on the map.
@@ -184,6 +254,21 @@ export default function AccidentMap() {
               <div id="filters">
                 <FilterControl setFilter={onOptionChange}/>
               </div>
+              {apiVersion === 'v2' &&
+                <div id="pagination-controls">
+                  <PageControl
+                    pageNumber={currentPageIndex + 1}
+                    pageSize={limit}
+                    pageItemCount={data.length}
+                    canPrevious={currentPageIndex > 0}
+                    canNext={hasMore}
+                    isLoading={loading}
+                    onPrevious={handlePreviousPage}
+                    onNext={handleNextPage}
+                    onPageSizeChange={handlePageSizeChange}
+                  />
+                </div>
+              }
               <div id="legend">
                 <Suspense fallback={<div>Loading legend...</div>}>
                   <Legend />

@@ -20,15 +20,6 @@ const validWeatherType = [
  * Object used to store accidents categorized by weather condition.
  * @type {Object.<string, Object[]>}
  */
-const accidents = {
-  'Cold': [],
-  'Fog': [],
-  'Precipitation': [],
-  'Rain': [],
-  'Snow': [],
-  'Storm': []
-};
-
 function Loading() {
   return (
     <div className="loading-container-charts"> 
@@ -42,52 +33,90 @@ function Loading() {
  * It fetches accident data, categorizes it based on weather condition, and displays
  * either a Bar Chart or Pie Chart based on user selection.
  */
-export default function ChartsPage() {
+export default function ChartsPage({ apiVersion = 'v2' }) {
   // State to store the categorized accident data
   const [acc, setAcc] = useState([]);
   // State to track the loading status of the data
   const [loading, setLoading] = useState(true);
-  // State to track whether the data has been fetched
-  const [isFetched, setIsFetched] = useState(false);
-
   /**
    * useEffect hook that fetches accident data from the API and categorizes it
    * based on weather condition. It sets the categorized data into state once fetched.
    */
   useEffect(() => {
-    // Only fetching data if it hasn't been fetched already
     const data = async () => {
       try {
-        const response = await fetch('/api/accidents/');
-        const result = await response.json();
+        setLoading(true);
 
-        // Looping through the fetched data and categorize accidents based on Weather_Condition
-        result.forEach(accident => {
-          const weatherCondition = accident.WeatherCondition;
+        const aggregatedAccidents = {
+          Cold: [],
+          Fog: [],
+          Precipitation: [],
+          Rain: [],
+          Snow: [],
+          Storm: []
+        };
 
-          // Checking if the weather condition is valid
-          if (validWeatherType.includes(weatherCondition)) {
-            accidents[weatherCondition].push(accident);
+        if (apiVersion === 'v2') {
+          const pageSize = 100;
+          let hasMore = true;
+          let cursor = null;
+
+          while (hasMore) {
+            const cursorParam = cursor ? `&cursor=${cursor}` : '';
+            const response = await fetch(`/api/v2/accidents?limit=${pageSize}${cursorParam}`);
+            if (!response.ok) {
+              if (response.status === 404) {
+                break;
+              }
+              throw new Error(`Request failed with status ${response.status}`);
+            }
+
+            const result = await response.json();
+            const pageData = Array.isArray(result.data) ? result.data : [];
+
+            // Loop through each page and categorize by weather condition.
+            pageData.forEach((accident) => {
+              const weatherCondition = accident.WeatherCondition;
+
+              if (validWeatherType.includes(weatherCondition)) {
+                aggregatedAccidents[weatherCondition].push(accident);
+              }
+            });
+
+            hasMore = Boolean(result.pagination?.hasMore);
+            cursor = result.pagination?.nextCursor;
           }
-        });
+        } else {
+          const response = await fetch('/api/v1/accidents');
+          if (!response.ok) {
+            if (response.status === 404) {
+              setAcc(aggregatedAccidents);
+              return;
+            }
+            throw new Error(`Request failed with status ${response.status}`);
+          }
 
-        setAcc(accidents);
-        // Flagging that data has been fetched
-        setIsFetched(true);
+          const result = await response.json();
+          const records = Array.isArray(result) ? result : [];
+
+          records.forEach((accident) => {
+            const weatherCondition = accident.WeatherCondition;
+
+            if (validWeatherType.includes(weatherCondition)) {
+              aggregatedAccidents[weatherCondition].push(accident);
+            }
+          });
+        }
+
+        setAcc(aggregatedAccidents);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
         setLoading(false);
       }
     };
-
-    // Checking if the data has already been fetched
-    if (!isFetched) {
-      data();
-    } else {
-      setLoading(false);
-    }
-  }, [isFetched]);
+    data();
+  }, [apiVersion]);
 
   // State to track the selected chart view (Bar or Pie).
   const [checked, setChecked] = useState('bar');
