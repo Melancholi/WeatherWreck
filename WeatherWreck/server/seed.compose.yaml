@@ -13,7 +13,7 @@ services:
         target: /docker-entrypoint-initdb.d/initMongo.js
         read_only: true
     healthcheck:
-      test: echo 'db.runCommand("ping").ok' | mongosh mongotemp:27017/test --quiet
+      test: echo 'db.runCommand("ping").ok' | mongosh mongo:27017/test --quiet
       interval: 10s
       timeout: 10s
       retries: 5
@@ -22,8 +22,10 @@ services:
     build:
       context: .
       dockerfile: seed.Dockerfile
+    environment:
+      ENV: "docker"
     depends_on:
-      mongotemp:
+      mongo:
         condition: service_healthy
       
 volumes:

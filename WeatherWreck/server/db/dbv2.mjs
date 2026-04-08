@@ -74,7 +74,8 @@ class DBv2 {
    * @param {string} dbName - Database name
    * @param {string} dburl - Connection string (default from env)
    */
-  async connect(dbName, dburl = process.env.ATLAS_URI) {
+  async connect(dbName, dburl = process.env.ENV === 'docker' ? 
+    process.env.DOCKER_ATLAS_URI : process.env.ATLAS_URI) {
     if (this.isConnected) {
       return;
     }

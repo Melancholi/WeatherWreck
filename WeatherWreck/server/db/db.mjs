@@ -58,7 +58,8 @@ class DB{
    * database if the db does not already exists.
    * @param {string} dbName the name of the cluster to access
    */
-  async connect(dbName, dburl = process.env.ATLAS_URI){
+  async connect(dbName, dburl = process.env.ENV === 'docker' ? 
+    process.env.DOCKER_ATLAS_URI : process.env.ATLAS_URI ){
     //rework this to check for the same collection and one db connection
     if (instance.db){
       return;
